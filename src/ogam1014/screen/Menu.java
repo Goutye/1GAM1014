@@ -4,22 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 
 import ogam1014.Engine;
-import ogam1014.InputHandler;
 
-public class Menu implements IScreen {
-
-	private Engine engine;
-	private InputHandler input;
-
-	public Menu(Engine engine, InputHandler input) {
-		this.engine = engine;
-		this.input = input;
-	}
+public class Menu extends Screen {
 
 	@Override
 	public void update(double dt) {
 		if (input.validate.down) {
-			engine.setScreen(new Game(engine, input));
+			engine.setScreen(new Game());
 		}
 	}
 
