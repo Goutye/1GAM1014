@@ -32,7 +32,6 @@ public class Player implements IEntity {
 		if (input.left.down) {
 			dx = -SPEED;
 		}
-
 		dx = dx * 0.98 * dt;
 		dy = dy * 0.98 * dt;
 		x += dx * dt;
@@ -42,7 +41,7 @@ public class Player implements IEntity {
 	@Override
 	public void draw(Graphics g) {
 		g.setColor(Color.red);
-		g.fillRect((int) x, (int) y, 10, 10);
+		g.fillRect((int)Math.round(x), (int)Math.round(y), 10, 10);
 	}
 
 }

@@ -5,7 +5,9 @@ import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Image;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
@@ -22,6 +24,9 @@ public class Engine extends Canvas implements Runnable {
 	private boolean running = false;
 	private InputHandler input = new InputHandler(this);
 	private IScreen screen;
+	private Image image = new BufferedImage(WIDTH, HEIGHT,
+			BufferedImage.TYPE_INT_RGB);
+
 
 	public void setScreen(IScreen screen) {
 		this.screen = screen;
@@ -54,23 +59,23 @@ public class Engine extends Canvas implements Runnable {
 			long now = System.nanoTime();
 			unprocessed += (now - lastTime) / nsPerTick;
 			lastTime = now;
-			boolean shouldRender = true;
+			boolean shouldRender = false;
 			while (unprocessed >= 1) {
 				ticks++;
-				update(1 / 60. /* TODO */);
+				update(1 / 60.);
 				unprocessed -= 1;
 				shouldRender = true;
+			}
+
+			if (shouldRender) {
+				frames++;
+				draw();
 			}
 
 			try {
 				Thread.sleep(2);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
-			}
-
-			if (shouldRender) {
-				frames++;
-				draw();
 			}
 
 			if (System.currentTimeMillis() - lastTimer1 > 1000) {
@@ -90,7 +95,7 @@ public class Engine extends Canvas implements Runnable {
 		}
 		screen.update(dt);
 	}
-
+	
 	public void draw() {
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null) {
@@ -98,13 +103,16 @@ public class Engine extends Canvas implements Runnable {
 			requestFocus();
 			return;
 		}
-
-		Graphics g = bs.getDrawGraphics();
+		
+		Graphics g = image.getGraphics();
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, getWidth(), getHeight());
+		g.fillRect(0, 0, WIDTH, HEIGHT);
 		screen.draw(g);
-
 		g.dispose();
+
+		Graphics gCanvas = bs.getDrawGraphics();
+		gCanvas.drawImage(image, 0, 0, WIDTH, HEIGHT, null);
+		gCanvas.dispose();
 		bs.show();
 	}
 

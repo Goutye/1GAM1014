@@ -17,8 +17,9 @@ public class Menu implements IScreen {
 
 	@Override
 	public void update(double dt) {
-		if (input.validate.down)
+		if (input.validate.down) {
 			engine.setScreen(new Game(engine, input));
+		}
 	}
 
 	@Override
