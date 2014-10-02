@@ -11,8 +11,8 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
-import ogam1014.screen.IScreen;
 import ogam1014.screen.Menu;
+import ogam1014.screen.Screen;
 
 public class Engine extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
@@ -23,13 +23,14 @@ public class Engine extends Canvas implements Runnable {
 
 	private boolean running = false;
 	private InputHandler input = new InputHandler(this);
-	private IScreen screen;
+	private Screen screen;
 	private Image image = new BufferedImage(WIDTH, HEIGHT,
 			BufferedImage.TYPE_INT_RGB);
 
 
-	public void setScreen(IScreen screen) {
+	public void setScreen(Screen screen) {
 		this.screen = screen;
+		screen.init(this, input);
 	}
 
 	public void start() {
@@ -42,7 +43,7 @@ public class Engine extends Canvas implements Runnable {
 	}
 
 	private void init() {
-		setScreen(new Menu(this, input));
+		setScreen(new Menu());
 	}
 
 	public void run() {

@@ -7,12 +7,14 @@ import ogam1014.InputHandler;
 import ogam1014.Level;
 import ogam1014.entity.Player;
 
-public class Game implements IScreen {
+public class Game extends Screen {
 
 	private Level level = new Level();
 	private Player player;
-
-	public Game(Engine engine, InputHandler input) {
+	
+	@Override
+	public void init(Engine engine, InputHandler input) {
+		super.init(engine, input);
 		player = new Player(input);
 		level.addEntity(player);
 	}
