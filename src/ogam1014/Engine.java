@@ -1,4 +1,5 @@
 package ogam1014;
+
 import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
@@ -8,7 +9,10 @@ import java.awt.image.BufferStrategy;
 
 import javax.swing.JFrame;
 
-public class Game extends Canvas implements Runnable {
+import ogam1014.screen.IScreen;
+import ogam1014.screen.Menu;
+
+public class Engine extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String NAME = "1GAM1014";
@@ -17,6 +21,11 @@ public class Game extends Canvas implements Runnable {
 
 	private boolean running = false;
 	private InputHandler input = new InputHandler(this);
+	private IScreen screen;
+
+	public void setScreen(IScreen screen) {
+		this.screen = screen;
+	}
 
 	public void start() {
 		running = true;
@@ -28,6 +37,7 @@ public class Game extends Canvas implements Runnable {
 	}
 
 	private void init() {
+		setScreen(new Menu(this, input));
 	}
 
 	public void run() {
@@ -47,7 +57,7 @@ public class Game extends Canvas implements Runnable {
 			boolean shouldRender = true;
 			while (unprocessed >= 1) {
 				ticks++;
-				tick();
+				update(1 / 60. /* TODO */);
 				unprocessed -= 1;
 				shouldRender = true;
 			}
@@ -60,7 +70,7 @@ public class Game extends Canvas implements Runnable {
 
 			if (shouldRender) {
 				frames++;
-				render();
+				draw();
 			}
 
 			if (System.currentTimeMillis() - lastTimer1 > 1000) {
@@ -72,15 +82,16 @@ public class Game extends Canvas implements Runnable {
 		}
 	}
 
-	public void tick() {
+	public void update(double dt) {
 		if (!hasFocus()) {
 			input.releaseAll();
 		} else {
-			input.tick();
+			input.update();
 		}
+		screen.update(dt);
 	}
 
-	public void render() {
+	public void draw() {
 		BufferStrategy bs = getBufferStrategy();
 		if (bs == null) {
 			createBufferStrategy(3);
@@ -91,27 +102,28 @@ public class Game extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		g.setColor(Color.WHITE);
 		g.fillRect(0, 0, getWidth(), getHeight());
+		screen.draw(g);
 
 		g.dispose();
 		bs.show();
 	}
 
 	public static void main(String[] args) {
-		Game game = new Game();
-		game.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-		game.setMaximumSize(new Dimension(WIDTH, HEIGHT));
-		game.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		Engine engine = new Engine();
+		engine.setMinimumSize(new Dimension(WIDTH, HEIGHT));
+		engine.setMaximumSize(new Dimension(WIDTH, HEIGHT));
+		engine.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
-		JFrame frame = new JFrame(Game.NAME);
+		JFrame frame = new JFrame(Engine.NAME);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
-		frame.add(game, BorderLayout.CENTER);
+		frame.add(engine, BorderLayout.CENTER);
 		frame.pack();
 		frame.setResizable(false);
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
-		game.start();
+		engine.start();
 	}
 
 }
