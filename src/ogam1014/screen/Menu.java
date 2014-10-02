@@ -6,6 +6,9 @@ import java.awt.Graphics;
 import ogam1014.Engine;
 
 public class Menu extends Screen {
+	
+	private Button start = new Button((int)Engine.WIDTH / 2, (int) (Engine.HEIGHT * 0.2),60,60,"Start",Color.WHITE,Color.BLACK);
+
 
 	@Override
 	public void update(double dt) {
@@ -16,7 +19,7 @@ public class Menu extends Screen {
 
 	@Override
 	public void draw(Graphics g) {
-		g.setColor(Color.BLACK);
+		start.drawOval(g);
 		g.drawString(Engine.NAME, (int)Engine.WIDTH / 2, (int) (Engine.HEIGHT * 0.2));
 	}
 
