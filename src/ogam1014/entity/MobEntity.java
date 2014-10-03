@@ -10,10 +10,12 @@ public abstract class MobEntity extends Entity {
 	@Override
 	public void update(double dt) {
 		time += dt;
-		dx = dx * 0.98 * dt;
-		dy = dy * 0.98 * dt;
+		dx = dx * getFriction();
+		dy = dy * getFriction();
 		x += dx * dt;
 		y += dy * dt;
 	}
+
+	protected abstract double getFriction();
 
 }

@@ -9,7 +9,6 @@ public abstract class Entity {
 	protected Level level;
 	protected double x;
 	protected double y;
-	protected Direction direction = Direction.DOWN;
 
 	public abstract void update(double dt);
 
@@ -26,8 +25,8 @@ public abstract class Entity {
 	public double getY() {
 		return y;
 	}
-	
-	public Direction getDirection() {
-		return direction;
-	}
+
+	public abstract double getWidth();
+
+	public abstract double getHeight();
 }

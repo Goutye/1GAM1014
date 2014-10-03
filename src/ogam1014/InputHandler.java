@@ -38,8 +38,11 @@ public class InputHandler implements KeyListener {
 	public Key down = new Key();
 	public Key left = new Key();
 	public Key right = new Key();
+	public Key fireUp = new Key();
+	public Key fireDown = new Key();
+	public Key fireLeft = new Key();
+	public Key fireRight = new Key();
 	public Key validate = new Key();
-	public Key fire = new Key();
 
 	public void releaseAll() {
 		for (int i = 0; i < keys.size(); i++) {
@@ -66,16 +69,15 @@ public class InputHandler implements KeyListener {
 	}
 
 	private void toggle(KeyEvent ke, boolean pressed) {
-		if (ke.getKeyCode() == KeyEvent.VK_W) up.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_Z) up.toggle(pressed);
 		if (ke.getKeyCode() == KeyEvent.VK_S) down.toggle(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_A) left.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_Q) left.toggle(pressed);
 		if (ke.getKeyCode() == KeyEvent.VK_D) right.toggle(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_UP) up.toggle(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_DOWN) down.toggle(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_LEFT) left.toggle(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_RIGHT) right.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_UP) fireUp.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_DOWN) fireDown.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_LEFT) fireLeft.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_RIGHT) fireRight.toggle(pressed);
 		if (ke.getKeyCode() == KeyEvent.VK_ENTER) validate.toggle(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_SPACE) fire.toggle(pressed);
 	}
 
 	public void keyTyped(KeyEvent ke) {
