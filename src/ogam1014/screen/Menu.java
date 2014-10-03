@@ -29,12 +29,13 @@ public class Menu extends Screen {
 		if (input.validate.down) {
 			engine.setScreen(new Game());
 		}
-		if(input.up.down){
+		if(input.up.clicked){
+			if(counter>0)
 			counter--;
 	
 			
 		}
-		if(input.down.down){
+		if(input.down.clicked){
 			counter++;
 			
 		}
