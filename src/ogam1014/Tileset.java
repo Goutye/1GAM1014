@@ -21,10 +21,18 @@ public class Tileset {
 		}
 	}
 	
-	public void drawTile(Graphics g, Tile t, int x, int y){
-		int xTileset = t.ordinal()%10;
-		int yTileset = t.ordinal()/10;
+	public void draw(Graphics g, Tile t, int x, int y){
+		int xTileset = (t.ordinal()%6) * tW;
+		int yTileset = (t.ordinal()/6) * tH;
 		
-		g.drawImage(img,  x, y, x+tW, x+tH, xTileset, yTileset, xTileset+tW, yTileset+tH, null);
+		g.drawImage(img,  x, y, x+tW, y+tH, xTileset, yTileset, xTileset+tW, yTileset+tH, null);
+	}
+	
+	public int getW(){
+		return tW;
+	}
+	
+	public int getH(){
+		return tH;
 	}
 }

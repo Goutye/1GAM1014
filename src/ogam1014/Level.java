@@ -10,7 +10,12 @@ public class Level {
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Entity> newEntities = new ArrayList<Entity>();
 	private List<Entity> removedEntities = new ArrayList<Entity>();
-
+	private Map map;
+	
+	public Level(){
+		map = new Map();
+	}
+	
 	public void addEntity(Entity entity) {
 		newEntities.add(entity);
 		entity.setLevel(this);
@@ -32,6 +37,8 @@ public class Level {
 	}
 
 	public void draw(Graphics g) {
+		map.draw(g);
+		
 		for (Entity e : entities) {
 			e.draw(g);
 		}
