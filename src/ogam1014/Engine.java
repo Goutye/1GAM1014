@@ -27,7 +27,6 @@ public class Engine extends Canvas implements Runnable {
 	private Image image = new BufferedImage(WIDTH, HEIGHT,
 			BufferedImage.TYPE_INT_RGB);
 
-
 	public void setScreen(Screen screen) {
 		this.screen = screen;
 		screen.init(this, input);

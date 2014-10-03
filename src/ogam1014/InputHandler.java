@@ -39,6 +39,7 @@ public class InputHandler implements KeyListener {
 	public Key left = new Key();
 	public Key right = new Key();
 	public Key validate = new Key();
+	public Key fire = new Key();
 
 	public void releaseAll() {
 		for (int i = 0; i < keys.size(); i++) {
@@ -74,6 +75,7 @@ public class InputHandler implements KeyListener {
 		if (ke.getKeyCode() == KeyEvent.VK_LEFT) left.toggle(pressed);
 		if (ke.getKeyCode() == KeyEvent.VK_RIGHT) right.toggle(pressed);
 		if (ke.getKeyCode() == KeyEvent.VK_ENTER) validate.toggle(pressed);
+		if (ke.getKeyCode() == KeyEvent.VK_SPACE) fire.toggle(pressed);
 	}
 
 	public void keyTyped(KeyEvent ke) {

@@ -5,15 +5,11 @@ import java.awt.Graphics;
 
 import ogam1014.InputHandler;
 
-public class Player implements IEntity {
+public class Player extends MobEntity {
 	static public double SPEED = 5000;
 
 	private InputHandler input;
-	private double x = 0;
-	private double y = 0;
-	private double dx = 0;
-	private double dy = 0;
-
+	
 	public Player(InputHandler input) {
 		this.input = input;
 	}
@@ -32,10 +28,12 @@ public class Player implements IEntity {
 		if (input.left.down) {
 			dx = -SPEED;
 		}
-		dx = dx * 0.98 * dt;
-		dy = dy * 0.98 * dt;
-		x += dx * dt;
-		y += dy * dt;
+		if (input.fire.down) {
+			Bullet b = new Bullet(this);
+			level.addEntity(b);
+		}
+
+		super.update(dt);
 	}
 
 	@Override
