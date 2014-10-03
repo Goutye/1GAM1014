@@ -10,13 +10,14 @@ import java.util.List;
 
 public class InputHandler {
 	public class Key {
+		public int code;
 		public boolean down;
 		public boolean pressed;
 		public boolean released;
 		private boolean reset;
 
-		public Key() {
-			keys.add(this);
+		public Key(int code) {
+			this.code = code;
 		}
 
 		public void set(boolean press) {
@@ -35,24 +36,40 @@ public class InputHandler {
 	}
 	
 	public class Button extends Key {
+		public Button(int code) {
+			super(code);
+		}
 	}
 
 	private List<Key> keys = new ArrayList<Key>();
+	private List<Button> buttons = new ArrayList<Button>();
 
-	public Key up = new Key();
-	public Key down = new Key();
-	public Key left = new Key();
-	public Key right = new Key();
-	public Key fireUp = new Key();
-	public Key fireDown = new Key();
-	public Key fireLeft = new Key();
-	public Key fireRight = new Key();
-	public Key validate = new Key();
+	public Key up = addKey(KeyEvent.VK_Z);
+	public Key down = addKey(KeyEvent.VK_S);
+	public Key left = addKey(KeyEvent.VK_Q);
+	public Key right = addKey(KeyEvent.VK_D);
+	public Key fireUp = addKey(KeyEvent.VK_UP);
+	public Key fireDown = addKey(KeyEvent.VK_DOWN);
+	public Key fireLeft = addKey(KeyEvent.VK_LEFT);
+	public Key fireRight = addKey(KeyEvent.VK_RIGHT);
+	public Key validate = addKey(KeyEvent.VK_ENTER);
 
-	public Button rightButton = new Button();
-	public Button leftButton = new Button();
+	public Button rightButton = addButton(MouseEvent.BUTTON3);
+	public Button leftButton = addButton(MouseEvent.BUTTON1);
 	public int mouseX, mouseY;
 
+	private Key addKey(int code) {
+		Key key = new Key(code);
+		keys.add(key);
+		return key;
+	}
+	
+	private Button addButton(int code) {
+		Button button = new Button(code);
+		buttons.add(button);
+		return button;
+	}
+	
 	public InputHandler(Engine engine) {
 		engine.addKeyListener(new KeyListener() {
 			@Override
@@ -69,6 +86,7 @@ public class InputHandler {
 			public void keyTyped(KeyEvent e) {
 			}
 		});
+		
 		engine.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseReleased(MouseEvent e) {
@@ -92,6 +110,7 @@ public class InputHandler {
 			public void mouseClicked(MouseEvent e) {
 			}
 		});
+		
 		engine.addMouseMotionListener(new MouseMotionListener() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
@@ -111,11 +130,19 @@ public class InputHandler {
 		for (Key k : keys) {
 			k.down = false;
 		}
+		
+		for (Button b : buttons) {
+			b.down = false;
+		}
 	}
 
 	public void update() {
 		for (Key k : keys) {
 			k.update();
+		}
+		
+		for (Button b : buttons) {
+			b.update();
 		}
 	}
 
@@ -128,31 +155,20 @@ public class InputHandler {
 	}
 
 	private void set(KeyEvent ke, boolean pressed) {
-		if (ke.getKeyCode() == KeyEvent.VK_Z)
-			up.set(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_S)
-			down.set(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_Q)
-			left.set(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_D)
-			right.set(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_UP)
-			fireUp.set(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_DOWN)
-			fireDown.set(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_LEFT)
-			fireLeft.set(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_RIGHT)
-			fireRight.set(pressed);
-		if (ke.getKeyCode() == KeyEvent.VK_ENTER)
-			validate.set(pressed);
+		for (Key k : keys) {
+			if (k.code == ke.getKeyCode()) {
+				k.set(pressed);
+				break;
+			}
+		}
 	}
 	
 	private void set(MouseEvent me, boolean pressed) {
-		if (me.getButton() == MouseEvent.BUTTON1)
-			leftButton.set(pressed);
-		if (me.getButton() == MouseEvent.BUTTON3)
-			rightButton.set(pressed);
+		for (Button b : buttons) {
+			if (b.code == me.getButton()) {
+				b.set(pressed);
+				break;
+			}
+		}
 	}
-
 }
