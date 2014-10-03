@@ -10,6 +10,7 @@ import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import ogam1014.screen.MapEditor;
 import ogam1014.screen.Menu;
@@ -119,16 +120,18 @@ public class Engine extends Canvas implements Runnable {
 
 	public static void main(String[] args) {
 		Engine engine = new Engine();
-		engine.setMinimumSize(new Dimension(WIDTH, HEIGHT));
-		engine.setMaximumSize(new Dimension(WIDTH, HEIGHT));
-		engine.setPreferredSize(new Dimension(WIDTH, HEIGHT));
 
 		JFrame frame = new JFrame(Engine.NAME);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLayout(new BorderLayout());
-		frame.add(engine, BorderLayout.CENTER);
-		frame.pack();
 		frame.setResizable(false);
+		
+		JPanel panel = (JPanel) frame.getContentPane();
+		
+		panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		panel.add(engine, BorderLayout.CENTER);
+		
+		frame.pack();
 		frame.setLocationRelativeTo(null);
 		frame.setVisible(true);
 
