@@ -19,7 +19,7 @@ public class Menu extends Screen {
 
 	@Override
 	public void draw(Graphics g) {
-		start.drawOval(g);
+		start.drawRectangle(g);
 		g.drawString(Engine.NAME, (int)Engine.WIDTH / 2, (int) (Engine.HEIGHT * 0.2));
 	}
 

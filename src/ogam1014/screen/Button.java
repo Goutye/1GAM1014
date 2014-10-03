@@ -5,39 +5,32 @@ import java.awt.Graphics;
 
 public class Button {
 	
-	private int _x;
-	private int _y;
-	private int _w;
-	private int _h;
-	private String _name;
-	private Color _bg;
-	private Color _txt;
+	private int x;
+	private int y;
+	private int w;
+	private int h;
+	private String name;
+	private Color txt;
+	private Color bg;
 	
 	public Button(int x,int y,int weight, int height,String name, Color txt,Color bg){
-		_x=x;
-		_y=y;
-		_txt=txt;
-		_name =name;
-		_w=weight;
-		_h=height;
-		_bg=bg;
+		this.x=x;
+		this.y=y;
+		this.txt=txt;
+		this.name =name;
+		this.w=weight;
+		this.h=height;
+		this.bg=bg;
 		
 	}
 	
 	void drawRectangle(Graphics g){
 		
-		g.setColor(_bg);
-		g.fillRect(_x, _y, _w, _h);
-		g.setColor(_txt);
-		g.drawString(_name, _x+_w/2-_name.length()*5, _y+_h/2);
+		g.setColor(bg);
+		g.fillRoundRect(x, y, w, h,20,20);
+		g.setColor(txt);
+		g.drawString(name, x+w/2-name.length()*4, y+h/2);
 	}
 	
-void drawOval(Graphics g){
-		
-		g.setColor(_bg);
-		g.fillOval(_x, _y, _w, _h);
-		g.setColor(_txt);
-		g.drawString(_name, _x+_w/2-_name.length()*4, _y+_h/2);
-	}
-
 }
+
