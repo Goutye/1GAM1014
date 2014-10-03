@@ -12,7 +12,6 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import ogam1014.screen.MapEditor;
 import ogam1014.screen.Menu;
 import ogam1014.screen.Screen;
 
@@ -59,9 +58,11 @@ public class Engine extends Canvas implements Runnable {
 
 		while (running) {
 			long now = System.nanoTime();
+			boolean shouldRender = false;
+			
 			unprocessed += (now - lastTime) / nsPerTick;
 			lastTime = now;
-			boolean shouldRender = false;
+			
 			while (unprocessed >= 1) {
 				ticks++;
 				update(1 / 60.);

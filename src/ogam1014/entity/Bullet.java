@@ -7,7 +7,7 @@ public class Bullet extends MobEntity {
 
 	final private static double LIFETIME = 3.;
 	final public static double SPEED = 600.;
-
+	
 	private Entity owner;
 
 	public Bullet(Entity owner, double dx, double dy) {

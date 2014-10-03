@@ -2,6 +2,8 @@ package ogam1014;
 
 import java.awt.Graphics;
 
+import ogam1014.graphics.Tileset;
+
 public class Map {
 	private Tileset tileset;
 	private Tile map[][] = {
@@ -21,16 +23,16 @@ public class Map {
 	}
 	
 	public void draw(Graphics g){
-		int i,j;
+		int i, j;
 		
 		for(i = 0; i < map.length; ++i)
-			for(j = 0; j < map[i].length; ++j){
+			for(j = 0; j < map[i].length; ++j) {
 				tileset.draw(g, map[i][j], i * tileset.getW(), j * tileset.getH());
 			}
 	}
 	
-	public void draw(Graphics g, int dx, int dy){
-		int i,j;
+	public void draw(Graphics g, int dx, int dy) {
+		int i, j;
 		
 		for(i = 0; i < map.length; ++i)
 			for(j = 0; j < map[i].length; ++j){

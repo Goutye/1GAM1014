@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ogam1014.Engine;
+import ogam1014.ui.Button;
 
 public class Menu extends Screen {
 
@@ -21,13 +22,10 @@ public class Menu extends Screen {
 	private List<Button> buttons = new ArrayList<Button>();
 	private int counter = 0;
 
-	
-
 	public Menu() {
 		buttons.add(start);
 		buttons.add(options);
 		buttons.add(quit);
-
 	}
 
 	public void update(double dt) {
@@ -35,17 +33,17 @@ public class Menu extends Screen {
 		if (input.validate.pressed && counter == 0) {
 			engine.setScreen(new Game());
 		}
+		
 		if (input.validate.pressed && counter == 1) {
 			engine.setScreen(new MOptions());
 		}
-		if (input.up.pressed) {
-			if (counter > 0)
-				counter--;
-
+		
+		if (input.up.pressed && counter > 0) {
+			counter--;
 		}
+		
 		if (input.down.pressed) {
 			counter++;
-
 		}
 
 		counter %= buttons.size();
@@ -54,15 +52,14 @@ public class Menu extends Screen {
 	@Override
 	public void draw(Graphics g) {
 		int i = 0;
+		
 		for (Button button : buttons) {
-			if (counter == i) {
+			if (counter == i)
 				button.drawSelectedRectangle(g);
-			} else
+			else
 				button.drawRectangle(g);
+			
 			i++;
-
 		}
-
 	}
-
 }

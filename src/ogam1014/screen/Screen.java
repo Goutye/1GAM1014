@@ -17,5 +17,4 @@ public abstract class Screen {
 		this.engine = engine;
 		this.input = input;
 	}
-
 }
