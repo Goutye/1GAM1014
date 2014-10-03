@@ -11,6 +11,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
+import ogam1014.screen.MapEditor;
 import ogam1014.screen.Menu;
 import ogam1014.screen.Screen;
 
