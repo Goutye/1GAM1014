@@ -2,6 +2,9 @@ package ogam1014;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +33,9 @@ public class InputHandler {
 			reset = true;
 		}
 	}
+	
+	public class Button extends Key {
+	}
 
 	private List<Key> keys = new ArrayList<Key>();
 
@@ -42,6 +48,10 @@ public class InputHandler {
 	public Key fireLeft = new Key();
 	public Key fireRight = new Key();
 	public Key validate = new Key();
+
+	public Button rightButton = new Button();
+	public Button leftButton = new Button();
+	public int mouseX, mouseY;
 
 	public InputHandler(Engine engine) {
 		engine.addKeyListener(new KeyListener() {
@@ -57,6 +67,42 @@ public class InputHandler {
 
 			@Override
 			public void keyTyped(KeyEvent e) {
+			}
+		});
+		engine.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				set(e, false);
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				set(e, true);
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+			}
+
+			@Override
+			public void mouseClicked(MouseEvent e) {
+			}
+		});
+		engine.addMouseMotionListener(new MouseMotionListener() {
+			@Override
+			public void mouseMoved(MouseEvent e) {
+				mouseX = e.getX();
+				mouseY = e.getY();
+			}
+			
+			@Override
+			public void mouseDragged(MouseEvent e) {
+				mouseX = e.getX();
+				mouseY = e.getY();
 			}
 		});
 	}
@@ -100,6 +146,13 @@ public class InputHandler {
 			fireRight.set(pressed);
 		if (ke.getKeyCode() == KeyEvent.VK_ENTER)
 			validate.set(pressed);
+	}
+	
+	private void set(MouseEvent me, boolean pressed) {
+		if (me.getButton() == MouseEvent.BUTTON1)
+			leftButton.set(pressed);
+		if (me.getButton() == MouseEvent.BUTTON3)
+			rightButton.set(pressed);
 	}
 
 }
