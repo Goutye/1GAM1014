@@ -25,7 +25,7 @@ public class Tileset {
 	
 	public void draw(Graphics g, Tile t, int x, int y){
 		int xTileset = (t.ordinal() % nbTileW) * tW;
-		int yTileset = (t.ordinal()/6) * tH;
+		int yTileset = (t.ordinal()/ nbTileW) * tH;
 		
 		g.drawImage(img,  x, y, x+tW, y+tH, xTileset, yTileset, xTileset+tW, yTileset+tH, null);
 	}
