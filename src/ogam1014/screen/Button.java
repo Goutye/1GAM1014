@@ -1,7 +1,9 @@
 package ogam1014.screen;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 
 public class Button {
 	
@@ -30,6 +32,19 @@ public class Button {
 		g.fillRoundRect(x, y, w, h,20,20);
 		g.setColor(txt);
 		g.drawString(name, x+w/2-name.length()*4, y+h/2);
+	}
+	
+	void drawSelectedRectangle(Graphics g){
+		
+		Graphics2D g2 = (Graphics2D) g;
+	
+		drawRectangle(g);
+		g2.setColor(Color.ORANGE);
+		g2.setStroke(new BasicStroke(5));
+		g.drawRoundRect(x, y, w, h,20,20);
+		
+		
+		
 	}
 	
 }
