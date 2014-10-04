@@ -33,15 +33,18 @@ public class Menu extends Screen {
 		if (input.validate.pressed && counter == 0) {
 			engine.setScreen(new Game());
 		}
-		
+
 		if (input.validate.pressed && counter == 1) {
 			engine.setScreen(new MOptions());
 		}
-		
+		if (input.validate.pressed && counter == 2) {
+			System.exit(0);
+		}
+
 		if (input.up.pressed && counter > 0) {
 			counter--;
 		}
-		
+
 		if (input.down.pressed) {
 			counter++;
 		}
@@ -52,13 +55,17 @@ public class Menu extends Screen {
 	@Override
 	public void draw(Graphics g) {
 		int i = 0;
-		
+
 		for (Button button : buttons) {
-			if (counter == i)
+			if (counter == i) {
 				button.drawSelectedRectangle(g);
-			else
+				if (input.validate.down) {
+					button.drawClickedRectangle(g);
+				}
+
+			} else
 				button.drawRectangle(g);
-			
+
 			i++;
 		}
 	}
