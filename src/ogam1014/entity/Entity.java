@@ -16,6 +16,7 @@ public abstract class Entity {
 		try {
 			IMAGE = ImageIO.read(new File("assets/entities.png"));
 		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	protected Level level;

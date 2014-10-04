@@ -20,7 +20,7 @@ public class Tileset {
 		try {
 			img = ImageIO.read(new File("assets/tileset.png"));
 		} catch (IOException e) {
-
+			e.printStackTrace();
 		}
 	}
 
