@@ -1,5 +1,6 @@
 package ogam1014;
 
+import java.awt.Point;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
@@ -56,7 +57,7 @@ public class InputHandler {
 
 	public Button rightButton = addButton(MouseEvent.BUTTON3);
 	public Button leftButton = addButton(MouseEvent.BUTTON1);
-	public int mouseX, mouseY;
+	public Point mouse;
 
 	private Key addKey(int code) {
 		Key key = new Key(code);
@@ -114,14 +115,14 @@ public class InputHandler {
 		engine.addMouseMotionListener(new MouseMotionListener() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				mouseX = e.getX();
-				mouseY = e.getY();
+				mouse.x = e.getX();
+				mouse.y = e.getY();
 			}
 			
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				mouseX = e.getX();
-				mouseY = e.getY();
+				mouse.x = e.getX();
+				mouse.y = e.getY();
 			}
 		});
 	}

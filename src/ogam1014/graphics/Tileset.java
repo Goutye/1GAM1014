@@ -38,6 +38,11 @@ public class Tileset {
 	public int getH() {
 		return tH;
 	}
+	
+	public int getNbTiles(){
+		return nbTileH * nbTileW;
+	}
+	
 
 	public void drawTileset(Renderer r, int x, int y, int col) {
 		int i, j, m = 0, n = 0;

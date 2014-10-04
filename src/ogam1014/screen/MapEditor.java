@@ -2,6 +2,7 @@ package ogam1014.screen;
 
 import ogam1014.Map;
 import ogam1014.Tile;
+import ogam1014.collide.Box;
 import ogam1014.graphics.Renderer;
 import ogam1014.graphics.Tileset;
 
@@ -17,12 +18,16 @@ public class MapEditor extends Screen{
 	private Tileset tileset;
 	private Tile tab[][];
 	private Map map;
+	private Box boxTileset;
+	private Box boxMap;
 	
 	public MapEditor(){
 		tab = new Tile[DEFAULT_SIZE][DEFAULT_SIZE];
 		initTab();
 		tileset = new Tileset();
 		map = new Map(tab);
+		boxTileset = new Box(POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET * tileset.getW(), (tileset.getNbTiles() / NB_COL_TILESET + 1) * tileset.getH());
+		boxMap = new Box(POS_MAP_X, POS_MAP_Y, tab.length * tileset.getW(), tab[0].length * tileset.getH());
 	}
 	
 	public MapEditor(int x, int y) {
@@ -30,6 +35,8 @@ public class MapEditor extends Screen{
 		initTab();
 		tileset = new Tileset();
 		map = new Map(tab);
+		boxTileset = new Box(POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET * tileset.getW(), (tileset.getNbTiles() / NB_COL_TILESET + 1) * tileset.getH());
+		boxMap = new Box(POS_MAP_X, POS_MAP_Y, tab.length * tileset.getW(), tab[0].length * tileset.getH());
 	}
 	
 	private void initTab() {
@@ -45,7 +52,11 @@ public class MapEditor extends Screen{
 			resize(10, 10);
 		}
 		
-		// TODO Click to select a Tile
+		if (input.leftButton.pressed) {
+			if (true){
+				
+			}
+		}
 		// TODO Click on the map to put a Tile
 		// TODO Bonus : Stay down the click to put a lot of Tile in a row
 		
