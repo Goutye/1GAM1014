@@ -1,9 +1,8 @@
 package ogam1014.screen;
 
-import java.awt.Graphics;
-
 import ogam1014.Map;
 import ogam1014.Tile;
+import ogam1014.graphics.Renderer;
 import ogam1014.graphics.Tileset;
 
 public class MapEditor extends Screen{
@@ -53,9 +52,9 @@ public class MapEditor extends Screen{
 	}
 
 	@Override
-	public void draw(Graphics g) {
-		map.draw(g , POS_MAP_X , POS_MAP_Y);
-		tileset.drawTileset(g, POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET);
+	public void draw(Renderer r) {
+		map.draw(r, POS_MAP_X , POS_MAP_Y);
+		tileset.drawTileset(r, POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET);
 	}
 	
 	public void resize(int x, int y) {

@@ -1,9 +1,7 @@
 package ogam1014.entity;
 
-import java.awt.Color;
-import java.awt.Graphics;
-
 import ogam1014.InputHandler;
+import ogam1014.graphics.Renderer;
 
 public class Player extends MobEntity {
 	static public double SPEED = 100;
@@ -66,9 +64,8 @@ public class Player extends MobEntity {
 	}
 
 	@Override
-	public void draw(Graphics g) {
-		g.setColor(Color.red);
-		g.fillRect((int) Math.round(x), (int) Math.round(y), (int) getWidth(), (int) getHeight());
+	public void draw(Renderer r) {
+		r.blit(IMAGE, x, y, 32, 32, 0, 0);
 	}
 
 	@Override

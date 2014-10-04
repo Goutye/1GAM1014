@@ -1,21 +1,21 @@
 package ogam1014;
 
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
 import ogam1014.entity.Entity;
+import ogam1014.graphics.Renderer;
 
 public class Level {
 	private List<Entity> entities = new ArrayList<Entity>();
 	private List<Entity> newEntities = new ArrayList<Entity>();
 	private List<Entity> removedEntities = new ArrayList<Entity>();
 	private Map map;
-	
-	public Level(){
+
+	public Level() {
 		map = new Map();
 	}
-	
+
 	public void addEntity(Entity entity) {
 		newEntities.add(entity);
 		entity.setLevel(this);
@@ -36,11 +36,11 @@ public class Level {
 		}
 	}
 
-	public void draw(Graphics g) {
-		map.draw(g);
-		
+	public void draw(Renderer r) {
+		map.draw(r);
+
 		for (Entity e : entities) {
-			e.draw(g);
+			e.draw(r);
 		}
 	}
 }

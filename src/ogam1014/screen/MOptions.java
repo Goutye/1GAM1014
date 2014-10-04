@@ -1,11 +1,11 @@
 package ogam1014.screen;
 
 import java.awt.Color;
-import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
 
 import ogam1014.Engine;
+import ogam1014.graphics.Renderer;
 import ogam1014.ui.Button;
 
 public class MOptions extends Screen {
@@ -43,19 +43,20 @@ public class MOptions extends Screen {
 
 		counter %= buttons.size();
 	}
-
-	public void draw(Graphics g) {
+	
+	public void draw(Renderer r) {
 		int i = 0;
 
 		for (Button button : buttons) {
 			if (counter == i) {
-				button.drawSelectedRectangle(g);
+				button.drawSelectedRectangle(r);
 				if (input.validate.down) {
-					button.drawClickedRectangle(g);
+					button.drawClickedRectangle(r);
 				}
 
 			} else
-				button.drawRectangle(g);
+				button.drawRectangle(r);
+
 
 			i++;
 		}

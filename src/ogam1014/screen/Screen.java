@@ -1,9 +1,8 @@
 package ogam1014.screen;
 
-import java.awt.Graphics;
-
 import ogam1014.Engine;
 import ogam1014.InputHandler;
+import ogam1014.graphics.Renderer;
 
 public abstract class Screen {
 
@@ -11,7 +10,7 @@ public abstract class Screen {
 	protected Engine engine;
 
 	abstract public void update(double dt);
-	abstract public void draw(Graphics g);
+	abstract public void draw(Renderer r);
 	
 	public void init(Engine engine, InputHandler input) {
 		this.engine = engine;

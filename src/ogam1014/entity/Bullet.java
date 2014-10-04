@@ -1,7 +1,6 @@
 package ogam1014.entity;
 
-import java.awt.Color;
-import java.awt.Graphics;
+import ogam1014.graphics.Renderer;
 
 public class Bullet extends MobEntity {
 
@@ -28,9 +27,8 @@ public class Bullet extends MobEntity {
 	}
 
 	@Override
-	public void draw(Graphics g) {
-		g.setColor(Color.BLACK);
-		g.drawRect((int) x, (int) y, (int) getWidth(), (int) getHeight());
+	public void draw(Renderer r) {
+		r.blit(IMAGE, x, y, 32, 32, 0, 32);
 	}
 
 	@Override

@@ -2,16 +2,14 @@ package ogam1014;
 
 import java.awt.BorderLayout;
 import java.awt.Canvas;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferStrategy;
-import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import ogam1014.graphics.Renderer;
 import ogam1014.screen.Menu;
 import ogam1014.screen.Screen;
 
@@ -19,18 +17,19 @@ public class Engine extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String NAME = "1GAM1014";
-	public static final int HEIGHT = 380;
 	public static final int WIDTH = 480;
+	public static final int HEIGHT = 380;
 
 	private boolean running = false;
 	private InputHandler input = new InputHandler(this);
 	private Screen screen;
-	private Image image = new BufferedImage(WIDTH, HEIGHT,
-			BufferedImage.TYPE_INT_RGB);
+	private Renderer renderer = new Renderer(WIDTH, HEIGHT);
 
 	public void setScreen(Screen screen) {
 		this.screen = screen;
 		screen.init(this, input);
+
+		System.out.println("Set screen: " + screen);
 	}
 
 	public void start() {
@@ -107,15 +106,13 @@ public class Engine extends Canvas implements Runnable {
 			return;
 		}
 		
-		Graphics g = image.getGraphics();
-		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, WIDTH, HEIGHT);
-		screen.draw(g);
-		g.dispose();
+		Graphics g = bs.getDrawGraphics();
+		
+		renderer.clear();
+		screen.draw(renderer);
+		renderer.flip(g);
 
-		Graphics gCanvas = bs.getDrawGraphics();
-		gCanvas.drawImage(image, 0, 0, WIDTH, HEIGHT, null);
-		gCanvas.dispose();
+		g.dispose();
 		bs.show();
 	}
 

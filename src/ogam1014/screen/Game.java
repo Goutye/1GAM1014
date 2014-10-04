@@ -1,11 +1,10 @@
 package ogam1014.screen;
 
-import java.awt.Graphics;
-
 import ogam1014.Engine;
 import ogam1014.InputHandler;
 import ogam1014.Level;
 import ogam1014.entity.Player;
+import ogam1014.graphics.Renderer;
 
 public class Game extends Screen {
 
@@ -25,8 +24,8 @@ public class Game extends Screen {
 	}
 
 	@Override
-	public void draw(Graphics g) {
-		level.draw(g);
+	public void draw(Renderer r) {
+		level.draw(r);
 	}
 
 }
