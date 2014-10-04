@@ -30,12 +30,12 @@ public class Map {
 			}
 	}
 	
-	public void draw(Renderer r, int dx, int dy) {
+	public void draw(Renderer r, int dx, int dy, int nbTileX, int nbTileY, int idTileStartX, int idTileStartY) {
 		int i, j;
 		
-		for(i = 0; i < map.length; ++i)
-			for(j = 0; j < map[i].length; ++j){
-				tileset.draw(r, map[i][j], dx + i * tileset.getW(), dy + j * tileset.getH());
+		for(i = idTileStartX; i < Math.min(map.length, idTileStartX + nbTileX); ++i)
+			for(j = idTileStartY; j < Math.min(map[i].length, idTileStartY + nbTileY); ++j){
+				tileset.draw(r, map[i][j], dx + (i - idTileStartX) * tileset.getW(), dy + (j - idTileStartY) * tileset.getH());
 			}
 	}
 }
