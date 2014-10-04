@@ -21,7 +21,6 @@ public class RectangleButton extends Button implements IButton{
 		g.setColor(bg);
 		g.fillRect(x, y, w, h);
 		g.setColor(txt);
-		System.out.println(name);
 		g.drawString(name, x + w / 2 - name.length() * 4, y + h / 2);
 		
 	}
