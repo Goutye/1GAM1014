@@ -38,26 +38,20 @@ public class MapEditor extends Screen{
 		tab = new Tile[DEFAULT_SIZE][DEFAULT_SIZE];
 		initTab();
 		tileset = new Tileset();
-		map = new Map(tab);
-		boxTileset = new Box(POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET * tileset.getW(), (tileset.getNbTiles() / NB_COL_TILESET + 1) * tileset.getH());
-		boxMap = new Box(POS_MAP_X, POS_MAP_Y, tab.length * tileset.getW(), tab[0].length * tileset.getH());
+		initBoxesAndMap();
 	}
 	
 	public MapEditor(String fileName) {
 		load(fileName);
 		tileset = new Tileset();
-		map = new Map(tab);
-		boxTileset = new Box(POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET * tileset.getW(), (tileset.getNbTiles() / NB_COL_TILESET + 1) * tileset.getH());
-		boxMap = new Box(POS_MAP_X, POS_MAP_Y, tab.length * tileset.getW(), tab[0].length * tileset.getH());
+		initBoxesAndMap();
 	}
 	
 	public MapEditor(int x, int y) {
 		tab = new Tile[x][y];
 		initTab();
 		tileset = new Tileset();
-		map = new Map(tab);
-		boxTileset = new Box(POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET * tileset.getW(), (tileset.getNbTiles() / NB_COL_TILESET + 1) * tileset.getH());
-		boxMap = new Box(POS_MAP_X, POS_MAP_Y, tab.length * tileset.getW(), tab[0].length * tileset.getH());
+		initBoxesAndMap();
 	}
 	
 	private void initTab() {
@@ -65,6 +59,12 @@ public class MapEditor extends Screen{
 		for (i = 0; i < tab.length; ++i)
 			for (j = 0; j < tab[i].length; ++j)
 				tab[i][j] = Tile.GRASS;
+	}
+	
+	private void initBoxesAndMap() {
+		map = new Map(tab);
+		boxTileset = new Box(POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET * tileset.getW(), ((tileset.getNbTiles() - 1) / NB_COL_TILESET + 1) * tileset.getH());
+		boxMap = new Box(POS_MAP_X, POS_MAP_Y, tab.length * tileset.getW(), tab[0].length * tileset.getH());
 	}
 	
 	@Override
