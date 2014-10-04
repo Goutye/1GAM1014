@@ -9,6 +9,7 @@ import java.awt.image.BufferStrategy;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import ogam1014.collide.Collide;
 import ogam1014.graphics.Renderer;
 import ogam1014.screen.Menu;
 import ogam1014.screen.Screen;
@@ -24,10 +25,11 @@ public class Engine extends Canvas implements Runnable {
 	private InputHandler input = new InputHandler(this);
 	private Screen screen;
 	private Renderer renderer = new Renderer(WIDTH, HEIGHT);
+	private Collide collide = new Collide();
 
 	public void setScreen(Screen screen) {
 		this.screen = screen;
-		screen.init(this, input);
+		screen.init(this, input, collide);
 
 		System.out.println("Set screen: " + screen);
 	}

@@ -1,5 +1,17 @@
 package ogam1014.screen;
 
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Stroke;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import ogam1014.Map;
 import ogam1014.Tile;
 import ogam1014.collide.Box;
@@ -20,10 +32,19 @@ public class MapEditor extends Screen{
 	private Map map;
 	private Box boxTileset;
 	private Box boxMap;
+	private Tile currentTile = Tile.GRASS;
 	
-	public MapEditor(){
+	public MapEditor() {
 		tab = new Tile[DEFAULT_SIZE][DEFAULT_SIZE];
 		initTab();
+		tileset = new Tileset();
+		map = new Map(tab);
+		boxTileset = new Box(POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET * tileset.getW(), (tileset.getNbTiles() / NB_COL_TILESET + 1) * tileset.getH());
+		boxMap = new Box(POS_MAP_X, POS_MAP_Y, tab.length * tileset.getW(), tab[0].length * tileset.getH());
+	}
+	
+	public MapEditor(String fileName) {
+		load(fileName);
 		tileset = new Tileset();
 		map = new Map(tab);
 		boxTileset = new Box(POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET * tileset.getW(), (tileset.getNbTiles() / NB_COL_TILESET + 1) * tileset.getH());
@@ -53,19 +74,35 @@ public class MapEditor extends Screen{
 		}
 		
 		if (input.leftButton.pressed) {
-			if (true){
-				
+			if (collide.AABB_point(boxTileset, input.mouse)){
+				selectTile();
 			}
 		}
-		// TODO Click on the map to put a Tile
-		// TODO Bonus : Stay down the click to put a lot of Tile in a row
 		
+		if (input.leftButton.down) {
+			if (collide.AABB_point(boxMap, input.mouse)){
+				putTile();
+			}
+		}	
+		
+		if (input.rightButton.pressed) {
+			save();
+		}
 	}
 
-	@Override
-	public void draw(Renderer r) {
-		map.draw(r, POS_MAP_X , POS_MAP_Y);
-		tileset.drawTileset(r, POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET);
+	private void putTile() {
+		int x = (input.mouse.x - POS_MAP_X) / tileset.getW();
+		int y = (input.mouse.y - POS_MAP_Y) / tileset.getH();
+		
+		tab[x][y] = currentTile;
+		map = new Map(tab);
+	}
+
+	private void selectTile() {
+		int x = (input.mouse.x - POS_TILESET_X) / tileset.getW();
+		int y = (input.mouse.y - POS_TILESET_Y) / tileset.getH();
+		
+		currentTile = Tile.values()[y * NB_COL_TILESET + x]; 
 	}
 	
 	public void resize(int x, int y) {
@@ -86,6 +123,7 @@ public class MapEditor extends Screen{
 		
 		tab = newMap;
 		map = new Map(tab);
+		boxMap = new Box(POS_MAP_X, POS_MAP_Y, tab.length * tileset.getW(), tab[0].length * tileset.getH());
 	}
 	
 	private void copy(Tile m1[][], Tile m2[][], int x, int y) {
@@ -96,5 +134,50 @@ public class MapEditor extends Screen{
 				m1[i][j] = m2[i][j];
 			}
 		}
+	}
+	
+	private void save() {
+		try{
+			FileOutputStream fout = new FileOutputStream(new File("assets/maps/map.tile"));
+			ObjectOutputStream oos = new ObjectOutputStream(fout);
+			oos.writeObject(tab);
+			oos.close();
+			System.out.println("Map saved!");
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	private void load(String fileName) {
+		try{
+			FileInputStream fint = new FileInputStream("assets/maps/" + fileName);
+			ObjectInputStream ois = new ObjectInputStream(fint);
+			tab = (Tile[][]) ois.readObject();
+			ois.close();
+			System.out.println("Map loaded!");
+		}catch(IOException e){
+			e.printStackTrace();
+		}catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+	}
+	
+	@Override
+	public void draw(Renderer r) {
+		map.draw(r, POS_MAP_X , POS_MAP_Y);
+		tileset.drawTileset(r, POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET);
+		drawSelectedTile(r);
+	}
+	
+	public void drawSelectedTile(Renderer r) {
+		int x = currentTile.ordinal() % NB_COL_TILESET * tileset.getW() + POS_TILESET_X;
+		int y = currentTile.ordinal() / NB_COL_TILESET * tileset.getH() + POS_TILESET_Y;
+		Color prevColor = r.getGraphics().getColor();
+		Stroke prevStroke = r.getGraphics().getStroke();
+		r.getGraphics().setColor(Color.red);
+		r.getGraphics().setStroke(new BasicStroke(1));
+		r.getGraphics().drawRoundRect(x, y, tileset.getW(), tileset.getH(), 0, 0);
+		r.getGraphics().setStroke(prevStroke);
+		r.getGraphics().setColor(prevColor);
 	}
 }

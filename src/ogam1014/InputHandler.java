@@ -115,14 +115,12 @@ public class InputHandler {
 		engine.addMouseMotionListener(new MouseMotionListener() {
 			@Override
 			public void mouseMoved(MouseEvent e) {
-				mouse.x = e.getX();
-				mouse.y = e.getY();
+				mouse = new Point(e.getX(), e.getY());
 			}
 			
 			@Override
 			public void mouseDragged(MouseEvent e) {
-				mouse.x = e.getX();
-				mouse.y = e.getY();
+				mouse = new Point(e.getX(), e.getY());
 			}
 		});
 	}

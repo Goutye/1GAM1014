@@ -47,6 +47,11 @@ public class Menu extends Screen {
 		if (input.down.pressed) {
 			counter++;
 		}
+		
+		// Just to access to MapEditor faster
+		if (input.rightButton.pressed) {
+			engine.setScreen(new MapEditor("map.tile"));
+		}
 
 		counter %= buttons.size();
 	}
