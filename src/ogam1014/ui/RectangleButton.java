@@ -16,7 +16,7 @@ public class RectangleButton extends Button implements IButton{
 	}
 	@Override
 	public void draw(Renderer r) {
-		isDown=false;
+		
 
 		Graphics2D g = r.getGraphics();
 		g.setColor(bg);
@@ -28,7 +28,7 @@ public class RectangleButton extends Button implements IButton{
 
 	@Override
 	public void drawSelected(Renderer r) {
-		isDown=false;
+		
 
 		Graphics2D g = r.getGraphics();
 		draw(r);
@@ -40,8 +40,7 @@ public class RectangleButton extends Button implements IButton{
 
 	@Override
 	public void drawClicked(Renderer r) {
-		isDown=true;
-
+		
 		Graphics2D g = r.getGraphics();
 		g.setColor(bg);
 		g.fillRect(x, y, w, h);
@@ -50,7 +49,7 @@ public class RectangleButton extends Button implements IButton{
 		g.setColor(cClick);
 		g.setStroke(new BasicStroke(5));
 		g.drawRect(x, y, w, h);
-		isDown=false;
+		
 
 		
 	}

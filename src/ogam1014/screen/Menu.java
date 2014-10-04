@@ -38,7 +38,7 @@ public class Menu extends Screen {
 			engine.setScreen(new MOptions());
 		}
 		if (input.validate.pressed && counter == 2) {
-			//System.exit(0);
+			System.exit(0);
 		}
 
 		if (input.up.pressed && counter > 0) {
@@ -65,7 +65,11 @@ public class Menu extends Screen {
 			// System.out.print("button");
 			
 			if (counter == i) {
-				button.update(r, input);
+				button.drawSelected(r);
+				if (input.validate.down) {
+					button.drawClicked(r);
+				}
+
 			} else
 				button.draw(r);
 

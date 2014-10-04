@@ -15,7 +15,7 @@ public class RoundedButton extends Button implements IButton {
 
 	@Override
 	public void draw(Renderer r) {
-isDown=false;
+
 		Graphics2D g = r.getGraphics();
 		g.setColor(bg);
 		g.fillRoundRect(x, y, w, h, 20, 20);
@@ -26,7 +26,7 @@ isDown=false;
 
 	@Override
 	public void drawSelected(Renderer r) {
-		isDown=false;
+		
 		Graphics2D g = r.getGraphics();
 		draw(r);
 		g.setColor(cClick);
@@ -37,7 +37,7 @@ isDown=false;
 
 	@Override
 	public void drawClicked(Renderer r) {
-		isDown=true;
+		
 		Graphics2D g = r.getGraphics();
 		g.setColor(cClick);
 		g.fillRoundRect(x, y, w, h, 20, 20);
@@ -46,7 +46,7 @@ isDown=false;
 		g.setColor(bg);
 		g.setStroke(new BasicStroke(5));
 		g.drawRoundRect(x, y, w, h, 20, 20);
-		isDown=false;
+		
 
 	}
 
