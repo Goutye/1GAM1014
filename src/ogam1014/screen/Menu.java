@@ -7,16 +7,17 @@ import java.util.List;
 import ogam1014.Engine;
 import ogam1014.graphics.Renderer;
 import ogam1014.ui.Button;
+import ogam1014.ui.RoundedButton;
 
 public class Menu extends Screen {
 
-	private Button start = new Button((int) Engine.WIDTH / 2,
+	private Button start = new RoundedButton((int) Engine.WIDTH / 2,
 			(int) (Engine.HEIGHT * 0.2), 100, 50, "Start", Color.BLACK,
 			Color.YELLOW);
-	private Button options = new Button((int) Engine.WIDTH / 2,
+	private Button options = new RoundedButton((int) Engine.WIDTH / 2,
 			(int) (Engine.HEIGHT * 0.4), 100, 50, "Options", Color.BLACK,
 			Color.YELLOW);
-	private Button quit = new Button((int) Engine.WIDTH / 2,
+	private Button quit = new RoundedButton((int) Engine.WIDTH / 2,
 			(int) (Engine.HEIGHT * 0.6), 100, 50, "Quit", Color.BLACK,
 			Color.YELLOW);
 	private List<Button> buttons = new ArrayList<Button>();
@@ -47,7 +48,7 @@ public class Menu extends Screen {
 		if (input.down.pressed) {
 			counter++;
 		}
-		
+
 		// Just to access to MapEditor faster
 		if (input.rightButton.pressed) {
 			engine.setScreen(new MapEditor("map.tile"));
@@ -61,14 +62,16 @@ public class Menu extends Screen {
 		int i = 0;
 
 		for (Button button : buttons) {
+			// System.out.print("button");
+			
 			if (counter == i) {
-				button.drawSelectedRectangle(r);
+				button.drawSelectedButton(r);
 				if (input.validate.down) {
-					button.drawClickedRectangle(r);
+					button.drawClickedButton(r);
 				}
 
 			} else
-				button.drawRectangle(r);
+				button.drawButton(r);
 
 			i++;
 		}

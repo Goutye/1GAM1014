@@ -7,13 +7,14 @@ import java.util.List;
 import ogam1014.Engine;
 import ogam1014.graphics.Renderer;
 import ogam1014.ui.Button;
+import ogam1014.ui.RoundedButton;
 
 public class MOptions extends Screen {
-	private Button back = new Button((int) Engine.WIDTH - 100,
+	private Button back = new RoundedButton((int) Engine.WIDTH - 100,
 			(int) (Engine.HEIGHT * 0.8), 100, 50, "Back", Color.BLACK,
 			Color.YELLOW);
 
-	private Button sound = new Button((int) Engine.WIDTH / 5,
+	private Button sound = new RoundedButton((int) Engine.WIDTH / 5,
 			(int) (Engine.HEIGHT * 0.2), 100, 50, "Sound", Color.BLACK,
 			Color.YELLOW);
 	private List<Button> buttons = new ArrayList<Button>();
@@ -29,7 +30,7 @@ public class MOptions extends Screen {
 
 		}
 
-		if (input.validate.pressed && counter == 1) {
+		if (input.validate.released && counter == 1) {
 			engine.setScreen(new Menu());
 		}
 
@@ -49,13 +50,13 @@ public class MOptions extends Screen {
 
 		for (Button button : buttons) {
 			if (counter == i) {
-				button.drawSelectedRectangle(r);
+				button.drawSelectedButton(r);
 				if (input.validate.down) {
-					button.drawClickedRectangle(r);
+					button.drawClickedButton(r);
 				}
 
 			} else
-				button.drawRectangle(r);
+				button.drawButton(r);
 
 
 			i++;
