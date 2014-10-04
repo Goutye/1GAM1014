@@ -65,13 +65,13 @@ public class Menu extends Screen {
 			// System.out.print("button");
 			
 			if (counter == i) {
-				button.drawSelectedButton(r);
+				button.drawSelected(r);
 				if (input.validate.down) {
-					button.drawClickedButton(r);
+					button.drawClicked(r);
 				}
 
 			} else
-				button.drawButton(r);
+				button.draw(r);
 
 			i++;
 		}

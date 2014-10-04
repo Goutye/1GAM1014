@@ -25,15 +25,15 @@ public class Button implements IButton{
 		this.bg = bg;
 
 	}
-	public void drawButton(Renderer r) {
+	public void draw(Renderer r) {
 	}
 	@Override
-	public void drawSelectedButton(Renderer r) {
+	public void drawSelected(Renderer r) {
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
-	public void drawClickedButton(Renderer r) {
+	public void drawClicked(Renderer r) {
 		// TODO Auto-generated method stub
 		
 	}

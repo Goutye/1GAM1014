@@ -18,6 +18,7 @@ import ogam1014.collide.Box;
 import ogam1014.graphics.Renderer;
 import ogam1014.graphics.Tileset;
 import ogam1014.ui.Button;
+import ogam1014.ui.RectangleButton;
 
 public class MapEditor extends Screen{
 	
@@ -32,12 +33,12 @@ public class MapEditor extends Screen{
 	
 	private static final Box BOX_SIZE_X_DECR = new Box(100, 0, 16, 16);
 	private static final Box BOX_SIZE_X_INCR = new Box(116, 0, 16, 16);
-	private static final Button BUTTON_X_DECR = new Button(100, 0, 16, 16, "-", Color.white, Color.black);
-	private static final Button BUTTON_X_INCR = new Button(116, 0, 16, 16, "+", Color.white, Color.black);
+	private static final RectangleButton BUTTON_X_DECR = new RectangleButton(100, 0, 16, 16, "-", Color.white, Color.black);
+	private static final RectangleButton BUTTON_X_INCR = new RectangleButton(116, 0, 16, 16, "+", Color.white, Color.black);
 	private static final Box BOX_SIZE_Y_DECR = new Box(100, 16, 16, 16);
 	private static final Box BOX_SIZE_Y_INCR = new Box(116, 16, 16, 16);
-	private static final Button BUTTON_Y_DECR = new Button(100, 16, 16, 16, "-", Color.white, Color.black);
-	private static final Button BUTTON_Y_INCR = new Button(116, 16, 16, 16, "+", Color.white, Color.black);
+	private static final RectangleButton BUTTON_Y_DECR = new RectangleButton(100, 16, 16, 16, "-", Color.white, Color.black);
+	private static final RectangleButton BUTTON_Y_INCR = new RectangleButton(116, 16, 16, 16, "+", Color.white, Color.black);
 	
 	private static final double TIME_BEFORE_INCR_BY_MOUSE_DOWN = 0.5;
 	
@@ -288,10 +289,10 @@ public class MapEditor extends Screen{
 	public void drawButtonIncrDecr(Renderer r) {
 		Color prevColor = r.getGraphics().getColor();
 		
-		BUTTON_X_DECR.drawRectangle(r);
-		BUTTON_X_INCR.drawRectangle(r);
-		BUTTON_Y_DECR.drawRectangle(r);
-		BUTTON_Y_INCR.drawRectangle(r);
+		BUTTON_X_DECR.draw(r);
+		BUTTON_X_INCR.draw(r);
+		BUTTON_Y_DECR.draw(r);
+		BUTTON_Y_INCR.draw(r);
 		
 		r.getGraphics().setColor(Color.black);
 		r.getGraphics().drawString("Width : " + tab.length, 140, 12);
