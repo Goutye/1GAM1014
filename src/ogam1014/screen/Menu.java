@@ -13,13 +13,13 @@ public class Menu extends Screen {
 
 	private Button start = new RoundedButton((int) Engine.WIDTH / 2,
 			(int) (Engine.HEIGHT * 0.2), 100, 50, "Start", Color.BLACK,
-			Color.YELLOW);
+			Color.YELLOW,Color.ORANGE);
 	private Button options = new RoundedButton((int) Engine.WIDTH / 2,
 			(int) (Engine.HEIGHT * 0.4), 100, 50, "Options", Color.BLACK,
-			Color.YELLOW);
+			Color.YELLOW,Color.ORANGE);
 	private Button quit = new RoundedButton((int) Engine.WIDTH / 2,
 			(int) (Engine.HEIGHT * 0.6), 100, 50, "Quit", Color.BLACK,
-			Color.YELLOW);
+			Color.YELLOW,Color.ORANGE);
 	private List<Button> buttons = new ArrayList<Button>();
 	private int counter = 0;
 

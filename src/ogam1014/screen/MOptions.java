@@ -12,11 +12,11 @@ import ogam1014.ui.RoundedButton;
 public class MOptions extends Screen {
 	private Button back = new RoundedButton((int) Engine.WIDTH - 100,
 			(int) (Engine.HEIGHT * 0.8), 100, 50, "Back", Color.BLACK,
-			Color.YELLOW);
+			Color.YELLOW,Color.ORANGE);
 
 	private Button sound = new RoundedButton((int) Engine.WIDTH / 5,
 			(int) (Engine.HEIGHT * 0.2), 100, 50, "Sound", Color.BLACK,
-			Color.YELLOW);
+			Color.YELLOW,Color.ORANGE);
 	private List<Button> buttons = new ArrayList<Button>();
 	private int counter = 0;
 

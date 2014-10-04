@@ -10,6 +10,7 @@ public interface IButton {
 	void draw(Renderer r);
 	void drawSelected(Renderer r);
 	void drawClicked(Renderer r);
+	//void drawActif(Renderer r);
 	
 	
 

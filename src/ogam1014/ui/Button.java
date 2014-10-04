@@ -13,9 +13,11 @@ public class Button implements IButton{
 	protected String name;
 	protected Color txt;
 	protected Color bg;
+	protected Color cClick;
+	protected boolean down=false;
 	
 	public Button(int x, int y, int weight, int height, String name, Color txt,
-			Color bg) {
+			Color bg,Color cClick) {
 		this.x = x;
 		this.y = y;
 		this.txt = txt;
@@ -23,6 +25,7 @@ public class Button implements IButton{
 		this.w = weight;
 		this.h = height;
 		this.bg = bg;
+		this.cClick = cClick;
 
 	}
 	public void draw(Renderer r) {
@@ -37,6 +40,10 @@ public class Button implements IButton{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/*public void drawActif(Renderer r){
+		
+	}*/
 	
 
 }

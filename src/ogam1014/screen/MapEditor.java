@@ -33,12 +33,12 @@ public class MapEditor extends Screen{
 	
 	private static final Box BOX_SIZE_X_DECR = new Box(100, 0, 16, 16);
 	private static final Box BOX_SIZE_X_INCR = new Box(116, 0, 16, 16);
-	private static final RectangleButton BUTTON_X_DECR = new RectangleButton(100, 0, 16, 16, "-", Color.white, Color.black);
-	private static final RectangleButton BUTTON_X_INCR = new RectangleButton(116, 0, 16, 16, "+", Color.white, Color.black);
+	private static final RectangleButton BUTTON_X_DECR = new RectangleButton(100, 0, 16, 16, "-", Color.white, Color.black,Color.gray);
+	private static final RectangleButton BUTTON_X_INCR = new RectangleButton(116, 0, 16, 16, "+", Color.white, Color.black,Color.gray);
 	private static final Box BOX_SIZE_Y_DECR = new Box(100, 16, 16, 16);
 	private static final Box BOX_SIZE_Y_INCR = new Box(116, 16, 16, 16);
-	private static final RectangleButton BUTTON_Y_DECR = new RectangleButton(100, 16, 16, 16, "-", Color.white, Color.black);
-	private static final RectangleButton BUTTON_Y_INCR = new RectangleButton(116, 16, 16, 16, "+", Color.white, Color.black);
+	private static final RectangleButton BUTTON_Y_DECR = new RectangleButton(100, 16, 16, 16, "-", Color.white, Color.black,Color.gray);
+	private static final RectangleButton BUTTON_Y_INCR = new RectangleButton(116, 16, 16, 16, "+", Color.white, Color.black,Color.gray);
 	
 	private static final double TIME_BEFORE_INCR_BY_MOUSE_DOWN = 0.5;
 	
