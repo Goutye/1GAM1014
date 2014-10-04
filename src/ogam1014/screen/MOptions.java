@@ -50,11 +50,7 @@ public class MOptions extends Screen {
 
 		for (Button button : buttons) {
 			if (counter == i) {
-				button.drawSelected(r);
-				if (input.validate.down) {
-					button.drawClicked(r);
-				}
-
+				button.update(r, input);
 			} else
 				button.draw(r);
 
