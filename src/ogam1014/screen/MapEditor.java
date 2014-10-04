@@ -31,8 +31,18 @@ public class MapEditor extends Screen{
 	private Box boxTileset;
 	private Box boxMap;
 	private Tile currentTile = Tile.GRASS;
+	private String fileName = "map1.tile";
 	
 	public MapEditor() {
+		int nb = 0;
+		File f;
+		
+		do{
+			++nb;
+			f = new File("assets/maps/map" + nb + ".tile");
+		}while(f.exists() || f.isDirectory());
+		fileName = "map" + nb + ".tile";
+		
 		tab = new Tile[DEFAULT_SIZE][DEFAULT_SIZE];
 		initTab();
 		tileset = new Tileset();
@@ -41,11 +51,21 @@ public class MapEditor extends Screen{
 	
 	public MapEditor(String fileName) {
 		load(fileName);
+		this.fileName = fileName;
 		tileset = new Tileset();
 		initBoxesAndMap();
 	}
 	
 	public MapEditor(int x, int y) {
+		int nb = 0;
+		File f;
+		
+		do{
+			++nb;
+			f = new File("assets/maps/map" + nb + ".tile");
+		}while(f.exists() || f.isDirectory());
+		fileName = "map" + nb + ".tile";
+		
 		tab = new Tile[x][y];
 		initTab();
 		tileset = new Tileset();
@@ -136,7 +156,7 @@ public class MapEditor extends Screen{
 	
 	private void save() {
 		try{
-			FileOutputStream fout = new FileOutputStream(new File("assets/maps/map.tile"));
+			FileOutputStream fout = new FileOutputStream(new File("assets/maps/" + fileName));
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
 			oos.writeObject(tab);
 			oos.close();
