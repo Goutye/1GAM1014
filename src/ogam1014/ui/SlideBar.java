@@ -54,10 +54,15 @@ public class SlideBar {
 		g.setColor(cBar);
 		g.fillRect(x, y, widthMax, sizeMax);
 		g.setColor(cButton);
-		if (direction)
-			g.fillRect(x - w / 2 + 5, y + pos-5, w, h);
-		else
+		if (direction) {
+			g.fillRect(x - w / 2 + 5, y + pos - 5, w, h);
+			g.setColor(cBar);
+			g.drawString(Integer.toString(valeur), x - w / 2 + 5, y + pos - 5);
+		} else {
 			g.fillRect(x + pos, y - h / 2, w, h);
+			g.setColor(cBar);
+			g.drawString(Integer.toString(valeur), x + pos, y - h / 2);
+		}
 	}
 
 	public int getValeur() {
@@ -66,15 +71,14 @@ public class SlideBar {
 
 	public void update(Point p) {
 		if (collide.AABB_point(boxBar, p)) {
-			if (direction)
+			if (direction) {
 				pos = Math.abs(y - p.y);
-			else
-				pos = Math.abs(x - p.x);
-
-			valeur = pos * max / sizeMax;
-			if (direction)
+				valeur = pos * max / sizeMax;
 				valeur = max - valeur;
-			
+			} else {
+				pos = Math.abs(x - p.x);
+				valeur = pos * max / widthMax;
+			}
 
 		}
 
