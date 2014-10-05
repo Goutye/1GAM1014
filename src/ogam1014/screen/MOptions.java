@@ -8,6 +8,7 @@ import ogam1014.Engine;
 import ogam1014.graphics.Renderer;
 import ogam1014.ui.Button;
 import ogam1014.ui.RoundedButton;
+import ogam1014.ui.SlideBar;
 
 public class MOptions extends Screen {
 	private Button back = new RoundedButton((int) Engine.WIDTH - 100,
@@ -17,6 +18,9 @@ public class MOptions extends Screen {
 	private Button sound = new RoundedButton((int) Engine.WIDTH / 5,
 			(int) (Engine.HEIGHT * 0.2), 100, 50, "Sound", Color.BLACK,
 			Color.YELLOW,Color.ORANGE);
+	
+	private SlideBar slide= new SlideBar((int) Engine.WIDTH / 2,
+			(int) (Engine.HEIGHT * 0.2), true, 100, 40, 20, Color.yellow, Color.orange, 100);
 	private List<Button> buttons = new ArrayList<Button>();
 	private int counter = 0;
 
@@ -41,12 +45,17 @@ public class MOptions extends Screen {
 		if (input.down.pressed) {
 			counter++;
 		}
+		
+		if(input.leftButton.pressed || input.leftButton.down){
+			slide.update(input.mouse);
+		}
 
 		counter %= buttons.size();
 	}
 	
 	public void draw(Renderer r) {
 		int i = 0;
+		slide.draw(r);
 
 		for (Button button : buttons) {
 			if (counter == i) {
