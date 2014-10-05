@@ -18,8 +18,8 @@ public class Engine extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String NAME = "1GAM1014";
-	public static final int WIDTH = 480;
-	public static final int HEIGHT = 380;
+	public static final int WIDTH = 800;
+	public static final int HEIGHT = 600;
 
 	private boolean running = false;
 	private InputHandler input = new InputHandler(this);
