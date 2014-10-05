@@ -10,35 +10,34 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.util.ArrayList;
 
 import ogam1014.Map;
 import ogam1014.Tile;
 import ogam1014.collide.Box;
 import ogam1014.graphics.Renderer;
 import ogam1014.graphics.Tileset;
-import ogam1014.ui.Button;
 import ogam1014.ui.RectangleButton;
 
 public class MapEditor extends Screen{
 	
 	private static final int DEFAULT_SIZE = 100;
-	private static final int POS_MAP_X = 100;
-	private static final int POS_MAP_Y = 100;
+	private static final int POS_MAP_X = 0;
+	private static final int POS_MAP_Y = Tile.SIZE * 4 + ogam1014.Engine.HEIGHT % Tile.SIZE;
 	private static final int POS_TILESET_X = 0;
 	private static final int POS_TILESET_Y = 0;
-	private static final int NB_COL_TILESET = 6;
-	private static final int MAP_DISPLAY_NB_TILE_X = 20;
-	private static final int MAP_DISPLAY_NB_TILE_Y = 14;
+	private static final int NB_COL_TILESET = 12;
+	private static final int MAP_DISPLAY_NB_TILE_X = ogam1014.Engine.WIDTH / Tile.SIZE;
+	private static final int MAP_DISPLAY_NB_TILE_Y = (ogam1014.Engine.HEIGHT - POS_MAP_Y) / Tile.SIZE;
 	
-	private static final Box BOX_SIZE_X_DECR = new Box(100, 0, 16, 16);
-	private static final Box BOX_SIZE_X_INCR = new Box(116, 0, 16, 16);
-	private static final RectangleButton BUTTON_X_DECR = new RectangleButton(100, 0, 16, 16, "-", Color.white, Color.black,Color.gray);
-	private static final RectangleButton BUTTON_X_INCR = new RectangleButton(116, 0, 16, 16, "+", Color.white, Color.black,Color.gray);
-	private static final Box BOX_SIZE_Y_DECR = new Box(100, 16, 16, 16);
-	private static final Box BOX_SIZE_Y_INCR = new Box(116, 16, 16, 16);
-	private static final RectangleButton BUTTON_Y_DECR = new RectangleButton(100, 16, 16, 16, "-", Color.white, Color.black,Color.gray);
-	private static final RectangleButton BUTTON_Y_INCR = new RectangleButton(116, 16, 16, 16, "+", Color.white, Color.black,Color.gray);
+	private static final Box BOX_MENU = new Box(300, 0, 200, 320);
+	private static final Box BOX_SIZE_X_DECR = new Box(BOX_MENU.x, BOX_MENU.y, 16, 16);
+	private static final Box BOX_SIZE_X_INCR = new Box(BOX_MENU.x + Tile.SIZE, BOX_MENU.y, 16, 16);
+	private static final RectangleButton BUTTON_X_DECR = new RectangleButton(BOX_MENU.x, BOX_MENU.y, 16, 16, "-", Color.white, Color.black,Color.gray);
+	private static final RectangleButton BUTTON_X_INCR = new RectangleButton(BOX_MENU.x + Tile.SIZE, BOX_MENU.y, 16, 16, "+", Color.white, Color.black,Color.gray);
+	private static final Box BOX_SIZE_Y_DECR = new Box(BOX_MENU.x, 16, 16, 16);
+	private static final Box BOX_SIZE_Y_INCR = new Box(BOX_MENU.x + Tile.SIZE, 16, 16, 16);
+	private static final RectangleButton BUTTON_Y_DECR = new RectangleButton(BOX_MENU.x, 16, 16, 16, "-", Color.white, Color.black,Color.gray);
+	private static final RectangleButton BUTTON_Y_INCR = new RectangleButton(BOX_MENU.x + Tile.SIZE, 16, 16, 16, "+", Color.white, Color.black,Color.gray);
 	
 	private static final double TIME_BEFORE_INCR_BY_MOUSE_DOWN = 0.5;
 	
@@ -102,16 +101,12 @@ public class MapEditor extends Screen{
 	
 	private void initBoxesAndMap() {
 		map = new Map(tab);
-		boxTileset = new Box(POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET * tileset.getW(), ((tileset.getNbTiles() - 1) / NB_COL_TILESET + 1) * tileset.getH());
-		boxMap = new Box(POS_MAP_X, POS_MAP_Y, Math.min(tab.length, MAP_DISPLAY_NB_TILE_X) * tileset.getW(), Math.min(tab[0].length, MAP_DISPLAY_NB_TILE_Y)  * tileset.getH());
+		boxTileset = new Box(POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET * Tile.SIZE, ((tileset.getNbTiles() - 1) / NB_COL_TILESET + 1) * Tile.SIZE);
+		boxMap = new Box(POS_MAP_X, POS_MAP_Y, Math.min(tab.length, MAP_DISPLAY_NB_TILE_X) * Tile.SIZE, Math.min(tab[0].length, MAP_DISPLAY_NB_TILE_Y)  * Tile.SIZE);
 	}
 	
 	@Override
 	public void update(double dt) {
-		if (input.validate.pressed) {
-			resize(10, 10);
-		}
-		
 		if (input.leftButton.pressed) {
 			if (collide.AABB_point(boxTileset, input.mouse)){
 				selectTile();
@@ -172,29 +167,29 @@ public class MapEditor extends Screen{
 		
 		if (input.rightButton.down) {
 			if (mapCurrentlyClicked) {
-				if (input.mouse.x - mapClickPosition.x >= tileset.getW()){
+				if (input.mouse.x - mapClickPosition.x >= Tile.SIZE){
 					if (mapDisplayStart.x > 0) {
 						--mapDisplayStart.x;
-						mapClickPosition.x += tileset.getW();
+						mapClickPosition.x += Tile.SIZE;
 					}
 				}
-				else if (mapClickPosition.x - input.mouse.x >= tileset.getW()){
+				else if (mapClickPosition.x - input.mouse.x >= Tile.SIZE){
 					if (mapDisplayStart.x < tab.length - 1 - MAP_DISPLAY_NB_TILE_X) {
 						++mapDisplayStart.x;
-						mapClickPosition.x -= tileset.getW();
+						mapClickPosition.x -= Tile.SIZE;
 					}
 				}
 				
-				if (input.mouse.y - mapClickPosition.y >= tileset.getH()){
+				if (input.mouse.y - mapClickPosition.y >= Tile.SIZE){
 					if (mapDisplayStart.y > 0) {
 						--mapDisplayStart.y;
-						mapClickPosition.y += tileset.getH();
+						mapClickPosition.y += Tile.SIZE;
 					}
 				}
-				else if (mapClickPosition.y - input.mouse.y >= tileset.getH()){
+				else if (mapClickPosition.y - input.mouse.y >= Tile.SIZE){
 					if (mapDisplayStart.y <  tab[0].length - 1 - MAP_DISPLAY_NB_TILE_Y) {
 						++mapDisplayStart.y;
-						mapClickPosition.y -= tileset.getH();
+						mapClickPosition.y -= Tile.SIZE;
 					}
 				}
 			}
@@ -244,16 +239,16 @@ public class MapEditor extends Screen{
 	}
 
 	private void putTile() {
-		int x = (input.mouse.x - POS_MAP_X) / tileset.getW() + mapDisplayStart.x;
-		int y = (input.mouse.y - POS_MAP_Y) / tileset.getH() + mapDisplayStart.y;
+		int x = (input.mouse.x - POS_MAP_X) / Tile.SIZE + mapDisplayStart.x;
+		int y = (input.mouse.y - POS_MAP_Y) / Tile.SIZE + mapDisplayStart.y;
 		
 		tab[x][y] = currentTile;
 		map = new Map(tab);
 	}
 
 	private void selectTile() {
-		int x = (input.mouse.x - POS_TILESET_X) / tileset.getW();
-		int y = (input.mouse.y - POS_TILESET_Y) / tileset.getH();
+		int x = (input.mouse.x - POS_TILESET_X) / Tile.SIZE;
+		int y = (input.mouse.y - POS_TILESET_Y) / Tile.SIZE;
 		
 		currentTile = Tile.values()[y * NB_COL_TILESET + x]; 
 	}
@@ -280,7 +275,7 @@ public class MapEditor extends Screen{
 		
 		tab = newMap;
 		map = new Map(tab);
-		boxMap = new Box(POS_MAP_X, POS_MAP_Y, Math.min(tab.length, MAP_DISPLAY_NB_TILE_X) * tileset.getW(), Math.min(tab[0].length, MAP_DISPLAY_NB_TILE_Y)  * tileset.getH());
+		boxMap = new Box(POS_MAP_X, POS_MAP_Y, Math.min(tab.length, MAP_DISPLAY_NB_TILE_X) * Tile.SIZE, Math.min(tab[0].length, MAP_DISPLAY_NB_TILE_Y)  * Tile.SIZE);
 	}
 	
 	private void copy(Tile m1[][], Tile m2[][], int x, int y) {
@@ -337,20 +332,20 @@ public class MapEditor extends Screen{
 		BUTTON_Y_INCR.draw(r);
 		
 		r.getGraphics().setColor(Color.black);
-		r.getGraphics().drawString("Width : " + tab.length, 140, 12);
-		r.getGraphics().drawString("Height : " + tab[0].length, 140, 28);
-		r.getGraphics().drawString("Origin : " + mapDisplayStart.x + "," + mapDisplayStart.y, 200, 12);
+		r.getGraphics().drawString("Width : " + tab.length, BOX_MENU.x + 40, 12);
+		r.getGraphics().drawString("Height : " + tab[0].length, BOX_MENU.x + 40, 28);
+		r.getGraphics().drawString("Origin : " + mapDisplayStart.x + "," + mapDisplayStart.y, BOX_MENU.x + 100, 12);
 		r.getGraphics().setColor(prevColor);
 	}
 	
 	public void drawSelectedTile(Renderer r) {
-		int x = currentTile.ordinal() % NB_COL_TILESET * tileset.getW() + POS_TILESET_X;
-		int y = currentTile.ordinal() / NB_COL_TILESET * tileset.getH() + POS_TILESET_Y;
+		int x = currentTile.ordinal() % NB_COL_TILESET * Tile.SIZE + POS_TILESET_X;
+		int y = currentTile.ordinal() / NB_COL_TILESET * Tile.SIZE + POS_TILESET_Y;
 		Color prevColor = r.getGraphics().getColor();
 		Stroke prevStroke = r.getGraphics().getStroke();
 		r.getGraphics().setColor(Color.red);
 		r.getGraphics().setStroke(new BasicStroke(1));
-		r.getGraphics().drawRoundRect(x, y, tileset.getW(), tileset.getH(), 0, 0);
+		r.getGraphics().drawRoundRect(x, y, Tile.SIZE, Tile.SIZE, 0, 0);
 		r.getGraphics().setStroke(prevStroke);
 		r.getGraphics().setColor(prevColor);
 	}
@@ -360,7 +355,7 @@ public class MapEditor extends Screen{
 		Stroke prevStroke = r.getGraphics().getStroke();
 		r.getGraphics().setColor(Color.black);
 		r.getGraphics().setStroke(new BasicStroke(1));
-		r.getGraphics().drawRoundRect(boxMap.x, boxMap.y, MAP_DISPLAY_NB_TILE_X * tileset.getW(), MAP_DISPLAY_NB_TILE_Y * tileset.getH(), 0, 0);
+		r.getGraphics().drawRoundRect(boxMap.x, boxMap.y, MAP_DISPLAY_NB_TILE_X * Tile.SIZE - 1, MAP_DISPLAY_NB_TILE_Y * Tile.SIZE - 1, 0, 0);
 		r.getGraphics().setStroke(prevStroke);
 		r.getGraphics().setColor(prevColor);
 	}

@@ -26,7 +26,7 @@ public class Map {
 		
 		for(i = 0; i < map.length; ++i)
 			for(j = 0; j < map[i].length; ++j) {
-				tileset.draw(r, map[i][j], i * tileset.getW(), j * tileset.getH());
+				tileset.draw(r, map[i][j], i * Tile.SIZE, j * Tile.SIZE);
 			}
 	}
 	
@@ -35,7 +35,7 @@ public class Map {
 		
 		for(i = idTileStartX; i < Math.min(map.length, idTileStartX + nbTileX); ++i)
 			for(j = idTileStartY; j < Math.min(map[i].length, idTileStartY + nbTileY); ++j){
-				tileset.draw(r, map[i][j], dx + (i - idTileStartX) * tileset.getW(), dy + (j - idTileStartY) * tileset.getH());
+				tileset.draw(r, map[i][j], dx + (i - idTileStartX) * Tile.SIZE, dy + (j - idTileStartY) * Tile.SIZE);
 			}
 	}
 }

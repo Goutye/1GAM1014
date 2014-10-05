@@ -9,11 +9,8 @@ import javax.imageio.ImageIO;
 import ogam1014.Tile;
 
 public class Tileset {
-
-	static private final int tW = 16;
-	static private final int tH = 16;
-	static private final int nbTileW = 6;
-	static private final int nbTileH = 3;
+	static private final int nbTileW = 12;
+	static private final int nbTileH = 4;
 	private BufferedImage img;
 
 	public Tileset() {
@@ -25,18 +22,10 @@ public class Tileset {
 	}
 
 	public void draw(Renderer r, Tile t, int x, int y) {
-		int xTileset = (t.ordinal() % nbTileW) * tW;
-		int yTileset = (t.ordinal() / nbTileW) * tH;
+		int xTileset = (t.ordinal() % nbTileW) * Tile.SIZE;
+		int yTileset = (t.ordinal() / nbTileW) * Tile.SIZE;
 
-		r.blit(img, x, y, tW, tH, xTileset, yTileset);
-	}
-
-	public int getW() {
-		return tW;
-	}
-
-	public int getH() {
-		return tH;
+		r.blit(img, x, y, Tile.SIZE, Tile.SIZE, xTileset, yTileset);
 	}
 	
 	public int getNbTiles(){
@@ -51,7 +40,7 @@ public class Tileset {
 			for (j = 0; j < nbTileH; ++j) {
 				m = (j * nbTileW + i) % col;
 				n = (j * nbTileW + i) / col;
-				r.blit(img, x + m * tW, y + n * tH, tW, tH, i * tW, j * tH);
+				r.blit(img, x + m * Tile.SIZE, y + n * Tile.SIZE, Tile.SIZE, Tile.SIZE, i * Tile.SIZE, j * Tile.SIZE);
 			}
 		}
 	}
