@@ -51,6 +51,8 @@ public class MapEditor extends Screen{
 	private Tile currentTile = Tile.GRASS;
 	private String fileName = "map1.tile";
 	private double currentTimeBeforeIncrease = 0;
+	private boolean mapCurrentlyClicked = false;
+	private Point mapClickPosition = new Point(0,0);
 	
 	public MapEditor() {
 		int nb = 0;
@@ -158,8 +160,48 @@ public class MapEditor extends Screen{
 			}
 		}	
 		
-		if (input.rightButton.pressed) {
-			save();
+		if (input.rightButton.pressed) {			
+			if (collide.AABB_point(boxMap, input.mouse)){
+				mapCurrentlyClicked = true;
+				mapClickPosition = new Point(input.mouse);
+			}
+			else {
+				save();
+			}
+		}
+		
+		if (input.rightButton.down) {
+			if (mapCurrentlyClicked) {
+				if (input.mouse.x - mapClickPosition.x >= tileset.getW()){
+					if (mapDisplayStart.x > 0) {
+						--mapDisplayStart.x;
+						mapClickPosition.x += tileset.getW();
+					}
+				}
+				else if (mapClickPosition.x - input.mouse.x >= tileset.getW()){
+					if (mapDisplayStart.x < tab.length - 1 - MAP_DISPLAY_NB_TILE_X) {
+						++mapDisplayStart.x;
+						mapClickPosition.x -= tileset.getW();
+					}
+				}
+				
+				if (input.mouse.y - mapClickPosition.y >= tileset.getH()){
+					if (mapDisplayStart.y > 0) {
+						--mapDisplayStart.y;
+						mapClickPosition.y += tileset.getH();
+					}
+				}
+				else if (mapClickPosition.y - input.mouse.y >= tileset.getH()){
+					if (mapDisplayStart.y <  tab[0].length - 1 - MAP_DISPLAY_NB_TILE_Y) {
+						++mapDisplayStart.y;
+						mapClickPosition.y -= tileset.getH();
+					}
+				}
+			}
+		}
+		
+		if (input.rightButton.released) {
+			mapCurrentlyClicked = false;
 		}
 		
 		if (input.leftButton.released) {
