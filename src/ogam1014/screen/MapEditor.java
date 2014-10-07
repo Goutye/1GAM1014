@@ -302,10 +302,10 @@ public class MapEditor extends Screen{
 		BUTTON_Y_DECR.draw(r);
 		BUTTON_Y_INCR.draw(r);
 		
-		r.getGraphics().setColor(Color.black);
-		r.getGraphics().drawString("Width : " + tab.length, BOX_MENU.x + 40, 12);
-		r.getGraphics().drawString("Height : " + tab[0].length, BOX_MENU.x + 40, 28);
-		r.getGraphics().drawString("Origin : " + mapDisplayStart.x + "," + mapDisplayStart.y, BOX_MENU.x + 100, 12);
+		r.setColor(Color.black);
+		r.drawText("Width : " + tab.length, BOX_MENU.x + 40, 12);
+		r.drawText("Height : " + tab[0].length, BOX_MENU.x + 40, 28);
+		r.drawText("Origin : " + mapDisplayStart.x + "," + mapDisplayStart.y, BOX_MENU.x + 100, 12);
 		r.getGraphics().setColor(prevColor);
 	}
 	

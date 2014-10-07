@@ -36,8 +36,8 @@ public class Renderer {
 			int sourceX, int sourceY) {
 		int xx = (int) Math.round(x);
 		int yy = (int) Math.round(y);
-		graphics.drawImage(image, xx, yy, xx + w, yy + h,
-				sourceX, sourceY, sourceX + w, sourceY + h, null);
+		graphics.drawImage(image, xx, yy, xx + w, yy + h, sourceX, sourceY,
+				sourceX + w, sourceY + h, null);
 	}
 
 	public Graphics2D getGraphics() {
@@ -47,7 +47,25 @@ public class Renderer {
 	public void useCamera(Camera camera) {
 		graphics.setTransform(originTransform);
 		if (camera != null) {
-			graphics.translate(-camera.getX() + width / 2, -camera.getY() + height / 2);
+			graphics.translate(-camera.getX() + width / 2, -camera.getY()
+					+ height / 2);
 		}
+	}
+
+	public void drawText(String text, double x, double y) {
+		int xx = (int) Math.round(x);
+		int yy = (int) Math.round(y);
+		graphics.drawString(text, xx, yy);
+	}
+
+	public void drawCenteredText(String text, double x, double y) {
+		int xx = (int) Math.round(x);
+		int yy = (int) Math.round(y);
+		xx -= text.length() * 8 / 2;
+		graphics.drawString(text, xx, yy);
+	}
+
+	public void setColor(Color color) {
+		graphics.setColor(color);
 	}
 }

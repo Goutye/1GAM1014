@@ -13,16 +13,22 @@ public class Game extends Screen {
 	private Level level = new Level();
 	private Camera camera = new Camera();
 	private Player player;
-	
+
 	@Override
 	public void init(Engine engine, InputHandler input, Collide collide) {
 		super.init(engine, input, collide);
-		player = new Player(input);
-		level.addEntity(player);
+		if (player == null) {
+			player = new Player(input);
+			level.addEntity(player);
+		}
 	}
 
 	@Override
 	public void update(double dt) {
+		if (input.pause.pressed) {
+			engine.setScreen(new Pause(this));
+			return;
+		}
 		level.update(dt);
 		camera.update(dt);
 	}

@@ -21,8 +21,8 @@ public class RectangleButton extends Button implements IButton{
 		Graphics2D g = r.getGraphics();
 		g.setColor(bg);
 		g.fillRect(x, y, w, h);
-		g.setColor(txt);
-		g.drawString(name, x + w / 2 - name.length() * 4, y + h / 2);
+		r.setColor(txt);
+		r.drawCenteredText(name, x + w / 2, y + h / 2);
 		
 	}
 
@@ -44,8 +44,8 @@ public class RectangleButton extends Button implements IButton{
 		Graphics2D g = r.getGraphics();
 		g.setColor(bg);
 		g.fillRect(x, y, w, h);
-		g.setColor(txt);
-		g.drawString(name, x + w / 2 - name.length() * 4, y + h / 2);
+		r.setColor(txt);
+		r.drawCenteredText(name, x + w / 2, y + h / 2);
 		g.setColor(cClick);
 		g.setStroke(new BasicStroke(5));
 		g.drawRect(x, y, w, h);

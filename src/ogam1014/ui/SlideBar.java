@@ -56,12 +56,12 @@ public class SlideBar {
 		g.setColor(cButton);
 		if (direction) {
 			g.fillRect(x - w / 2 + 5, y + pos - 5, w, h);
-			g.setColor(cBar);
-			g.drawString(Integer.toString(valeur), x - w / 2 + 5, y + pos - 5);
+			r.setColor(cBar);
+			r.drawText(Integer.toString(valeur), x - w / 2 + 5, y + pos - 5);
 		} else {
 			g.fillRect(x + pos, y - h / 2, w, h);
-			g.setColor(cBar);
-			g.drawString(Integer.toString(valeur), x + pos, y - h / 2);
+			r.setColor(cBar);
+			r.drawText(Integer.toString(valeur), x + pos, y - h / 2);
 		}
 	}
 

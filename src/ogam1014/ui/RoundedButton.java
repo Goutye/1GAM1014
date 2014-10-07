@@ -19,8 +19,8 @@ public class RoundedButton extends Button implements IButton {
 		Graphics2D g = r.getGraphics();
 		g.setColor(bg);
 		g.fillRoundRect(x, y, w, h, 20, 20);
-		g.setColor(txt);
-		g.drawString(name, x + w / 2 - name.length() * 4, y + h / 2);
+		r.setColor(txt);
+		r.drawCenteredText(name, x + w / 2, y + h / 2);
 		
 	}
 
@@ -41,8 +41,8 @@ public class RoundedButton extends Button implements IButton {
 		Graphics2D g = r.getGraphics();
 		g.setColor(cClick);
 		g.fillRoundRect(x, y, w, h, 20, 20);
-		g.setColor(txt);
-		g.drawString(name, x + w / 2 - name.length() * 4, y + h / 2);
+		r.setColor(txt);
+		r.drawCenteredText(name, x + w / 2, y + h / 2);
 		g.setColor(bg);
 		g.setStroke(new BasicStroke(5));
 		g.drawRoundRect(x, y, w, h, 20, 20);
