@@ -15,8 +15,8 @@ public class Game extends Screen {
 	private Player player;
 	
 	@Override
-	public void init(Engine engine, InputHandler input, Collide collide) {
-		super.init(engine, input, collide);
+	public void init(Engine engine, InputHandler input) {
+		super.init(engine, input);
 		player = new Player(input);
 		level.addEntity(player);
 	}

@@ -9,6 +9,7 @@ import java.io.File;
 import ogam1014.Map;
 import ogam1014.Tile;
 import ogam1014.collide.Box;
+import ogam1014.collide.Collide;
 import ogam1014.graphics.Renderer;
 import ogam1014.graphics.Tileset;
 import ogam1014.ui.RectangleButton;
@@ -105,46 +106,46 @@ public class MapEditor extends Screen{
 	@Override
 	public void update(double dt) {
 		if (input.leftButton.pressed) {
-			if (collide.AABB_point(boxTileset, input.mouse)){
+			if (Collide.AABB_point(boxTileset, input.mouse)){
 				selectTile();
 			}
-			else if (collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)){
 				resize(tab.length - 1, tab[0].length);
 			}
-			else if (collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)){
 				resize(tab.length, tab[0].length - 1);
 			}
-			else if (collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)){
 				resize(tab.length + 1, tab[0].length);
 			}
-			else if (collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)){
 				resize(tab.length, tab[0].length + 1);
 			}
 		}
 		
 		if (input.leftButton.down) {
-			if (collide.AABB_point(boxMap, input.mouse)){
+			if (Collide.AABB_point(boxMap, input.mouse)){
 				putTile();
 			}
-			else if (collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)){
 				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
 					resize(tab.length - 1, tab[0].length);
 				else
 					currentTimeBeforeIncrease += dt;
 			}
-			else if (collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)){
 				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
 					resize(tab.length, tab[0].length - 1);
 				else
 					currentTimeBeforeIncrease += dt;
 			}
-			else if (collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)){
 				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
 					resize(tab.length + 1, tab[0].length);
 				else
 					currentTimeBeforeIncrease += dt;
 			}
-			else if (collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)){
 				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
 					resize(tab.length, tab[0].length + 1);
 				else
@@ -153,7 +154,7 @@ public class MapEditor extends Screen{
 		}	
 		
 		if (input.rightButton.pressed) {			
-			if (collide.AABB_point(boxMap, input.mouse)){
+			if (Collide.AABB_point(boxMap, input.mouse)){
 				mapCurrentlyClicked = true;
 				mapClickPosition = new Point(input.mouse);
 			}

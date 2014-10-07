@@ -23,7 +23,6 @@ public class SlideBar {
 	private int pos = 0;
 	private Box boxBar;
 	private int valeur = 0;
-	private Collide collide = new Collide();
 
 	public SlideBar(int x, int y, boolean direction, int sizeMax, int w, int h,
 			Color cButton, Color cBar, int max) {
@@ -70,7 +69,7 @@ public class SlideBar {
 	}
 
 	public void update(Point p) {
-		if (collide.AABB_point(boxBar, p)) {
+		if (Collide.AABB_point(boxBar, p)) {
 			if (direction) {
 				pos = Math.abs(y - p.y);
 				valeur = pos * max / sizeMax;
