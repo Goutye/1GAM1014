@@ -13,7 +13,7 @@ public class Level {
 	private Map map;
 
 	public Level() {
-		map = new Map("Map.tile");
+		map = new Map("map.tile");
 	}
 
 	public void addEntity(Entity entity) {
