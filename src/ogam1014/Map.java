@@ -71,4 +71,8 @@ public class Map {
 	public Tile[][] getTab(){
 		return map;
 	}
+	
+	public void putTile(Tile tile, int x, int y){
+		map[x][y] = tile;
+	}
 }

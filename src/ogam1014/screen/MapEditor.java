@@ -5,11 +5,6 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Stroke;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 import ogam1014.Map;
 import ogam1014.Tile;
@@ -245,7 +240,7 @@ public class MapEditor extends Screen{
 		int y = (input.mouse.y - POS_MAP_Y) / Tile.SIZE + mapDisplayStart.y;
 		
 		tab[x][y] = currentTile;
-		map = new Map(tab);
+		map.putTile(currentTile, x, y);
 	}
 
 	private void selectTile() {
