@@ -66,14 +66,16 @@ public class MapEditor extends Screen{
 		tab = new Tile[DEFAULT_SIZE][DEFAULT_SIZE];
 		initTab(tab);
 		tileset = new Tileset();
-		initBoxesAndMap();
+		map = new Map(tab);
+		initBoxes();
 	}
 	
 	public MapEditor(String fileName) {
-		load(fileName);
+		map = new Map(fileName);
+		tab = map.getTab();
 		this.fileName = fileName;
 		tileset = new Tileset();
-		initBoxesAndMap();
+		initBoxes();
 	}
 	
 	public MapEditor(int x, int y) {
@@ -89,7 +91,8 @@ public class MapEditor extends Screen{
 		tab = new Tile[x][y];
 		initTab(tab);
 		tileset = new Tileset();
-		initBoxesAndMap();
+		map = new Map(tab);
+		initBoxes();
 	}
 	
 	private void initTab(Tile tab[][]) {
@@ -99,8 +102,7 @@ public class MapEditor extends Screen{
 				tab[i][j] = Tile.GRASS;
 	}
 	
-	private void initBoxesAndMap() {
-		map = new Map(tab);
+	private void initBoxes() {
 		boxTileset = new Box(POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET * Tile.SIZE, ((tileset.getNbTiles() - 1) / NB_COL_TILESET + 1) * Tile.SIZE);
 		boxMap = new Box(POS_MAP_X, POS_MAP_Y, Math.min(tab.length, MAP_DISPLAY_NB_TILE_X) * Tile.SIZE, Math.min(tab[0].length, MAP_DISPLAY_NB_TILE_Y)  * Tile.SIZE);
 	}
@@ -161,7 +163,7 @@ public class MapEditor extends Screen{
 				mapClickPosition = new Point(input.mouse);
 			}
 			else {
-				save();
+				map.save(fileName);
 			}
 		}
 		
@@ -285,32 +287,6 @@ public class MapEditor extends Screen{
 			for (j = 0; j < y; ++j) {
 				m1[i][j] = m2[i][j];
 			}
-		}
-	}
-	
-	private void save() {
-		try{
-			FileOutputStream fout = new FileOutputStream(new File("assets/maps/" + fileName));
-			ObjectOutputStream oos = new ObjectOutputStream(fout);
-			oos.writeObject(tab);
-			oos.close();
-			System.out.println("Map saved!");
-		}catch(IOException e){
-			e.printStackTrace();
-		}
-	}
-	
-	private void load(String fileName) {
-		try{
-			FileInputStream fint = new FileInputStream("assets/maps/" + fileName);
-			ObjectInputStream ois = new ObjectInputStream(fint);
-			tab = (Tile[][]) ois.readObject();
-			ois.close();
-			System.out.println("Map loaded!");
-		}catch(IOException e){
-			e.printStackTrace();
-		}catch(ClassNotFoundException e){
-			e.printStackTrace();
 		}
 	}
 	
