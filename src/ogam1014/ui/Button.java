@@ -17,10 +17,9 @@ public class Button implements IButton {
 	protected Color txt;
 	protected Color bg;
 	protected Color cClick;
-	protected boolean down;
 	protected boolean hover;
 	protected Box box;
-	protected boolean click;
+	protected boolean down;
 
 	public Button(int x, int y, int weight, int height, String name, Color txt,
 			Color bg, Color cClick) {
@@ -54,7 +53,7 @@ public class Button implements IButton {
 	}
 
 	public void setClick() {
-		click = true;
+		down = true;
 	}
 
 	public boolean update(Point p) {
@@ -74,15 +73,15 @@ public class Button implements IButton {
 	}
 
 	public void drawUpdate(Renderer r) {
-		if (click && hover) {
+		if (down && hover) {
 			System.out.print("dessin");
 			drawClicked(r);
-			click = false;
+			down = false;
 			return;
 		}
-		if (hover && !down) {
+		if (hover) {
 			drawSelected(r);
-			click = false;
+			down = false;
 			hover = false;
 			return;
 		}
