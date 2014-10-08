@@ -53,26 +53,49 @@ public class Menu extends Screen {
 		if (input.rightButton.pressed) {
 			engine.setScreen(new MapEditor("map.tile"));
 		}
+		int i=0;
+		for(Button button: buttons){
+			if(input.leftButton.pressed){
+			button.setClick();
+			
+			if(counter==0)
+				engine.setScreen(new Game());
+				
+			else if(counter==1)
+				engine.setScreen(new MOptions());
+				
+			else if(counter==2)
+				System.exit(0);
+			
+				
+			}
+			
+			if(button.update(input.mouse))
+				counter=i;
+			i++;
+			
+		}
+		
 
 		counter %= buttons.size();
 	}
 
 	@Override
 	public void draw(Renderer r) {
-		int i = 0;
-
+		int i=0;
 		for (Button button : buttons) {
-			// System.out.print("button");
 			
-			if (counter == i) {
-				button.drawSelected(r);
-				if (input.validate.down) {
-					button.drawClicked(r);
+				button.drawUpdate(r);
+				
+				if (counter == i) {
+					button.drawSelected(r);
+					if (input.validate.down) {
+						button.drawClicked(r);
+					}
 				}
 
-			} else
-				button.draw(r);
-
+				
+			
 			i++;
 		}
 	}

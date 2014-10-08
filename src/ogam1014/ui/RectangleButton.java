@@ -9,6 +9,8 @@ import ogam1014.graphics.Renderer;
 
 public class RectangleButton extends Button implements IButton{
 	
+
+	
 	public RectangleButton(int x, int y, int weight, int height, String name, Color txt,
 			Color bg,Color cClick) {
 		super(x, y, weight, height, name, txt,
@@ -17,7 +19,6 @@ public class RectangleButton extends Button implements IButton{
 	@Override
 	public void draw(Renderer r) {
 		
-
 		Graphics2D g = r.getGraphics();
 		g.setColor(bg);
 		g.fillRect(x, y, w, h);
@@ -40,7 +41,8 @@ public class RectangleButton extends Button implements IButton{
 
 	@Override
 	public void drawClicked(Renderer r) {
-		
+		super.drawClicked(r);
+
 		Graphics2D g = r.getGraphics();
 		g.setColor(bg);
 		g.fillRect(x, y, w, h);
