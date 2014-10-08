@@ -49,6 +49,25 @@ public class MOptions extends Screen {
 		if(input.leftButton.pressed || input.leftButton.down){
 			slide.update(input.mouse);
 		}
+		int i=0;
+		for(Button button: buttons){
+			if(input.leftButton.pressed){
+				button.setClick();
+				if(counter==0){
+					
+				}
+				if(counter==1){
+					engine.setScreen(new Menu());
+					
+				}
+			}
+			if(button.update(input.mouse))
+				counter=i;
+			i++;
+			
+			
+			
+		}
 
 		counter %= buttons.size();
 	}
@@ -58,17 +77,19 @@ public class MOptions extends Screen {
 		slide.draw(r);
 
 		for (Button button : buttons) {
+			
+			button.drawUpdate(r);
+			
 			if (counter == i) {
 				button.drawSelected(r);
 				if (input.validate.down) {
 					button.drawClicked(r);
 				}
+			}
 
-			} else
-				button.draw(r);
-
-
-			i++;
-		}
+			
+		
+		i++;
+	}
 	}
 }

@@ -3,7 +3,6 @@ package ogam1014.ui;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-
 import ogam1014.graphics.Renderer;
 
 public class RoundedButton extends Button implements IButton {
@@ -38,6 +37,7 @@ public class RoundedButton extends Button implements IButton {
 	@Override
 	public void drawClicked(Renderer r) {
 		
+
 		Graphics2D g = r.getGraphics();
 		g.setColor(cClick);
 		g.fillRoundRect(x, y, w, h, 20, 20);
@@ -49,6 +49,8 @@ public class RoundedButton extends Button implements IButton {
 		
 
 	}
+	
+	
 
 	
 
