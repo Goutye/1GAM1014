@@ -1,19 +1,22 @@
 package ogam1014;
  
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
 import ogam1014.graphics.Renderer;
 import ogam1014.graphics.Tileset;
 
 public class Map {
 	private Tileset tileset;
-	private Tile map[][] = {
-			{Tile.WATERBORDER_TL, Tile.WATERBORDER_L, Tile.WATERBORDER_BL},
-			{Tile.WATERBORDER_T, Tile.GRASS, Tile.WATERBORDER_B},
-			{Tile.WATERBORDER_T, Tile.GRASS, Tile.WATERBORDER_B},
-			{Tile.WATERBORDER_TR, Tile.WATERBORDER_R, Tile.WATERBORDER_BR}
-		};
+	private Tile map[][];
 	
-	public Map(){
+	public Map(String fileName){
 		tileset = new Tileset();
+		load(fileName);
 	}
 	
 	public Map(Tile map[][]){
@@ -37,5 +40,55 @@ public class Map {
 			for(j = idTileStartY; j < Math.min(map[i].length, idTileStartY + nbTileY); ++j){
 				tileset.draw(r, map[i][j], dx + (i - idTileStartX) * Tile.SIZE, dy + (j - idTileStartY) * Tile.SIZE);
 			}
+	}
+	
+	public void save(String fileName) {
+		try{
+			FileOutputStream fout = new FileOutputStream(new File("assets/maps/" + fileName));
+			ObjectOutputStream oos = new ObjectOutputStream(fout);
+			oos.writeObject(map);
+			oos.close();
+			System.out.println("Map saved!");
+		}catch(IOException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public void load(String fileName) {
+		try{
+			FileInputStream fint = new FileInputStream("assets/maps/" + fileName);
+			ObjectInputStream ois = new ObjectInputStream(fint);
+			map = (Tile[][]) ois.readObject();
+			ois.close();
+			System.out.println("Map loaded!");
+		}catch(IOException e){
+			e.printStackTrace();
+		}catch(ClassNotFoundException e){
+			e.printStackTrace();
+		}
+	}
+	
+	public Tile[][] getTab(){
+		return map;
+	}
+	
+	public void putTile(Tile tile, int x, int y){
+		map[x][y] = tile;
+	}
+	
+	public Tile getTile(int x, int y) {
+		if (x < 0 || x >= getWidth())
+			return Tile.VOID;
+		if (y < 0 || y >= getHeight())
+			return Tile.VOID;
+		return map[x][y];
+	}
+	
+	public int getWidth() {
+		return map.length;
+	}
+	
+	public int getHeight() {
+		return map[0].length;
 	}
 }

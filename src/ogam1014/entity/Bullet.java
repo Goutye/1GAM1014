@@ -28,7 +28,7 @@ public class Bullet extends MobEntity {
 
 	@Override
 	public void draw(Renderer r) {
-		r.blit(IMAGE, x, y, 32, 32, 0, 32);
+		r.blit(IMAGE, x-4, y-4, 8, 8, 0, 32);
 	}
 
 	@Override
@@ -37,12 +37,18 @@ public class Bullet extends MobEntity {
 	}
 	
 	@Override
-	public double getWidth() {
+	public int getWidth() {
 		return 2;
 	}
 	
 	@Override
-	public double getHeight() {
+	public int getHeight() {
 		return 2;
+	}
+	
+	@Override
+	protected boolean collidesWithWalls() {
+		level.removeEntity(this);
+		return true;
 	}
 }

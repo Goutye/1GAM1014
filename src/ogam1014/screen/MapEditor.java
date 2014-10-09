@@ -5,21 +5,16 @@ import java.awt.Color;
 import java.awt.Point;
 import java.awt.Stroke;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 
 import ogam1014.Map;
 import ogam1014.Tile;
 import ogam1014.collide.Box;
+import ogam1014.collide.Collide;
 import ogam1014.graphics.Renderer;
 import ogam1014.graphics.Tileset;
 import ogam1014.ui.RectangleButton;
 
 public class MapEditor extends Screen{
-	
 	private static final int DEFAULT_SIZE = 100;
 	private static final int POS_MAP_X = 0;
 	private static final int POS_MAP_Y = Tile.SIZE * 4 + ogam1014.Engine.HEIGHT % Tile.SIZE;
@@ -29,15 +24,15 @@ public class MapEditor extends Screen{
 	private static final int MAP_DISPLAY_NB_TILE_X = ogam1014.Engine.WIDTH / Tile.SIZE;
 	private static final int MAP_DISPLAY_NB_TILE_Y = (ogam1014.Engine.HEIGHT - POS_MAP_Y) / Tile.SIZE;
 	
-	private static final Box BOX_MENU = new Box(300, 0, 200, 320);
+	private static final Box BOX_MENU = new Box(NB_COL_TILESET * Tile.SIZE, 0, 200, 320);
 	private static final Box BOX_SIZE_X_DECR = new Box(BOX_MENU.x, BOX_MENU.y, 16, 16);
-	private static final Box BOX_SIZE_X_INCR = new Box(BOX_MENU.x + Tile.SIZE, BOX_MENU.y, 16, 16);
+	private static final Box BOX_SIZE_X_INCR = new Box(BOX_MENU.x + 16, BOX_MENU.y, 16, 16);
 	private static final RectangleButton BUTTON_X_DECR = new RectangleButton(BOX_MENU.x, BOX_MENU.y, 16, 16, "-", Color.white, Color.black,Color.gray);
-	private static final RectangleButton BUTTON_X_INCR = new RectangleButton(BOX_MENU.x + Tile.SIZE, BOX_MENU.y, 16, 16, "+", Color.white, Color.black,Color.gray);
+	private static final RectangleButton BUTTON_X_INCR = new RectangleButton(BOX_MENU.x + 16, BOX_MENU.y, 16, 16, "+", Color.white, Color.black,Color.gray);
 	private static final Box BOX_SIZE_Y_DECR = new Box(BOX_MENU.x, 16, 16, 16);
-	private static final Box BOX_SIZE_Y_INCR = new Box(BOX_MENU.x + Tile.SIZE, 16, 16, 16);
+	private static final Box BOX_SIZE_Y_INCR = new Box(BOX_MENU.x + 16, 16, 16, 16);
 	private static final RectangleButton BUTTON_Y_DECR = new RectangleButton(BOX_MENU.x, 16, 16, 16, "-", Color.white, Color.black,Color.gray);
-	private static final RectangleButton BUTTON_Y_INCR = new RectangleButton(BOX_MENU.x + Tile.SIZE, 16, 16, 16, "+", Color.white, Color.black,Color.gray);
+	private static final RectangleButton BUTTON_Y_INCR = new RectangleButton(BOX_MENU.x + 16, 16, 16, 16, "+", Color.white, Color.black,Color.gray);
 	
 	private static final double TIME_BEFORE_INCR_BY_MOUSE_DOWN = 0.5;
 	
@@ -66,14 +61,16 @@ public class MapEditor extends Screen{
 		tab = new Tile[DEFAULT_SIZE][DEFAULT_SIZE];
 		initTab(tab);
 		tileset = new Tileset();
-		initBoxesAndMap();
+		map = new Map(tab);
+		initBoxes();
 	}
 	
 	public MapEditor(String fileName) {
-		load(fileName);
+		map = new Map(fileName);
+		tab = map.getTab();
 		this.fileName = fileName;
 		tileset = new Tileset();
-		initBoxesAndMap();
+		initBoxes();
 	}
 	
 	public MapEditor(int x, int y) {
@@ -89,7 +86,8 @@ public class MapEditor extends Screen{
 		tab = new Tile[x][y];
 		initTab(tab);
 		tileset = new Tileset();
-		initBoxesAndMap();
+		map = new Map(tab);
+		initBoxes();
 	}
 	
 	private void initTab(Tile tab[][]) {
@@ -99,8 +97,7 @@ public class MapEditor extends Screen{
 				tab[i][j] = Tile.GRASS;
 	}
 	
-	private void initBoxesAndMap() {
-		map = new Map(tab);
+	private void initBoxes() {
 		boxTileset = new Box(POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET * Tile.SIZE, ((tileset.getNbTiles() - 1) / NB_COL_TILESET + 1) * Tile.SIZE);
 		boxMap = new Box(POS_MAP_X, POS_MAP_Y, Math.min(tab.length, MAP_DISPLAY_NB_TILE_X) * Tile.SIZE, Math.min(tab[0].length, MAP_DISPLAY_NB_TILE_Y)  * Tile.SIZE);
 	}
@@ -108,46 +105,46 @@ public class MapEditor extends Screen{
 	@Override
 	public void update(double dt) {
 		if (input.leftButton.pressed) {
-			if (collide.AABB_point(boxTileset, input.mouse)){
+			if (Collide.AABB_point(boxTileset, input.mouse)){
 				selectTile();
 			}
-			else if (collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)){
 				resize(tab.length - 1, tab[0].length);
 			}
-			else if (collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)){
 				resize(tab.length, tab[0].length - 1);
 			}
-			else if (collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)){
 				resize(tab.length + 1, tab[0].length);
 			}
-			else if (collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)){
 				resize(tab.length, tab[0].length + 1);
 			}
 		}
 		
 		if (input.leftButton.down) {
-			if (collide.AABB_point(boxMap, input.mouse)){
+			if (Collide.AABB_point(boxMap, input.mouse)){
 				putTile();
 			}
-			else if (collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)){
 				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
 					resize(tab.length - 1, tab[0].length);
 				else
 					currentTimeBeforeIncrease += dt;
 			}
-			else if (collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)){
 				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
 					resize(tab.length, tab[0].length - 1);
 				else
 					currentTimeBeforeIncrease += dt;
 			}
-			else if (collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)){
 				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
 					resize(tab.length + 1, tab[0].length);
 				else
 					currentTimeBeforeIncrease += dt;
 			}
-			else if (collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)){
 				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
 					resize(tab.length, tab[0].length + 1);
 				else
@@ -156,12 +153,12 @@ public class MapEditor extends Screen{
 		}	
 		
 		if (input.rightButton.pressed) {			
-			if (collide.AABB_point(boxMap, input.mouse)){
+			if (Collide.AABB_point(boxMap, input.mouse)){
 				mapCurrentlyClicked = true;
 				mapClickPosition = new Point(input.mouse);
 			}
 			else {
-				save();
+				map.save(fileName);
 			}
 		}
 		
@@ -236,6 +233,13 @@ public class MapEditor extends Screen{
 			if (currentTile.ordinal() / NB_COL_TILESET < tileset.getNbTiles() / NB_COL_TILESET - 1)
 				currentTile = Tile.values()[currentTile.ordinal() + NB_COL_TILESET];
 		}
+		
+		Point p = input.mouse;
+		BUTTON_X_DECR.update(p);
+		BUTTON_X_INCR.update(p);
+		BUTTON_Y_DECR.update(p);
+		BUTTON_Y_INCR.update(p);
+		
 	}
 
 	private void putTile() {
@@ -243,7 +247,7 @@ public class MapEditor extends Screen{
 		int y = (input.mouse.y - POS_MAP_Y) / Tile.SIZE + mapDisplayStart.y;
 		
 		tab[x][y] = currentTile;
-		map = new Map(tab);
+		map.putTile(currentTile, x, y);
 	}
 
 	private void selectTile() {
@@ -288,32 +292,6 @@ public class MapEditor extends Screen{
 		}
 	}
 	
-	private void save() {
-		try{
-			FileOutputStream fout = new FileOutputStream(new File("assets/maps/" + fileName));
-			ObjectOutputStream oos = new ObjectOutputStream(fout);
-			oos.writeObject(tab);
-			oos.close();
-			System.out.println("Map saved!");
-		}catch(IOException e){
-			e.printStackTrace();
-		}
-	}
-	
-	private void load(String fileName) {
-		try{
-			FileInputStream fint = new FileInputStream("assets/maps/" + fileName);
-			ObjectInputStream ois = new ObjectInputStream(fint);
-			tab = (Tile[][]) ois.readObject();
-			ois.close();
-			System.out.println("Map loaded!");
-		}catch(IOException e){
-			e.printStackTrace();
-		}catch(ClassNotFoundException e){
-			e.printStackTrace();
-		}
-	}
-	
 	@Override
 	public void draw(Renderer r) {
 		map.draw(r, POS_MAP_X , POS_MAP_Y, boxMap.width / 16, boxMap.height / 16, mapDisplayStart.x, mapDisplayStart.y);
@@ -326,15 +304,15 @@ public class MapEditor extends Screen{
 	public void drawButtonIncrDecr(Renderer r) {
 		Color prevColor = r.getGraphics().getColor();
 		
-		BUTTON_X_DECR.draw(r);
-		BUTTON_X_INCR.draw(r);
-		BUTTON_Y_DECR.draw(r);
-		BUTTON_Y_INCR.draw(r);
+		BUTTON_X_DECR.drawUpdate(r);
+		BUTTON_X_INCR.drawUpdate(r);
+		BUTTON_Y_DECR.drawUpdate(r);
+		BUTTON_Y_INCR.drawUpdate(r);
 		
-		r.getGraphics().setColor(Color.black);
-		r.getGraphics().drawString("Width : " + tab.length, BOX_MENU.x + 40, 12);
-		r.getGraphics().drawString("Height : " + tab[0].length, BOX_MENU.x + 40, 28);
-		r.getGraphics().drawString("Origin : " + mapDisplayStart.x + "," + mapDisplayStart.y, BOX_MENU.x + 100, 12);
+		r.setColor(Color.black);
+		r.drawText("Width : " + tab.length, BOX_MENU.x + 40, 12);
+		r.drawText("Height : " + tab[0].length, BOX_MENU.x + 40, 28);
+		r.drawText("Origin : " + mapDisplayStart.x + "," + mapDisplayStart.y, BOX_MENU.x + 100, 12);
 		r.getGraphics().setColor(prevColor);
 	}
 	

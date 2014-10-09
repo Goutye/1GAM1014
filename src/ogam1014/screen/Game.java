@@ -1,30 +1,65 @@
 package ogam1014.screen;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ogam1014.Engine;
 import ogam1014.InputHandler;
 import ogam1014.Level;
+import ogam1014.collide.Box;
 import ogam1014.collide.Collide;
 import ogam1014.entity.Player;
 import ogam1014.graphics.Camera;
 import ogam1014.graphics.Renderer;
+import ogam1014.Warp;
 
 public class Game extends Screen {
 
-	private Level level = new Level();
+	private Level level;
+	private List<Warp> warps;
 	private Camera camera = new Camera();
 	private Player player;
-	
-	@Override
-	public void init(Engine engine, InputHandler input, Collide collide) {
-		super.init(engine, input, collide);
-		player = new Player(input);
-		level.addEntity(player);
+
+	public void init(Engine engine, InputHandler input) {
+		super.init(engine, input);
+		if (player == null) {
+			player = new Player(input);
+			changeLevel("map", 1);
+		}
 	}
 
+	public void changeLevel(String name, int idWarp){
+		level = new Level(name);
+		warps = level.getWarps();
+		
+		for( Warp w : warps) {
+			if (idWarp == w.getId()) {
+				player.setPosition(w.getBox().getLocation());
+				break;
+			}
+		}
+		level.addEntity(player);
+	}
+	
+	private void changeLevel() {
+		Box box = new Box( (int) player.getX(), (int) player.getY(), player.getWidth(), player.getHeight());
+		
+		for(Warp w : warps){
+			if(Collide.AABB_AABB(box, w.getBox()) && input.validate.pressed){
+				changeLevel(w.getNameNextLevel(), w.getIdNextLevel());
+			}
+		}
+	}
+	
 	@Override
 	public void update(double dt) {
+		if (input.pause.pressed) {
+			engine.setScreen(new Pause(this));
+			return;
+		}
 		level.update(dt);
 		camera.update(dt);
+		changeLevel();
 	}
 
 	@Override

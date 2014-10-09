@@ -29,7 +29,7 @@ public class Engine extends Canvas implements Runnable {
 
 	public void setScreen(Screen screen) {
 		this.screen = screen;
-		screen.init(this, input, collide);
+		screen.init(this, input);
 
 		System.out.println("Set screen: " + screen);
 	}
