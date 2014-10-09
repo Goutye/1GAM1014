@@ -61,7 +61,7 @@ public class Menu extends Screen {
 			if(counter==0)
 			{
 				/**
-				 * TODO: Exemple à supprimer (@Goutye)
+				 * TODO: Exemple Ã  supprimer (@Goutye)
 				 */
 				/*
 				pscreen.setText("Tu veux quitter ou pas connard ?");
