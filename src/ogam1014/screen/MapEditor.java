@@ -15,7 +15,6 @@ import ogam1014.graphics.Tileset;
 import ogam1014.ui.RectangleButton;
 
 public class MapEditor extends Screen{
-	
 	private static final int DEFAULT_SIZE = 100;
 	private static final int POS_MAP_X = 0;
 	private static final int POS_MAP_Y = Tile.SIZE * 4 + ogam1014.Engine.HEIGHT % Tile.SIZE;

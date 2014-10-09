@@ -12,8 +12,8 @@ public class Level {
 	private List<Entity> removedEntities = new ArrayList<Entity>();
 	private Map map;
 
-	public Level() {
-		map = new Map("map.tile");
+	public Level(String name) {
+		map = new Map(name + ".tile");
 	}
 
 	public void addEntity(Entity entity) {
@@ -24,7 +24,7 @@ public class Level {
 	public void removeEntity(Entity e) {
 		removedEntities.add(e);
 	}
-
+	
 	public void update(double dt) {
 		entities.addAll(newEntities);
 		entities.removeAll(removedEntities);
@@ -42,5 +42,9 @@ public class Level {
 		for (Entity e : entities) {
 			e.draw(r);
 		}
+	}
+	
+	public Tile getTile(double x, double y){
+		return map.getTile( ((int) x) / Tile.SIZE, ((int) y) / Tile.SIZE);
 	}
 }

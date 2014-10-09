@@ -17,4 +17,10 @@ public enum Tile{
 			|| this == TR
 			|| this == T;
 	}
+	
+	public boolean isWarp(){
+		return this == WATERBORDER_T
+			|| this == WATERBORDER_TR
+			|| this == WATERBORDER_TL;
+	}
 }

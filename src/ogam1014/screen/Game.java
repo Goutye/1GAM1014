@@ -9,7 +9,7 @@ import ogam1014.graphics.Renderer;
 
 public class Game extends Screen {
 
-	private Level level = new Level();
+	private Level level = new Level("map");
 	private Camera camera = new Camera();
 	private Player player;
 
@@ -21,6 +21,11 @@ public class Game extends Screen {
 		}
 	}
 
+	public void changeLevel(String name){
+		level = new Level(name);
+		level.addEntity(player);
+	}
+	
 	@Override
 	public void update(double dt) {
 		if (input.pause.pressed) {

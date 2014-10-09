@@ -75,4 +75,8 @@ public class Map {
 	public void putTile(Tile tile, int x, int y){
 		map[x][y] = tile;
 	}
+	
+	public Tile getTile(int x, int y) {
+		return map[x][y];
+	}
 }

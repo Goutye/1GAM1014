@@ -1,6 +1,7 @@
 package ogam1014.entity;
 
 import ogam1014.InputHandler;
+import ogam1014.Map;
 import ogam1014.graphics.Renderer;
 
 public class Player extends MobEntity {
@@ -83,4 +84,9 @@ public class Player extends MobEntity {
 		return 32;
 	}
 
+	private void changeLevel() {
+		if (level.getTile(x, y).isWarp()) {
+		}
+	}
+	
 }
