@@ -59,7 +59,19 @@ public class Menu extends Screen {
 			button.setClick();
 			
 			if(counter==0)
+			{
+				/**
+				 * TODO: Exemple à supprimer (@Goutye)
+				 */
+				/*
+				pscreen.setText("Tu veux quitter ou pas connard ?");
+				pscreen.addOption(0, "nan");
+				pscreen.addOption(1, "ouais");
+				pscreen.addOption(2, "ta gueule");
+				engine.setScreen(pscreen);
+				*/
 				engine.setScreen(new Game());
+			}
 				
 			else if(counter==1)
 				engine.setScreen(new MOptions());
@@ -89,7 +101,7 @@ public class Menu extends Screen {
 				
 				if (counter == i) {
 					button.drawSelected(r);
-					if (input.validate.down) {
+					if (input.validate.down) { /** TODO: dafuq? */
 						button.drawClicked(r);
 					}
 				}
