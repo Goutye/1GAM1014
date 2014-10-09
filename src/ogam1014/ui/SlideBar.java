@@ -21,7 +21,7 @@ public class SlideBar {
 	private Color cButton;
 	private Color cBar;
 	private int pos = 0;
-	private Box boxBar;
+	private Box box;
 	private int valeur = 0;
 
 	public SlideBar(int x, int y, boolean direction, int sizeMax, int w, int h,
@@ -44,7 +44,12 @@ public class SlideBar {
 			this.w = h;
 			this.h = w;
 		}
-		boxBar = new Box(x, y, widthMax, sizeMax);
+		new Box(x, y, widthMax, sizeMax);
+		if (direction)
+			box = new Box(x - w / 2 + 5, y + pos - 5, w, h);
+		else {
+			box = new Box(x + pos, y - h / 2, w, h);
+		}
 
 	}
 
@@ -69,16 +74,28 @@ public class SlideBar {
 	}
 
 	public void update(Point p) {
-		if (Collide.AABB_point(boxBar, p)) {
+		
+		if (Collide.AABB_point(box, p)) {
 			if (direction) {
-				pos = Math.abs(y - p.y);
-				valeur = pos * max / sizeMax;
-				valeur = max - valeur;
+				int temp = Math.abs(y - p.y);
+				int maxTemp = temp * max / sizeMax;
+				maxTemp = max - maxTemp;
+				if (maxTemp > 0) {
+					pos = Math.abs(y - p.y);
+					box.setLocation(x, pos + y - 5);
+					valeur = pos * max / sizeMax;
+					valeur = max - valeur;
+				}
 			} else {
-				pos = Math.abs(x - p.x);
-				valeur = pos * max / widthMax;
+				int temp = Math.abs(x - p.x);
+				int maxTemp = temp * max / sizeMax;
+				maxTemp = max - maxTemp;
+				if (maxTemp > 0) {
+					pos = Math.abs(x - p.x);
+					box.setLocation(pos + x - 5, y);
+					valeur = pos * max / widthMax;
+				}
 			}
-
 		}
 
 	}
