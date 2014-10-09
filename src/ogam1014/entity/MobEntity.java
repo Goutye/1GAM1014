@@ -1,5 +1,7 @@
 package ogam1014.entity;
 
+import ogam1014.collide.Box;
+
 public abstract class MobEntity extends Entity {
 
 	protected double dx;
@@ -14,26 +16,35 @@ public abstract class MobEntity extends Entity {
 
 		double xx = x + dx * dt;
 		double yy = y + dy * dt;
-		int w = getWidth();
-		int h = getHeight();
+		int w = getWidth()-1;
+		int h = getHeight()-1;
 		boolean collideX = false;
 		boolean collideY = false;
 		
-		if (!collideY && level.getTile(x, yy).isWall()) collideY = true;
-		if (!collideY && level.getTile(x, yy+h).isWall()) collideY = true;
+		if (!collideY && level.getTile(x, dy < 0 ? yy : yy + h).isWall()) collideY = true;
+		if (!collideY && level.getTile(x+w, dy < 0 ? yy : yy + h).isWall()) collideY = true;
 		
-		if (!collideX && level.getTile(xx, y).isWall()) collideX = true;
-		if (!collideX && level.getTile(xx+w, y).isWall()) collideX = true;
+		if (!collideX && level.getTile(dx < 0 ? xx : xx + w, y).isWall()) collideX = true;
+		if (!collideX && level.getTile(dx < 0 ? xx : xx + w, y+h).isWall()) collideX = true;
 		
-		if (!collideX && !collideY && level.getTile(xx, yy).isWall()) collideX = collideY = true;
-		if (!collideX && !collideY && level.getTile(xx+w, yy+h).isWall()) collideX = collideY = true;
+		
+		
+		if (!collideX && !collideY && level.getTile(dx < 0 ? xx : xx + w, dy < 0 ? yy : yy + h).isWall()) collideX = collideY = true;
+		if (!collideX && !collideY && level.getTile(dx < 0 ? xx : xx + w, dy >= 0 ? yy : yy + h).isWall()) collideX = collideY = true;
+		if (!collideX && !collideY && level.getTile(dx >= 0 ? xx : xx + w, dy < 0 ? yy : yy + h).isWall()) collideX = collideY = true;
 		
 
 		if (!collideX || !collidesWithWalls()) {
 			x = xx;
 		}
+		else{
+			dx = 0;
+		}
 		if (!collideY || !collidesWithWalls()) {
 			y = yy;
+		}
+		else{
+			dy = 0;
 		}
 	}
 
