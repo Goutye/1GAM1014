@@ -10,7 +10,7 @@ public enum Tile{
 	TgL, Tg, TRg, WATERBORDEgR_TL, WATgERBORDER_T, WATERBgORDER_TR,
 	TTgL, gTT, gTTR, WATERBgORDER_L, GRAgSS, WATERBORDEgR_R,;
 
-	public static final int SIZE = 16;
+	public static final int SIZE = 32;
 	
 	public boolean isWall(){
 		return this == TL

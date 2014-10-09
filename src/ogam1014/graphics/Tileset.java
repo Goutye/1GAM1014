@@ -1,5 +1,6 @@
 package ogam1014.graphics;
 
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -15,7 +16,11 @@ public class Tileset {
 
 	public Tileset() {
 		try {
-			img = ImageIO.read(new File("assets/tileset.png"));
+			BufferedImage imgBeforeResize = ImageIO.read(new File("assets/tileset.png"));
+			img = new BufferedImage(imgBeforeResize.getWidth() * 2, imgBeforeResize.getHeight() * 2, imgBeforeResize.getType());
+			Graphics g = img.createGraphics();
+			g.drawImage(imgBeforeResize, 0, 0, imgBeforeResize.getWidth() * 2, imgBeforeResize.getHeight() * 2, null);
+			g.dispose();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

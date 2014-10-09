@@ -25,15 +25,15 @@ public class MapEditor extends Screen{
 	private static final int MAP_DISPLAY_NB_TILE_X = ogam1014.Engine.WIDTH / Tile.SIZE;
 	private static final int MAP_DISPLAY_NB_TILE_Y = (ogam1014.Engine.HEIGHT - POS_MAP_Y) / Tile.SIZE;
 	
-	private static final Box BOX_MENU = new Box(300, 0, 200, 320);
+	private static final Box BOX_MENU = new Box(NB_COL_TILESET * Tile.SIZE, 0, 200, 320);
 	private static final Box BOX_SIZE_X_DECR = new Box(BOX_MENU.x, BOX_MENU.y, 16, 16);
 	private static final Box BOX_SIZE_X_INCR = new Box(BOX_MENU.x + Tile.SIZE, BOX_MENU.y, 16, 16);
 	private static final RectangleButton BUTTON_X_DECR = new RectangleButton(BOX_MENU.x, BOX_MENU.y, 16, 16, "-", Color.white, Color.black,Color.gray);
-	private static final RectangleButton BUTTON_X_INCR = new RectangleButton(BOX_MENU.x + Tile.SIZE, BOX_MENU.y, 16, 16, "+", Color.white, Color.black,Color.gray);
+	private static final RectangleButton BUTTON_X_INCR = new RectangleButton(BOX_MENU.x + 16, BOX_MENU.y, 16, 16, "+", Color.white, Color.black,Color.gray);
 	private static final Box BOX_SIZE_Y_DECR = new Box(BOX_MENU.x, 16, 16, 16);
 	private static final Box BOX_SIZE_Y_INCR = new Box(BOX_MENU.x + Tile.SIZE, 16, 16, 16);
 	private static final RectangleButton BUTTON_Y_DECR = new RectangleButton(BOX_MENU.x, 16, 16, 16, "-", Color.white, Color.black,Color.gray);
-	private static final RectangleButton BUTTON_Y_INCR = new RectangleButton(BOX_MENU.x + Tile.SIZE, 16, 16, 16, "+", Color.white, Color.black,Color.gray);
+	private static final RectangleButton BUTTON_Y_INCR = new RectangleButton(BOX_MENU.x + 16, 16, 16, 16, "+", Color.white, Color.black,Color.gray);
 	
 	private static final double TIME_BEFORE_INCR_BY_MOUSE_DOWN = 0.5;
 	
