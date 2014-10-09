@@ -7,9 +7,9 @@ import ogam1014.graphics.Renderer;
 
 public class RoundedButton extends Button implements IButton {
 
-	public RoundedButton(int x, int y, int weight, int height, String name,
+	public RoundedButton(int x, int y, int width, int height, String name,
 			Color txt, Color bg, Color cClick) {
-		super(x, y, weight, height, name, txt, bg, cClick);
+		super(x, y, width, height, name, txt, bg, cClick);
 	}
 
 	@Override
@@ -19,7 +19,7 @@ public class RoundedButton extends Button implements IButton {
 		g.setColor(bg);
 		g.fillRoundRect(x, y, w, h, 20, 20);
 		r.setColor(txt);
-		r.drawCenteredText(name, x + w / 2, y + h / 2);
+		r.drawCenteredText(name, x, y+h/2, w);
 		
 	}
 
@@ -42,7 +42,7 @@ public class RoundedButton extends Button implements IButton {
 		g.setColor(cClick);
 		g.fillRoundRect(x, y, w, h, 20, 20);
 		r.setColor(txt);
-		r.drawCenteredText(name, x + w / 2, y + h / 2);
+		r.drawCenteredText(name, x, y+h/2 , w);
 		g.setColor(bg);
 		g.setStroke(new BasicStroke(5));
 		g.drawRoundRect(x, y, w, h, 20, 20);

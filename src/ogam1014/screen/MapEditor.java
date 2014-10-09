@@ -26,11 +26,11 @@ public class MapEditor extends Screen{
 	
 	private static final Box BOX_MENU = new Box(NB_COL_TILESET * Tile.SIZE, 0, 200, 320);
 	private static final Box BOX_SIZE_X_DECR = new Box(BOX_MENU.x, BOX_MENU.y, 16, 16);
-	private static final Box BOX_SIZE_X_INCR = new Box(BOX_MENU.x + Tile.SIZE, BOX_MENU.y, 16, 16);
+	private static final Box BOX_SIZE_X_INCR = new Box(BOX_MENU.x + 16, BOX_MENU.y, 16, 16);
 	private static final RectangleButton BUTTON_X_DECR = new RectangleButton(BOX_MENU.x, BOX_MENU.y, 16, 16, "-", Color.white, Color.black,Color.gray);
 	private static final RectangleButton BUTTON_X_INCR = new RectangleButton(BOX_MENU.x + 16, BOX_MENU.y, 16, 16, "+", Color.white, Color.black,Color.gray);
 	private static final Box BOX_SIZE_Y_DECR = new Box(BOX_MENU.x, 16, 16, 16);
-	private static final Box BOX_SIZE_Y_INCR = new Box(BOX_MENU.x + Tile.SIZE, 16, 16, 16);
+	private static final Box BOX_SIZE_Y_INCR = new Box(BOX_MENU.x + 16, 16, 16, 16);
 	private static final RectangleButton BUTTON_Y_DECR = new RectangleButton(BOX_MENU.x, 16, 16, 16, "-", Color.white, Color.black,Color.gray);
 	private static final RectangleButton BUTTON_Y_INCR = new RectangleButton(BOX_MENU.x + 16, 16, 16, 16, "+", Color.white, Color.black,Color.gray);
 	
@@ -233,6 +233,13 @@ public class MapEditor extends Screen{
 			if (currentTile.ordinal() / NB_COL_TILESET < tileset.getNbTiles() / NB_COL_TILESET - 1)
 				currentTile = Tile.values()[currentTile.ordinal() + NB_COL_TILESET];
 		}
+		
+		Point p = input.mouse;
+		BUTTON_X_DECR.update(p);
+		BUTTON_X_INCR.update(p);
+		BUTTON_Y_DECR.update(p);
+		BUTTON_Y_INCR.update(p);
+		
 	}
 
 	private void putTile() {
@@ -297,10 +304,10 @@ public class MapEditor extends Screen{
 	public void drawButtonIncrDecr(Renderer r) {
 		Color prevColor = r.getGraphics().getColor();
 		
-		BUTTON_X_DECR.draw(r);
-		BUTTON_X_INCR.draw(r);
-		BUTTON_Y_DECR.draw(r);
-		BUTTON_Y_INCR.draw(r);
+		BUTTON_X_DECR.drawUpdate(r);
+		BUTTON_X_INCR.drawUpdate(r);
+		BUTTON_Y_DECR.drawUpdate(r);
+		BUTTON_Y_INCR.drawUpdate(r);
 		
 		r.setColor(Color.black);
 		r.drawText("Width : " + tab.length, BOX_MENU.x + 40, 12);

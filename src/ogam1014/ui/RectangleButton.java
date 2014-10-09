@@ -11,9 +11,9 @@ public class RectangleButton extends Button implements IButton{
 	
 
 	
-	public RectangleButton(int x, int y, int weight, int height, String name, Color txt,
+	public RectangleButton(int x, int y, int width, int height, String name, Color txt,
 			Color bg,Color cClick) {
-		super(x, y, weight, height, name, txt,
+		super(x, y, width, height, name, txt,
 				bg,cClick);
 	}
 	@Override
@@ -23,7 +23,7 @@ public class RectangleButton extends Button implements IButton{
 		g.setColor(bg);
 		g.fillRect(x, y, w, h);
 		r.setColor(txt);
-		r.drawCenteredText(name, x + w / 2, y + h / 2);
+		r.drawCenteredText(name, x, y + h/2, w);
 		
 	}
 
@@ -47,7 +47,7 @@ public class RectangleButton extends Button implements IButton{
 		g.setColor(bg);
 		g.fillRect(x, y, w, h);
 		r.setColor(txt);
-		r.drawCenteredText(name, x + w / 2, y + h / 2);
+		r.drawCenteredText(name, x, y + h/2, w);
 		g.setColor(cClick);
 		g.setStroke(new BasicStroke(5));
 		g.drawRect(x, y, w, h);

@@ -21,13 +21,13 @@ public class Button implements IButton {
 	protected Box box;
 	protected boolean down;
 
-	public Button(int x, int y, int weight, int height, String name, Color txt,
+	public Button(int x, int y, int width, int height, String name, Color txt,
 			Color bg, Color cClick) {
 		this.x = x;
 		this.y = y;
 		this.txt = txt;
 		this.name = name;
-		this.w = weight;
+		this.w = width;
 		this.h = height;
 		this.bg = bg;
 		this.cClick = cClick;

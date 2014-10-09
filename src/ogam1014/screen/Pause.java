@@ -28,7 +28,7 @@ public class Pause extends Screen {
 		boolean show = (int)(time * 2) % 2 == 0;
 		if (show) {
 			r.setColor(Color.BLACK);
-			r.drawCenteredText("Press 'p'", Engine.WIDTH / 2, Engine.HEIGHT / 2);
+			r.drawCenteredText("Press 'p'", Engine.WIDTH, Engine.HEIGHT);
 		}
 	}
 

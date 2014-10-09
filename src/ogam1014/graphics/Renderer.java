@@ -61,8 +61,17 @@ public class Renderer {
 	public void drawCenteredText(String text, double x, double y) {
 		int xx = (int) Math.round(x);
 		int yy = (int) Math.round(y);
-		xx -= text.length() * 8 / 2;
-		graphics.drawString(text, xx, yy);
+		double strLen = graphics.getFontMetrics().getStringBounds(text, graphics).getWidth();
+		int start = (int) strLen/2;
+		graphics.drawString(text, xx - start, yy);
+	}
+	
+	public void drawCenteredText(String text, double x, double y, int w) {
+		int xx = (int) Math.round(x);
+		int yy = (int) Math.round(y);
+		double strLen = graphics.getFontMetrics().getStringBounds(text, graphics).getWidth();
+		int start = w/2 - (int) strLen/2;
+		graphics.drawString(text, start + xx, yy - (graphics.getFontMetrics().getAscent() + graphics.getFontMetrics().getDescent())/2  + graphics.getFontMetrics().getAscent());
 	}
 
 	public void setColor(Color color) {
