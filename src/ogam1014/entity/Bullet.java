@@ -37,12 +37,12 @@ public class Bullet extends MobEntity {
 	}
 	
 	@Override
-	public double getWidth() {
+	public int getWidth() {
 		return 2;
 	}
 	
 	@Override
-	public double getHeight() {
+	public int getHeight() {
 		return 2;
 	}
 }

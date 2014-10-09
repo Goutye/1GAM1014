@@ -1,5 +1,7 @@
 package ogam1014.entity;
 
+import java.awt.Point;
+
 import ogam1014.InputHandler;
 import ogam1014.Map;
 import ogam1014.graphics.Renderer;
@@ -75,18 +77,18 @@ public class Player extends MobEntity {
 	}
 
 	@Override
-	public double getWidth() {
+	public int getWidth() {
 		return 32;
 	}
 
 	@Override
-	public double getHeight() {
+	public int getHeight() {
 		return 32;
 	}
-
-	private void changeLevel() {
-		if (level.getTile(x, y).isWarp()) {
-		}
+	
+	public void setPosition(Point p) {
+		x = p.x;
+		y = p.y;
 	}
 	
 }

@@ -1,8 +1,11 @@
 package ogam1014;
 
+import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
+import ogam1014.collide.Box;
+import ogam1014.collide.Collide;
 import ogam1014.entity.Entity;
 import ogam1014.graphics.Renderer;
 
@@ -11,9 +14,11 @@ public class Level {
 	private List<Entity> newEntities = new ArrayList<Entity>();
 	private List<Entity> removedEntities = new ArrayList<Entity>();
 	private Map map;
+	private String name;
 
 	public Level(String name) {
 		map = new Map(name + ".tile");
+		this.name = name;
 	}
 
 	public void addEntity(Entity entity) {
@@ -46,5 +51,13 @@ public class Level {
 	
 	public Tile getTile(double x, double y){
 		return map.getTile( ((int) x) / Tile.SIZE, ((int) y) / Tile.SIZE);
+	}
+	
+	public List<Warp> getWarps() {
+		List<Warp> warps =  new ArrayList<Warp>();
+		warps.add(new Warp(new Point(128, 0), 1, 2, "map"));
+		warps.add(new Warp(new Point(0, 128), 2, 1, "map"));
+		
+		return warps;
 	}
 }

@@ -39,7 +39,7 @@ public abstract class Entity {
 		return y;
 	}
 
-	public abstract double getWidth();
+	public abstract int getWidth();
 
-	public abstract double getHeight();
+	public abstract int getHeight();
 }
