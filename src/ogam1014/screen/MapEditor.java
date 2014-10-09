@@ -52,10 +52,11 @@ public class MapEditor extends Screen{
 		int nb = 0;
 		File f;
 		
-		do{
+		do {
 			++nb;
 			f = new File("assets/maps/map" + nb + ".tile");
-		}while(f.exists() || f.isDirectory());
+		} while(f.exists() || f.isDirectory());
+		
 		fileName = "map" + nb + ".tile";
 		
 		tab = new Tile[DEFAULT_SIZE][DEFAULT_SIZE];
@@ -77,10 +78,11 @@ public class MapEditor extends Screen{
 		int nb = 0;
 		File f;
 		
-		do{
+		do {
 			++nb;
 			f = new File("assets/maps/map" + nb + ".tile");
-		}while(f.exists() || f.isDirectory());
+		} while(f.exists() || f.isDirectory());
+		
 		fileName = "map" + nb + ".tile";
 		
 		tab = new Tile[x][y];
@@ -105,46 +107,46 @@ public class MapEditor extends Screen{
 	@Override
 	public void update(double dt) {
 		if (input.leftButton.pressed) {
-			if (Collide.AABB_point(boxTileset, input.mouse)){
+			if (Collide.AABB_point(boxTileset, input.mouse)) {
 				selectTile();
 			}
-			else if (Collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)) {
 				resize(tab.length - 1, tab[0].length);
 			}
-			else if (Collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)) {
 				resize(tab.length, tab[0].length - 1);
 			}
-			else if (Collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)) {
 				resize(tab.length + 1, tab[0].length);
 			}
-			else if (Collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)) {
 				resize(tab.length, tab[0].length + 1);
 			}
 		}
 		
 		if (input.leftButton.down) {
-			if (Collide.AABB_point(boxMap, input.mouse)){
+			if (Collide.AABB_point(boxMap, input.mouse)) {
 				putTile();
 			}
-			else if (Collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)) {
 				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
 					resize(tab.length - 1, tab[0].length);
 				else
 					currentTimeBeforeIncrease += dt;
 			}
-			else if (Collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)) {
 				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
 					resize(tab.length, tab[0].length - 1);
 				else
 					currentTimeBeforeIncrease += dt;
 			}
-			else if (Collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)) {
 				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
 					resize(tab.length + 1, tab[0].length);
 				else
 					currentTimeBeforeIncrease += dt;
 			}
-			else if (Collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)){
+			else if (Collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)) {
 				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
 					resize(tab.length, tab[0].length + 1);
 				else
@@ -153,7 +155,7 @@ public class MapEditor extends Screen{
 		}	
 		
 		if (input.rightButton.pressed) {			
-			if (Collide.AABB_point(boxMap, input.mouse)){
+			if (Collide.AABB_point(boxMap, input.mouse)) {
 				mapCurrentlyClicked = true;
 				mapClickPosition = new Point(input.mouse);
 			}
@@ -164,26 +166,26 @@ public class MapEditor extends Screen{
 		
 		if (input.rightButton.down) {
 			if (mapCurrentlyClicked) {
-				if (input.mouse.x - mapClickPosition.x >= Tile.SIZE){
+				if (input.mouse.x - mapClickPosition.x >= Tile.SIZE) {
 					if (mapDisplayStart.x > 0) {
 						--mapDisplayStart.x;
 						mapClickPosition.x += Tile.SIZE;
 					}
 				}
-				else if (mapClickPosition.x - input.mouse.x >= Tile.SIZE){
+				else if (mapClickPosition.x - input.mouse.x >= Tile.SIZE) {
 					if (mapDisplayStart.x < tab.length - 1 - MAP_DISPLAY_NB_TILE_X) {
 						++mapDisplayStart.x;
 						mapClickPosition.x -= Tile.SIZE;
 					}
 				}
 				
-				if (input.mouse.y - mapClickPosition.y >= Tile.SIZE){
+				if (input.mouse.y - mapClickPosition.y >= Tile.SIZE) {
 					if (mapDisplayStart.y > 0) {
 						--mapDisplayStart.y;
 						mapClickPosition.y += Tile.SIZE;
 					}
 				}
-				else if (mapClickPosition.y - input.mouse.y >= Tile.SIZE){
+				else if (mapClickPosition.y - input.mouse.y >= Tile.SIZE) {
 					if (mapDisplayStart.y <  tab[0].length - 1 - MAP_DISPLAY_NB_TILE_Y) {
 						++mapDisplayStart.y;
 						mapClickPosition.y -= Tile.SIZE;
@@ -239,7 +241,6 @@ public class MapEditor extends Screen{
 		BUTTON_X_INCR.update(p);
 		BUTTON_Y_DECR.update(p);
 		BUTTON_Y_INCR.update(p);
-		
 	}
 
 	private void putTile() {

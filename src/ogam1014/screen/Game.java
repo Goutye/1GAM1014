@@ -1,6 +1,5 @@
 package ogam1014.screen;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ogam1014.Engine;
@@ -28,7 +27,7 @@ public class Game extends Screen {
 		}
 	}
 
-	public void changeLevel(String name, int idWarp){
+	public void changeLevel(String name, int idWarp) {
 		level = new Level(name);
 		warps = level.getWarps();
 		
@@ -38,13 +37,14 @@ public class Game extends Screen {
 				break;
 			}
 		}
+		
 		level.addEntity(player);
 	}
 	
 	private void changeLevel() {
-		Box box = new Box( (int) player.getX(), (int) player.getY(), player.getWidth(), player.getHeight());
+		Box box = new Box((int) player.getX(), (int) player.getY(), player.getWidth(), player.getHeight());
 		
-		for(Warp w : warps){
+		for(Warp w : warps) {
 			if(Collide.AABB_AABB(box, w.getBox()) && input.validate.pressed){
 				changeLevel(w.getNameNextLevel(), w.getIdNextLevel());
 			}
@@ -57,6 +57,7 @@ public class Game extends Screen {
 			engine.setScreen(new Pause(this));
 			return;
 		}
+		
 		level.update(dt);
 		camera.update(dt);
 		changeLevel();
@@ -69,5 +70,4 @@ public class Game extends Screen {
 		level.draw(r);
 		r.useCamera(null);
 	}
-
 }

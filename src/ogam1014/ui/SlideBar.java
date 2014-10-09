@@ -39,18 +39,19 @@ public class SlideBar {
 			this.w = w;
 			this.h = h;
 
-		} else {
+		}
+		else {
 			this.widthMax = sizeMax;
 			this.w = h;
 			this.h = w;
 		}
-		new Box(x, y, widthMax, sizeMax);
+		
+		new Box(x, y, widthMax, sizeMax); /** TODO: dafuq? */
+		
 		if (direction)
 			box = new Box(x - w / 2 + 5, y + pos - 5, w, h);
-		else {
+		else 
 			box = new Box(x + pos, y - h / 2, w, h);
-		}
-
 	}
 
 	public void draw(Renderer r) {
@@ -58,11 +59,13 @@ public class SlideBar {
 		g.setColor(cBar);
 		g.fillRect(x, y, widthMax, sizeMax);
 		g.setColor(cButton);
+		
 		if (direction) {
 			g.fillRect(x - w / 2 + 5, y + pos - 5, w, h);
 			r.setColor(cBar);
 			r.drawText(Integer.toString(valeur), x - w / 2 + 5, y + pos - 5);
-		} else {
+		}
+		else {
 			g.fillRect(x + pos, y - h / 2, w, h);
 			r.setColor(cBar);
 			r.drawText(Integer.toString(valeur), x + pos, y - h / 2);
@@ -80,16 +83,19 @@ public class SlideBar {
 				int temp = Math.abs(y - p.y);
 				int maxTemp = temp * max / sizeMax;
 				maxTemp = max - maxTemp;
+				
 				if (maxTemp > 0) {
 					pos = Math.abs(y - p.y);
 					box.setLocation(x, pos + y - 5);
 					valeur = pos * max / sizeMax;
 					valeur = max - valeur;
 				}
-			} else {
+			}
+			else {
 				int temp = Math.abs(x - p.x);
 				int maxTemp = temp * max / sizeMax;
 				maxTemp = max - maxTemp;
+				
 				if (maxTemp > 0) {
 					pos = Math.abs(x - p.x);
 					box.setLocation(pos + x - 5, y);
@@ -97,7 +103,5 @@ public class SlideBar {
 				}
 			}
 		}
-
 	}
-
 }

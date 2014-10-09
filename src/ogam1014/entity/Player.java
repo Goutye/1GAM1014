@@ -88,5 +88,4 @@ public class Player extends MobEntity {
 		x = p.x;
 		y = p.y;
 	}
-
 }

@@ -13,11 +13,10 @@ public enum Tile{
 
 	public static final int SIZE = 32;
 	
-	public boolean isWall(){
+	public boolean isWall() {
 		return this == TL
 			|| this == TR
 			|| this == T
 			|| this == VOID;
 	}
-
 }

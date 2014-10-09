@@ -14,17 +14,17 @@ public class Map {
 	private Tileset tileset;
 	private Tile map[][];
 	
-	public Map(String fileName){
+	public Map(String fileName) {
 		tileset = new Tileset();
 		load(fileName);
 	}
 	
-	public Map(Tile map[][]){
+	public Map(Tile map[][]) {
 		this.map = map;
 		tileset = new Tileset();
 	}
 	
-	public void draw(Renderer r){
+	public void draw(Renderer r) {
 		int i, j;
 		
 		for(i = 0; i < map.length; ++i)
@@ -37,33 +37,33 @@ public class Map {
 		int i, j;
 		
 		for(i = idTileStartX; i < Math.min(map.length, idTileStartX + nbTileX); ++i)
-			for(j = idTileStartY; j < Math.min(map[i].length, idTileStartY + nbTileY); ++j){
+			for(j = idTileStartY; j < Math.min(map[i].length, idTileStartY + nbTileY); ++j) {
 				tileset.draw(r, map[i][j], dx + (i - idTileStartX) * Tile.SIZE, dy + (j - idTileStartY) * Tile.SIZE);
 			}
 	}
 	
 	public void save(String fileName) {
-		try{
+		try {
 			FileOutputStream fout = new FileOutputStream(new File("assets/maps/" + fileName));
 			ObjectOutputStream oos = new ObjectOutputStream(fout);
 			oos.writeObject(map);
 			oos.close();
 			System.out.println("Map saved!");
-		}catch(IOException e){
+		} catch(IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public void load(String fileName) {
-		try{
+		try {
 			FileInputStream fint = new FileInputStream("assets/maps/" + fileName);
 			ObjectInputStream ois = new ObjectInputStream(fint);
 			map = (Tile[][]) ois.readObject();
 			ois.close();
 			System.out.println("Map loaded!");
-		}catch(IOException e){
+		} catch(IOException e) {
 			e.printStackTrace();
-		}catch(ClassNotFoundException e){
+		} catch(ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
@@ -72,15 +72,17 @@ public class Map {
 		return map;
 	}
 	
-	public void putTile(Tile tile, int x, int y){
+	public void putTile(Tile tile, int x, int y) {
 		map[x][y] = tile;
 	}
 	
 	public Tile getTile(int x, int y) {
 		if (x < 0 || x >= getWidth())
 			return Tile.VOID;
+		
 		if (y < 0 || y >= getHeight())
 			return Tile.VOID;
+		
 		return map[x][y];
 	}
 	

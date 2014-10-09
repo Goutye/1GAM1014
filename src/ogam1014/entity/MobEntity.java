@@ -37,13 +37,14 @@ public abstract class MobEntity extends Entity {
 		if (!collideX || !collidesWithWalls()) {
 			x = xx;
 		}
-		else{
+		else {
 			dx = 0;
 		}
+		
 		if (!collideY || !collidesWithWalls()) {
 			y = yy;
 		}
-		else{
+		else {
 			dy = 0;
 		}
 	}
@@ -53,5 +54,4 @@ public abstract class MobEntity extends Entity {
 	protected boolean collidesWithWalls() {
 		return true;
 	}
-
 }

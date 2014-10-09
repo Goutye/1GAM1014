@@ -20,12 +20,14 @@ public class Pause extends Screen {
 			engine.setScreen(parent);
 			return;
 		}
+		
 		time += dt;
 	}
 
 	@Override
 	public void draw(Renderer r) {
 		boolean show = (int)(time * 2) % 2 == 0;
+		
 		if (show) {
 			r.setColor(Color.BLACK);
 			r.drawCenteredText("Press 'p'", Engine.WIDTH, Engine.HEIGHT);
