@@ -77,6 +77,18 @@ public class Map {
 	}
 	
 	public Tile getTile(int x, int y) {
+		if (x < 0 || x >= getWidth())
+			return Tile.VOID;
+		if (y < 0 || y >= getHeight())
+			return Tile.VOID;
 		return map[x][y];
+	}
+	
+	public int getWidth() {
+		return map.length;
+	}
+	
+	public int getHeight() {
+		return map[0].length;
 	}
 }

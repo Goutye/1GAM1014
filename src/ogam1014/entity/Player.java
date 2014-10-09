@@ -3,11 +3,10 @@ package ogam1014.entity;
 import java.awt.Point;
 
 import ogam1014.InputHandler;
-import ogam1014.Map;
 import ogam1014.graphics.Renderer;
 
 public class Player extends MobEntity {
-	static public double SPEED = 100;
+	static public double SPEED = 200;
 
 	private InputHandler input;
 
@@ -20,15 +19,15 @@ public class Player extends MobEntity {
 		if (input.up.down) {
 			dy = -SPEED;
 		}
-		
+
 		if (input.down.down) {
 			dy = SPEED;
 		}
-		
+
 		if (input.right.down) {
 			dx = SPEED;
 		}
-		
+
 		if (input.left.down) {
 			dx = -SPEED;
 		}
@@ -36,30 +35,29 @@ public class Player extends MobEntity {
 		boolean fire = false;
 		double fireDx = 0;
 		double fireDy = 0;
-		
+
 		if (input.fireUp.down) {
 			fire = true;
 			fireDy = -1;
 		}
-		
+
 		if (input.fireDown.down) {
 			fire = true;
 			fireDy = 1;
 		}
-		
+
 		if (input.fireLeft.down) {
 			fire = true;
 			fireDx = -1;
 		}
-		
+
 		if (input.fireRight.down) {
 			fire = true;
 			fireDx = 1;
 		}
 
 		if (fire) {
-			Bullet b = new Bullet(this, fireDx * Bullet.SPEED,
-					fireDy * Bullet.SPEED);
+			Bullet b = new Bullet(this, fireDx * Bullet.SPEED, fireDy * Bullet.SPEED);
 			level.addEntity(b);
 		}
 
@@ -90,5 +88,5 @@ public class Player extends MobEntity {
 		x = p.x;
 		y = p.y;
 	}
-	
+
 }

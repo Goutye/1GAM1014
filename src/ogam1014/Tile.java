@@ -8,19 +8,16 @@ public enum Tile{
 	TaTL, aTT, aTTR, WATERBOaRDER_L, GRaASS, WATEaRBORDER_R,
 	La, GaRASS2, aR, WAaTERBORDER_BL, WATaERBORDER_B, WATERaBORDER_BR,
 	TgL, Tg, TRg, WATERBORDEgR_TL, WATgERBORDER_T, WATERBgORDER_TR,
-	TTgL, gTT, gTTR, WATERBgORDER_L, GRAgSS, WATERBORDEgR_R,;
+	TTgL, gTT, gTTR, WATERBgORDER_L, GRAgSS, WATERBORDEgR_R,
+	VOID;
 
 	public static final int SIZE = 32;
 	
 	public boolean isWall(){
 		return this == TL
 			|| this == TR
-			|| this == T;
+			|| this == T
+			|| this == VOID;
 	}
-	
-	public boolean isWarp(){
-		return this == WATERBORDER_T
-			|| this == WATERBORDER_TR
-			|| this == WATERBORDER_TL;
-	}
+
 }

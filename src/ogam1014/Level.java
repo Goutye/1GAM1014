@@ -50,14 +50,17 @@ public class Level {
 	}
 	
 	public Tile getTile(double x, double y){
-		return map.getTile( ((int) x) / Tile.SIZE, ((int) y) / Tile.SIZE);
+		int xx = (int) Math.floor(x / Tile.SIZE);
+		int yy = (int) Math.floor(y / Tile.SIZE);
+		return map.getTile(xx, yy);
 	}
 	
 	public List<Warp> getWarps() {
 		List<Warp> warps =  new ArrayList<Warp>();
-		warps.add(new Warp(new Point(128, 0), 1, 2, "map"));
-		warps.add(new Warp(new Point(0, 128), 2, 1, "map"));
+		warps.add(new Warp(new Point(128, 32), 1, 2, "map"));
+		warps.add(new Warp(new Point(32, 128), 2, 1, "map"));
 		
 		return warps;
 	}
 }
+
