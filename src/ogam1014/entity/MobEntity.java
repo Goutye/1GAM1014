@@ -2,7 +2,7 @@ package ogam1014.entity;
 
 import java.awt.Point;
 
-import ogam1014.collide.Box;
+import ogam1014.collide.Collide;
 
 public abstract class MobEntity extends Entity {
 
@@ -16,10 +16,19 @@ public abstract class MobEntity extends Entity {
 		dx = dx * getFriction();
 		dy = dy * getFriction();
 
+		testWallCollision(dt);
+		testEntityCollision(dt);
+
+		x += dx * dt;
+		y += dy * dt;
+	}
+	
+	private void testWallCollision(double dt) {
 		double xx = x + dx * dt;
 		double yy = y + dy * dt;
 		int w = getWidth()-1;
 		int h = getHeight()-1;
+		
 		boolean collideX = false;
 		boolean collideY = false;
 		
@@ -29,28 +38,36 @@ public abstract class MobEntity extends Entity {
 		if (!collideX && level.getTile(dx < 0 ? xx : xx + w, y).isWall()) collideX = true;
 		if (!collideX && level.getTile(dx < 0 ? xx : xx + w, y+h).isWall()) collideX = true;
 		
-		
-		
 		if (!collideX && !collideY && level.getTile(dx < 0 ? xx : xx + w, dy < 0 ? yy : yy + h).isWall()) collideX = collideY = true;
 		if (!collideX && !collideY && level.getTile(dx < 0 ? xx : xx + w, dy >= 0 ? yy : yy + h).isWall()) collideX = collideY = true;
 		if (!collideX && !collideY && level.getTile(dx >= 0 ? xx : xx + w, dy < 0 ? yy : yy + h).isWall()) collideX = collideY = true;
-		
 
-		if (!collideX || !collidesWithWalls()) {
-			x = xx;
-		}
-		else {
+		if (collideX && collidesWithWalls()) {
 			dx = 0;
 		}
-		
-		if (!collideY || !collidesWithWalls()) {
-			y = yy;
-		}
-		else {
+		if (collideY && collidesWithWalls()) {
 			dy = 0;
 		}
 	}
-
+	
+	private void testEntityCollision(double dt) {
+		double xx = x + dx * dt;
+		double yy = y + dy * dt;
+		for (Entity e : level.getEntityNear(xx, yy, getWidth(), getHeight())) {
+			if (e == this)
+				continue;
+			
+			boolean collide = Collide.aabb(xx, yy, getWidth(), getHeight(), e.x, e.y, e.getWidth(), e.getHeight());
+			if (collide && collidesWith(e)) {
+				this.onCollision(e);
+				break;
+			}
+		}
+	}
+	
+	abstract protected boolean collidesWith(Entity e);
+	abstract protected void onCollision(Entity other);
+	
 	public void setPosition(Point p) {
 		x = p.x;
 		y = p.y;

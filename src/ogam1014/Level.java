@@ -4,8 +4,6 @@ import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 
-import ogam1014.collide.Box;
-import ogam1014.collide.Collide;
 import ogam1014.entity.Entity;
 import ogam1014.graphics.Renderer;
 
@@ -69,6 +67,10 @@ public class Level {
 
 	public int getHeight() {
 		return map.getHeight() * Tile.SIZE;
+	}
+
+	public List<Entity> getEntityNear(double x, double y, int width, int height) {
+		return entities;
 	}
 }
 

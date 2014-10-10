@@ -2,7 +2,7 @@ package ogam1014.entity;
 
 import ogam1014.graphics.Renderer;
 
-public class Enemy extends MobEntity {
+public class Enemy extends LivingEntity {
 
 	@Override
 	public void update(double dt) {
