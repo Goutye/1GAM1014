@@ -32,7 +32,7 @@ public class Bullet extends MobEntity {
 
 	@Override
 	public void draw(Renderer r) {
-		r.blit(IMAGE, x - 4, y - 4, 8, 8, 0, 32);
+		r.blit(IMAGE, x - 4, y - 4, 8, 8, 0, 44);
 	}
 
 	@Override

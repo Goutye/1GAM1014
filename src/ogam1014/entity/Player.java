@@ -64,7 +64,7 @@ public class Player extends LivingEntity {
 
 	@Override
 	public void draw(Renderer r) {
-		r.blit(IMAGE, x, y, 32, 32, 0, 0);
+		r.blit(IMAGE, x, y, 22, 43, 2, 0);
 	}
 
 	@Override
@@ -74,12 +74,12 @@ public class Player extends LivingEntity {
 
 	@Override
 	public int getWidth() {
-		return 32;
+		return 22;
 	}
 
 	@Override
 	public int getHeight() {
-		return 32;
+		return 43;
 	}
 
 }
