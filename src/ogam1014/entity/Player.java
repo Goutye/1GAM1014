@@ -1,6 +1,7 @@
 package ogam1014.entity;
 
 import ogam1014.InputHandler;
+import ogam1014.equipment.PlayerInventory;
 import ogam1014.Tile;
 import ogam1014.graphics.Renderer;
 
@@ -9,11 +10,14 @@ public class Player extends LivingEntity {
 
 	private InputHandler input;
 	
+	private PlayerInventory inventory;
 	
 	public Player(InputHandler input) {
 		this.input = input;
 		this.w = 22;
 		this.h = 43;
+		
+		inventory = new PlayerInventory(this);
 		this.hIgnored = Math.max( this.h * PERSPECTIVE, this.w - Tile.SIZE);
 	}
 
@@ -64,7 +68,8 @@ public class Player extends LivingEntity {
 			level.addEntity(b);
 		}
 
-		super.update(dt);
+		super.update(dt);		
+		inventory.update(dt);
 	}
 
 	@Override

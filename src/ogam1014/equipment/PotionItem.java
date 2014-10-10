@@ -12,6 +12,11 @@ public class PotionItem extends Item implements IUsableItem {
 
 	@Override
 	public void use(Player player) {
+		if(quantity == 0)
+			return;
+		
+		quantity--;
+		
 		// TODO: apply modifiers to the player
 	}
 }

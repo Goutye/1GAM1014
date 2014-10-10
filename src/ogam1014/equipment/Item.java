@@ -6,7 +6,7 @@ public abstract class Item {
 	
 	private String name;
 	private boolean stackable;
-	private int quantity;
+	protected int quantity;
 	
 	public Item(String name) {
 		this.name = name;
