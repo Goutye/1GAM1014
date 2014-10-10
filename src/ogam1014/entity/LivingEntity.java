@@ -1,7 +1,6 @@
 package ogam1014.entity;
 
 public abstract class LivingEntity extends MobEntity {
-
 	protected double health = 10;
 	
 	@Override

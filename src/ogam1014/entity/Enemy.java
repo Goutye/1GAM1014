@@ -18,7 +18,7 @@ public class Enemy extends LivingEntity {
 	
 	@Override
 	public void draw(Renderer r) {
-		r.blit(IMAGE, x, y - hIgnored, 22, 43, 2, 0);
+		r.blit(IMAGE, x, y, 22, 43, 2, 0);
 	}
 	
 	@Override

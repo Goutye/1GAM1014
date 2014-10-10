@@ -1,5 +1,7 @@
 package ogam1014.entity;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -54,5 +56,10 @@ public abstract class Entity {
 	
 	public Box getBox() {
 		return box;
+	}
+	
+	public void drawBox(Renderer r) {
+		r.setColor(Color.red);
+		r.getGraphics().drawRect(box.x, box.y, box.width, box.height);
 	}
 }

@@ -69,7 +69,7 @@ public class Player extends LivingEntity {
 
 	@Override
 	public void draw(Renderer r) {
-		r.blit(IMAGE, x, y - hIgnored, w, h, 2, 0);
+		r.blit(IMAGE, x, y, w, h, 2, 0);
 	}
 
 	@Override

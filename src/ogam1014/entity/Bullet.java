@@ -1,5 +1,6 @@
 package ogam1014.entity;
 
+import ogam1014.collide.Box;
 import ogam1014.graphics.Renderer;
 
 public class Bullet extends MobEntity {
@@ -15,8 +16,13 @@ public class Bullet extends MobEntity {
 		this.owner = owner;
 		this.originalDx = dx;
 		this.originalDy = dy;
-		x = owner.getX() + owner.getWidth() / 2;
-		y = owner.getY() + owner.getHeight() / 2;
+		x = owner.getX() + owner.getWidth()/2;
+		y = owner.getY() + owner.getHeight()/2;
+		w = 4;
+		h = 4;
+		hIgnored = 0;
+		this.box = new Box((int) x, (int) (y), w, (int) (h));
+		System.out.println(x + " " + y);
 	}
 
 	@Override
@@ -32,7 +38,7 @@ public class Bullet extends MobEntity {
 
 	@Override
 	public void draw(Renderer r) {
-		r.blit(IMAGE, x - 4, y - 4, 8, 8, 0, 44);
+		r.blit(IMAGE, x - 2, y - 2, 8, 8, 0, 44);
 	}
 
 	@Override
@@ -56,12 +62,12 @@ public class Bullet extends MobEntity {
 
 	@Override
 	public int getWidth() {
-		return 2;
+		return w;
 	}
 
 	@Override
 	public int getHeight() {
-		return 2;
+		return h;
 	}
 
 	@Override
