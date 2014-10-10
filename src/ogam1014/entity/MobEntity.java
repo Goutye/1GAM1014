@@ -2,10 +2,12 @@ package ogam1014.entity;
 
 import java.awt.Point;
 
+import ogam1014.Tile;
 import ogam1014.collide.Collide;
 
 public abstract class MobEntity extends Entity {
-
+	protected static double PERSPECTIVE = 0.5; // 0.5 => 50% du haut du sprite ignoré dans les collisions.
+	
 	protected double dx;
 	protected double dy;
 	protected double time;
@@ -24,10 +26,12 @@ public abstract class MobEntity extends Entity {
 	}
 	
 	private void testWallCollision(double dt) {
+		double y = this.y + Math.max( getHeight() * PERSPECTIVE, getHeight() - Tile.SIZE);
 		double xx = x + dx * dt;
 		double yy = y + dy * dt;
 		int w = getWidth()-1;
-		int h = getHeight()-1;
+		int h = getHeight() - (int) Math.max( getHeight() * PERSPECTIVE, getHeight() - Tile.SIZE);
+		
 		
 		boolean collideX = false;
 		boolean collideY = false;
