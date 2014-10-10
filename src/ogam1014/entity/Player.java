@@ -7,9 +7,16 @@ public class Player extends LivingEntity {
 	static public double SPEED = 200;
 
 	private InputHandler input;
-
+	private int w;
+	private int h;
+	private int hCollision;
+	
+	
 	public Player(InputHandler input) {
 		this.input = input;
+		this.w = 22;
+		this.h = 43;
+		this.hCollision = 32;
 	}
 
 	@Override
@@ -64,7 +71,7 @@ public class Player extends LivingEntity {
 
 	@Override
 	public void draw(Renderer r) {
-		r.blit(IMAGE, x, y, 22, 43, 2, 0);
+		r.blit(IMAGE, x, y + (hCollision - h), w, h, 2, 0);
 	}
 
 	@Override
@@ -74,12 +81,12 @@ public class Player extends LivingEntity {
 
 	@Override
 	public int getWidth() {
-		return 22;
+		return w;
 	}
 
 	@Override
 	public int getHeight() {
-		return 43;
+		return hCollision;
 	}
 
 }
