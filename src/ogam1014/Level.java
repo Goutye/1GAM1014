@@ -62,5 +62,13 @@ public class Level {
 		
 		return warps;
 	}
+
+	public int getWidth() {
+		return map.getWidth() * Tile.SIZE;
+	}
+
+	public int getHeight() {
+		return map.getHeight() * Tile.SIZE;
+	}
 }
 

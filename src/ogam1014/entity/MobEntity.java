@@ -1,5 +1,7 @@
 package ogam1014.entity;
 
+import java.awt.Point;
+
 import ogam1014.collide.Box;
 
 public abstract class MobEntity extends Entity {
@@ -47,6 +49,11 @@ public abstract class MobEntity extends Entity {
 		else {
 			dy = 0;
 		}
+	}
+
+	public void setPosition(Point p) {
+		x = p.x;
+		y = p.y;
 	}
 
 	protected abstract double getFriction();

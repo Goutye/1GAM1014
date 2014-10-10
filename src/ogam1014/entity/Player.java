@@ -1,7 +1,5 @@
 package ogam1014.entity;
 
-import java.awt.Point;
-
 import ogam1014.InputHandler;
 import ogam1014.graphics.Renderer;
 
@@ -83,9 +81,5 @@ public class Player extends MobEntity {
 	public int getHeight() {
 		return 32;
 	}
-	
-	public void setPosition(Point p) {
-		x = p.x;
-		y = p.y;
-	}
+
 }
