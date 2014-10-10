@@ -1,8 +1,6 @@
 package ogam1014.screen;
 
-import java.awt.Point;
 import java.util.List;
-import java.util.Random;
 
 import ogam1014.Engine;
 import ogam1014.InputHandler;
@@ -10,14 +8,12 @@ import ogam1014.Level;
 import ogam1014.Warp;
 import ogam1014.collide.Box;
 import ogam1014.collide.Collide;
-import ogam1014.entity.Enemy;
 import ogam1014.entity.Player;
 import ogam1014.graphics.Camera;
 import ogam1014.graphics.Renderer;
 
 public class Game extends Screen {
 
-	static private Random random = new Random();
 	private Level level;
 	private List<Warp> warps;
 	private Camera camera = new Camera();
@@ -43,15 +39,6 @@ public class Game extends Screen {
 		}
 		
 		level.addEntity(player);
-		
-		// add some enemies
-		for (int i = 0; i < 50; i++) {
-			Enemy e = new Enemy();
-			int x = random.nextInt(level.getWidth());
-			int y = random.nextInt(level.getHeight());
-			e.setPosition(new Point(x, y));
-			level.addEntity(e);
-		}
 	}
 	
 	private void changeLevel() {

@@ -1,12 +1,18 @@
 package ogam1014;
  
+import java.awt.Point;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
+import ogam1014.collide.Box;
+import ogam1014.collide.Collide;
+import ogam1014.entity.Player;
 import ogam1014.graphics.Renderer;
 import ogam1014.graphics.Tileset;
 
@@ -92,5 +98,28 @@ public class Map {
 	
 	public int getHeight() {
 		return map[0].length;
+	}
+
+	public List<Point> getAvailablePositions(Player player) {
+		List<Point> positions = new ArrayList<Point>();
+		
+		int skippedCaseW = Engine.WIDTH/2 / Tile.SIZE;
+		int skippedCaseH = Engine.HEIGHT/2 / Tile.SIZE;
+		Point p = new Point(0,0);
+		Point posPlayer = new Point( (int) player.getX()/Tile.SIZE, (int) player.getY()/Tile.SIZE);
+		Box box = new Box(posPlayer.x - skippedCaseW, posPlayer.y - skippedCaseH, skippedCaseW * 2, skippedCaseH * 2);
+		
+		
+		for (int i = 0; i < map.length; ++i) {
+			for (int j = 0; j < map[0].length; ++j) {
+				p.x = i; p.y = j;
+				
+				if ( ! map[i][j].isWall() && ! Collide.AABB_point(box, p))
+					positions.add(new Point(i * Tile.SIZE, j * Tile.SIZE));
+			}
+		}
+		
+		
+		return positions;
 	}
 }
