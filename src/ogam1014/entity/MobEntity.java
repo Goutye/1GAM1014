@@ -2,16 +2,16 @@ package ogam1014.entity;
 
 import java.awt.Point;
 
-import ogam1014.Tile;
+import ogam1014.collide.Box;
 import ogam1014.collide.Collide;
 
 public abstract class MobEntity extends Entity {
 	protected static double PERSPECTIVE = 0.5; // 0.5 => 50% du haut du sprite ignoré dans les collisions.
-	
+	protected double hIgnored = 0;
 	protected double dx;
 	protected double dy;
 	protected double time;
-
+	
 	@Override
 	public void update(double dt) {
 		time += dt;
@@ -23,19 +23,20 @@ public abstract class MobEntity extends Entity {
 
 		x += dx * dt;
 		y += dy * dt;
+		this.box.x = (int) x;
+		this.box.y = (int) (y + hIgnored);
 	}
 	
 	private void testWallCollision(double dt) {
-		double y = this.y + Math.max( getHeight() * PERSPECTIVE, getHeight() - Tile.SIZE);
 		double xx = x + dx * dt;
 		double yy = y + dy * dt;
 		int w = getWidth()-1;
-		int h = getHeight() - (int) Math.max( getHeight() * PERSPECTIVE, getHeight() - Tile.SIZE);
+		int h = getHeight() - (int) hIgnored;
 		
 		
 		boolean collideX = false;
 		boolean collideY = false;
-		
+
 		if (!collideY && level.getTile(x, dy < 0 ? yy : yy + h).isWall()) collideY = true;
 		if (!collideY && level.getTile(x+w, dy < 0 ? yy : yy + h).isWall()) collideY = true;
 		
@@ -61,7 +62,7 @@ public abstract class MobEntity extends Entity {
 			if (e == this)
 				continue;
 			
-			boolean collide = Collide.aabb(xx, yy, getWidth(), getHeight(), e.x, e.y, e.getWidth(), e.getHeight());
+			boolean collide = Collide.aabb(xx, yy + hIgnored, getWidth(), (int) (getHeight() - hIgnored),  e.getBox().x, e.getBox().y, e.getBox().width, e.getBox().height);;
 			if (collide && collidesWith(e)) {
 				this.onCollision(e);
 				break;
@@ -75,6 +76,7 @@ public abstract class MobEntity extends Entity {
 	public void setPosition(Point p) {
 		x = p.x;
 		y = p.y;
+		this.box = new Box((int) x, (int) (y + hIgnored), w, (int) (h - hIgnored));
 	}
 
 	protected abstract double getFriction();

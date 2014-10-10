@@ -33,7 +33,7 @@ public class Level {
 		switch(name){
 		case "map":
 			timeBeforeMobSpawn = 10.;
-			percent_mobByAvailablePositions = 0.005;
+			percent_mobByAvailablePositions = 0.15;
 			break;
 		default:
 			timeBeforeMobSpawn = 20.;

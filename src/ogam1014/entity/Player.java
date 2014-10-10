@@ -2,14 +2,13 @@ package ogam1014.entity;
 
 import ogam1014.InputHandler;
 import ogam1014.equipment.PlayerInventory;
+import ogam1014.Tile;
 import ogam1014.graphics.Renderer;
 
 public class Player extends LivingEntity {
 	static public double SPEED = 200;
 
 	private InputHandler input;
-	private int w;
-	private int h;
 	
 	private PlayerInventory inventory;
 	
@@ -19,6 +18,7 @@ public class Player extends LivingEntity {
 		this.h = 43;
 		
 		inventory = new PlayerInventory(this);
+		this.hIgnored = Math.max( this.h * PERSPECTIVE, this.w - Tile.SIZE);
 	}
 
 	@Override
@@ -74,22 +74,12 @@ public class Player extends LivingEntity {
 
 	@Override
 	public void draw(Renderer r) {
-		r.blit(IMAGE, x, y, w, h, 2, 0);
+		r.blit(IMAGE, x, y - hIgnored, w, h, 2, 0);
 	}
 
 	@Override
 	protected double getFriction() {
 		return 0.9;
-	}
-
-	@Override
-	public int getWidth() {
-		return w;
-	}
-
-	@Override
-	public int getHeight() {
-		return h;
 	}
 
 }
