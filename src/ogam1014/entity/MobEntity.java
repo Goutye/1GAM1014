@@ -75,8 +75,8 @@ public abstract class MobEntity extends Entity {
 	
 	public void setPosition(Point p) {
 		x = p.x;
-		y = p.y;
-		this.box = new Box((int) x, (int) (y + hIgnored), w, (int) (h - hIgnored));
+		y = p.y - hIgnored;
+		this.box = new Box((int) x, (int) (y), w, (int) (h - hIgnored));
 	}
 
 	protected abstract double getFriction();
