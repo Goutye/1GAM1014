@@ -53,29 +53,39 @@ public class Menu extends Screen {
 		if (input.rightButton.pressed) {
 			engine.setScreen(new MapEditor("map.tile"));
 		}
+		
 		int i=0;
-		for(Button button: buttons){
-			if(input.leftButton.pressed){
-			button.setClick();
-			
-			if(counter==0)
-				engine.setScreen(new Game());
+		for(Button button: buttons) {
+			if(input.leftButton.pressed) {
+				button.setClick();
 				
-			else if(counter==1)
-				engine.setScreen(new MOptions());
-				
-			else if(counter==2)
-				System.exit(0);
-			
-				
+				if(counter==0)
+				{
+					/**
+					 * TODO: Exemple à supprimer (@Goutye)
+					 */
+					/*
+					pscreen.setText("Tu veux quitter ou pas connard ?");
+					pscreen.addOption(0, "nan");
+					pscreen.addOption(1, "ouais");
+					pscreen.addOption(2, "ta gueule");
+					engine.setScreen(pscreen);
+					*/
+					engine.setScreen(new Game());
+				}
+					
+				else if(counter==1)
+					engine.setScreen(new MOptions());
+					
+				else if(counter==2)
+					System.exit(0);
 			}
 			
 			if(button.update(input.mouse))
 				counter=i;
-			i++;
 			
+			i++;
 		}
-		
 
 		counter %= buttons.size();
 	}
@@ -84,18 +94,16 @@ public class Menu extends Screen {
 	public void draw(Renderer r) {
 		int i=0;
 		for (Button button : buttons) {
+			button.drawUpdate(r);
 			
-				button.drawUpdate(r);
+			if (counter == i) {
+				button.drawSelected(r);
 				
-				if (counter == i) {
-					button.drawSelected(r);
-					if (input.validate.down) {
-						button.drawClicked(r);
-					}
+				if (input.validate.down) { /** TODO: dafuq? */
+					button.drawClicked(r);
 				}
-
+			}
 				
-			
 			i++;
 		}
 	}

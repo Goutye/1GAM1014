@@ -7,7 +7,7 @@ import ogam1014.collide.Box;
 import ogam1014.collide.Collide;
 import ogam1014.graphics.Renderer;
 
-public class Button implements IButton {
+public abstract class Button implements IButton {
 
 	protected int x;
 	protected int y;
@@ -40,16 +40,10 @@ public class Button implements IButton {
 
 	@Override
 	public void drawSelected(Renderer r) {
-
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public void drawClicked(Renderer r) {
-
-		// TODO Auto-generated method stub
-
 	}
 
 	public void setClick() {
@@ -58,18 +52,16 @@ public class Button implements IButton {
 
 	public boolean update(Point p) {
 		if (p != null) {
-			if (Collide.AABB_point(box, p)){
+			if (Collide.AABB_point(box, p)) {
 				hover = true;
-			return true;
+				return true;
 			}
-
-			else{
-				hover = false;
+			
+			hover = false;
 			return false;	
-			}
 		}
-		return false;
 		
+		return false;
 	}
 
 	public void drawUpdate(Renderer r) {
@@ -79,6 +71,7 @@ public class Button implements IButton {
 			down = false;
 			return;
 		}
+		
 		if (hover) {
 			drawSelected(r);
 			down = false;
@@ -92,5 +85,4 @@ public class Button implements IButton {
 	public boolean getDown() {
 		return down;
 	}
-
 }

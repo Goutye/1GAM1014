@@ -1,17 +1,24 @@
 package ogam1014.entity;
 
-import java.awt.Point;
-
 import ogam1014.InputHandler;
+import ogam1014.equipment.PlayerInventory;
+import ogam1014.Tile;
 import ogam1014.graphics.Renderer;
 
-public class Player extends MobEntity {
+public class Player extends LivingEntity {
 	static public double SPEED = 200;
 
 	private InputHandler input;
-
+	
+	private PlayerInventory inventory;
+	
 	public Player(InputHandler input) {
 		this.input = input;
+		this.w = 22;
+		this.h = 43;
+		
+		inventory = new PlayerInventory(this);
+		this.hIgnored = Math.max( this.h * PERSPECTIVE, this.w - Tile.SIZE);
 	}
 
 	@Override
@@ -61,32 +68,18 @@ public class Player extends MobEntity {
 			level.addEntity(b);
 		}
 
-		super.update(dt);
+		super.update(dt);		
+		inventory.update(dt);
 	}
 
 	@Override
 	public void draw(Renderer r) {
-		r.blit(IMAGE, x, y, 32, 32, 0, 0);
+		r.blit(IMAGE, x, y, w, h, 2, 0);
 	}
 
 	@Override
 	protected double getFriction() {
 		return 0.9;
-	}
-
-	@Override
-	public int getWidth() {
-		return 32;
-	}
-
-	@Override
-	public int getHeight() {
-		return 32;
-	}
-	
-	public void setPosition(Point p) {
-		x = p.x;
-		y = p.y;
 	}
 
 }
