@@ -6,8 +6,8 @@ import ogam1014.graphics.Renderer;
 public class Enemy extends LivingEntity {
 
 	public Enemy() {
-		this.h = 43;
-		this.w = 22;
+		this.h = 31;
+		this.w = 15;
 		this.hIgnored = Math.max( this.h * PERSPECTIVE, this.w - Tile.SIZE);
 	}
 	
@@ -18,7 +18,7 @@ public class Enemy extends LivingEntity {
 	
 	@Override
 	public void draw(Renderer r) {
-		r.blit(IMAGE, x, y, 22, 43, 2, 0);
+		r.blit(IMAGE, x, y, 15, 31, 0, 0);
 	}
 	
 	@Override

@@ -14,8 +14,8 @@ public class Player extends LivingEntity {
 	
 	public Player(InputHandler input) {
 		this.input = input;
-		this.w = 22;
-		this.h = 43;
+		this.w = 15;
+		this.h = 31;
 		
 		inventory = new PlayerInventory(this);
 		this.hIgnored = Math.max( this.h * PERSPECTIVE, this.w - Tile.SIZE);
@@ -25,18 +25,22 @@ public class Player extends LivingEntity {
 	public void update(double dt) {
 		if (input.up.down) {
 			dy = -SPEED;
+			dir = Direction.UP;
 		}
 
 		if (input.down.down) {
 			dy = SPEED;
+			dir = Direction.DOWN;
 		}
 
 		if (input.right.down) {
 			dx = SPEED;
+			dir = Direction.RIGHT;
 		}
 
 		if (input.left.down) {
 			dx = -SPEED;
+			dir = Direction.LEFT;
 		}
 
 		boolean fire = false;
@@ -74,7 +78,11 @@ public class Player extends LivingEntity {
 
 	@Override
 	public void draw(Renderer r) {
-		r.blit(IMAGE, x, y, w, h, 2, 0);
+		if (dir == Direction.UP){
+			r.blit(IMAGE, x, y, w, h, 15, 0);
+		} else {
+			r.blit(IMAGE, x, y, w, h, 0, 0);
+		}
 	}
 
 	@Override

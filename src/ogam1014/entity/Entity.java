@@ -27,6 +27,7 @@ public abstract class Entity {
 	protected double y;
 	protected int w;
 	protected int h;
+	protected Direction dir;
 	protected Box box;
 	
 	
