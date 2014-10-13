@@ -30,8 +30,10 @@ public abstract class MobEntity extends Entity {
 	}
 	
 	private void testWallCollision(double dt) {
-		double xx = x + dx * dt;
-		double yy = y + dy * dt;
+		double xx = box.x + dx * dt;
+		double yy = box.y + dy * dt;
+		double x = box.x;
+		double y = box.y;
 		int w = getWidth()-1;
 		int h = getHeight() - (int) hIgnored;
 		

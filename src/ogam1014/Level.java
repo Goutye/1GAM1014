@@ -72,6 +72,7 @@ public class Level {
 
 		for (Entity e : entities) {
 			e.draw(r);
+			e.drawBox(r);
 		}
 	}
 	

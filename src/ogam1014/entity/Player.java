@@ -18,7 +18,7 @@ public class Player extends LivingEntity {
 		this.h = 31;
 		
 		inventory = new PlayerInventory(this);
-		this.hIgnored = Math.max( this.h * PERSPECTIVE, this.w - Tile.SIZE);
+		this.hIgnored = Math.max( this.h * PERSPECTIVE, this.h - Tile.SIZE);
 	}
 
 	@Override
