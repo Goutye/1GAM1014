@@ -66,15 +66,20 @@ public class Level {
 
 		entities.removeAll(removedEntities);
 		removedEntities.clear();
-
-		entities.sort(new Comparator<Entity>() {
+		
+		
+		/**
+		 * TODO: fix this (throwing error right now.
+		 * The method sort(new Comparator<Entity>(){}) is undefined for the type List<Entity>
+		 */
+		/*entities.sort(new Comparator<Entity>() {
 			@Override
 			public int compare(Entity o1, Entity o2) {
 				int y1 = (int) (o1.getY() + o1.getHeight());
 				int y2 = (int) (o2.getY() + o2.getHeight());
 				return y1 - y2;
 			}
-		});
+		});*/
 	}
 
 	public void draw(Renderer r) {
