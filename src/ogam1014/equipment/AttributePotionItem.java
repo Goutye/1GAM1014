@@ -4,8 +4,11 @@ import ogam1014.entity.Player;
 
 public class AttributePotionItem extends AttributeItem implements IUsableItem {
 	
-	public AttributePotionItem(String name) {
+	private float duration;
+	
+	public AttributePotionItem(String name, float duration) {
 		super(name, 1);
+		this.duration = duration;
 	}
 
 	@Override
@@ -15,6 +18,6 @@ public class AttributePotionItem extends AttributeItem implements IUsableItem {
 		
 		quantity--;
 		
-		// TODO: apply modifiers to the player
+		// TODO: apply modifiers to the player (buff system ?)
 	}
 }
