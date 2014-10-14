@@ -17,11 +17,12 @@ public class Engine extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String NAME = "1GAM1014";
-	public static final int WINDOW_WIDTH = 800;
-	public static final int WINDOW_HEIGHT = 600;
-	public static final int WIDTH = (int) (WINDOW_WIDTH * 0.6);
-	public static final int HEIGHT = (int) (WINDOW_HEIGHT * 0.6);
-
+	public static final int PIXEL_SIZE = 3;
+	public static final int WIDTH = 266;
+	public static final int HEIGHT = 200;
+	public static final int WINDOW_WIDTH = WIDTH * PIXEL_SIZE;
+	public static final int WINDOW_HEIGHT = HEIGHT * PIXEL_SIZE;
+	
 	private boolean running = false;
 	private InputHandler input = new InputHandler(this);
 	private Screen screen;
