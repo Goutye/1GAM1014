@@ -2,12 +2,14 @@ package ogam1014;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
 import ogam1014.entity.Enemy;
 import ogam1014.entity.Entity;
+import ogam1014.entity.MobEntity;
 import ogam1014.entity.Player;
 import ogam1014.graphics.Renderer;
 
@@ -65,11 +67,13 @@ public class Level {
 
 		entities.removeAll(removedEntities);
 		removedEntities.clear();
-
-		entities.sort(new Comparator<Entity>() {
+		
+		Collections.sort(entities, new Comparator<Entity>() {
 			@Override
 			public int compare(Entity o1, Entity o2) {
-				return (int) (o1.getY() - o2.getY());
+				int y1 = (int) (o1.getY() + o1.getHeight());
+				int y2 = (int) (o2.getY() + o2.getHeight());
+				return y1 - y2;
 			}
 		});
 	}

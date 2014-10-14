@@ -11,12 +11,16 @@ import ogam1014.ui.RoundedButton;
 import ogam1014.ui.SlideBar;
 
 public class MOptions extends Screen {
-	private Button back = new RoundedButton((int) Engine.WIDTH - 100,
-			(int) (Engine.HEIGHT * 0.8), 100, 50, "Back", Color.BLACK,
+	
+	
+	
+	private Screen parent;
+	private Button back = new RoundedButton((int) Engine.WIDTH - Engine.WIDTH/4,
+			(int) (Engine.HEIGHT * 0.7), Engine.WIDTH/5, Engine.HEIGHT/5, "Back", Color.BLACK,
 			Color.YELLOW,Color.ORANGE);
 
-	private Button sound = new RoundedButton((int) Engine.WIDTH / 5,
-			(int) (Engine.HEIGHT * 0.2), 100, 50, "Sound", Color.BLACK,
+	private Button sound = new RoundedButton((int) Engine.WIDTH / 5-Engine.WIDTH/10,
+			(int) (Engine.HEIGHT * 0.2), Engine.WIDTH/5, Engine.HEIGHT/5, "Sound", Color.BLACK,
 			Color.YELLOW,Color.ORANGE);
 	
 	private SlideBar slide= new SlideBar((int) Engine.WIDTH / 2,
@@ -24,9 +28,10 @@ public class MOptions extends Screen {
 	private List<Button> buttons = new ArrayList<Button>();
 	private int counter = 0;
 
-	public MOptions() {
+	public MOptions(Screen parent) {
 		buttons.add(sound);
 		buttons.add(back);
+		this.parent=parent;
 	}
 
 	public void update(double dt) {
@@ -35,7 +40,7 @@ public class MOptions extends Screen {
 		}
 
 		if (input.validate.released && counter == 1) {
-			engine.setScreen(new Menu());
+			engine.setScreen(parent);
 		}
 
 		if (input.up.pressed && counter > 0) {
