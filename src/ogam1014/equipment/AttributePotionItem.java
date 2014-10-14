@@ -2,11 +2,9 @@ package ogam1014.equipment;
 
 import ogam1014.entity.Player;
 
-public class PotionItem extends Item implements IUsableItem {
-
-	// TODO: add modifiers
+public class AttributePotionItem extends AttributeItem implements IUsableItem {
 	
-	public PotionItem(String name) {
+	public AttributePotionItem(String name) {
 		super(name, 1);
 	}
 

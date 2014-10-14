@@ -1,6 +1,6 @@
 package ogam1014.equipment;
 
-public class ArmorItem extends Item {
+public class ArmorItem extends AttributeItem {
 	
 	private float protection;
 	private ArmorType type;
