@@ -2,6 +2,7 @@ package ogam1014;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
@@ -66,17 +67,12 @@ public class Level {
 		entities.removeAll(removedEntities);
 		removedEntities.clear();
 		
-		
-		/**
-		 * TODO: fix this (throwing error right now.
-		 * The method sort(new Comparator<Entity>(){}) is undefined for the type List<Entity>
-		 */
-		/*entities.sort(new Comparator<Entity>() {
+		Collections.sort(entities, new Comparator<Entity>() {
 			@Override
 			public int compare(Entity o1, Entity o2) {
 				return (int) (o1.getY() - o2.getY());
 			}
-		});*/
+		});
 	}
 
 	public void draw(Renderer r) {
