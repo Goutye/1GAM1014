@@ -2,6 +2,7 @@ package ogam1014;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
@@ -64,6 +65,13 @@ public class Level {
 
 		entities.removeAll(removedEntities);
 		removedEntities.clear();
+
+		entities.sort(new Comparator<Entity>() {
+			@Override
+			public int compare(Entity o1, Entity o2) {
+				return (int) (o1.getY() - o2.getY());
+			}
+		});
 	}
 
 	public void draw(Renderer r) {
