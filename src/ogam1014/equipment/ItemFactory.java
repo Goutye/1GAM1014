@@ -1,5 +1,7 @@
 package ogam1014.equipment;
 
+import ogam1014.attributes.PlayerAttributes.Attr;
+
 public abstract class ItemFactory {
 	
 	public static Item make(String descriptor) {
@@ -47,11 +49,13 @@ public abstract class ItemFactory {
 	}
 
 	private static Item makeArmor(String descriptor) {
-		// TODO Example
+		String name = descriptor.substring("armor.".length());
 		
-		switch(descriptor.substring("armor.".length())) {
-		case "iron.helmet":
-			return new ArmorItem("Iron", ArmorType.HELMET, 0.3f);
+		// Example
+		if(name == "helmet.iron") {
+			ArmorItem helmet = new ArmorItem("Iron", ArmorType.HELMET, 0.3f);
+			helmet.setRelativeModifier(Attr.SPEED, 0.9f); // slows you down whan worn
+			return helmet;
 		}
 		
 		return null;
