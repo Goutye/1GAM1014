@@ -2,10 +2,9 @@ package ogam1014;
 
 import java.awt.Point;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
 import ogam1014.entity.Enemy;
 import ogam1014.entity.Entity;
@@ -58,13 +57,21 @@ public class Level {
 		addRandomEnemies(dt);
 		
 		entities.addAll(newEntities);
-		entities.removeAll(removedEntities);
 		newEntities.clear();
-		removedEntities.clear();
 
 		for (Entity e : entities) {
 			e.update(dt);
 		}
+
+		entities.removeAll(removedEntities);
+		removedEntities.clear();
+
+		entities.sort(new Comparator<Entity>() {
+			@Override
+			public int compare(Entity o1, Entity o2) {
+				return (int) (o1.getY() - o2.getY());
+			}
+		});
 	}
 
 	public void draw(Renderer r) {

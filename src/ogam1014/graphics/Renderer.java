@@ -9,16 +9,20 @@ import java.awt.image.BufferedImage;
 
 public class Renderer {
 
-	private int width;
-	private int height;
 	public Image image;
 	private Graphics2D graphics;
 	private AffineTransform originTransform;
+	private int width;
+	private int height;
+	private int realWidth;
+	private int realHeight;
 
-	public Renderer(int w, int h) {
+	public Renderer(int w, int h, int realWidth, int realHeight) {
 		this.width = w;
 		this.height = h;
-		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+		this.realWidth = realWidth;
+		this.realHeight = realHeight;
+		image = new BufferedImage(realWidth, realHeight, BufferedImage.TYPE_INT_RGB);
 		graphics = (Graphics2D) image.getGraphics();
 		originTransform = graphics.getTransform();
 	}
@@ -29,7 +33,7 @@ public class Renderer {
 	}
 
 	public void flip(Graphics parent) {
-		parent.drawImage(image, 0, 0, width, height, null);
+		parent.drawImage(image, 0, 0, realWidth, realHeight, 0, 0, width, height, null);
 	}
 
 	public void blit(Image image, double x, double y, int w, int h,
