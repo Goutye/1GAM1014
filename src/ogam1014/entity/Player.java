@@ -107,9 +107,4 @@ public class Player extends LivingEntity {
 		}
 	}
 
-	@Override
-	protected double getFriction() {
-		return 0.9;
-	}
-
 }
