@@ -11,7 +11,7 @@ public enum Tile{
 	TTgL, gTT, gTTR, WATERBgORDER_L, GRAgSS, WATERBORDEgR_R,
 	VOID;
 
-	public static final int SIZE = 32;
+	public static final int SIZE = 16;
 	
 	public boolean isWall() {
 		return this == TL
