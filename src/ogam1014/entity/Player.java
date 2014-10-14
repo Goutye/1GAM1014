@@ -78,14 +78,32 @@ public class Player extends LivingEntity {
 
 	@Override
 	public void draw(Renderer r) {
-		if (dir == Direction.UP){
-			r.blit(IMAGE, x, y, w, h, 15, 0);
-		} else if (dir == Direction.LEFT) {
-			r.blit(IMAGE, x, y, w, h, 30, 0);
-		} else if (dir == Direction.RIGHT) {	
-			r.blit(IMAGE, x, y, w, h, 45, 0);
+		if (Math.abs(dx) > SPEED/2 || Math.abs(dy) > SPEED/2 ){
+			if (dir == Direction.UP){
+				r.blit(IMAGE, x, y, w, h, 15, 0);
+			} else if (dir == Direction.LEFT) {
+				r.blit(IMAGE, x, y, w, h, 30, 0);
+			} else if (dir == Direction.RIGHT) {	
+				r.blit(IMAGE, x, y, w, h, 45, 0);
+			} else {
+				if (Math.ceil(time*5) % 4 == 0){
+					r.blit(IMAGE, x, y, w, h, 60, 0);
+				} else if (Math.ceil(time*5) % 4 == 2){
+					r.blit(IMAGE, x, y, w, h, 75, 0);
+				} else {
+					r.blit(IMAGE, x, y, w, h, 90, 0);
+				}
+			}
 		} else {
-			r.blit(IMAGE, x, y, w, h, 0, 0);
+			if (dir == Direction.UP){
+				r.blit(IMAGE, x, y, w, h, 15, 0);
+			} else if (dir == Direction.LEFT) {
+				r.blit(IMAGE, x, y, w, h, 30, 0);
+			} else if (dir == Direction.RIGHT) {	
+				r.blit(IMAGE, x, y, w, h, 45, 0);
+			} else {
+				r.blit(IMAGE, x, y, w, h, 0, 0);
+			}
 		}
 	}
 
