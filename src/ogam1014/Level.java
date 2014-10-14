@@ -56,13 +56,14 @@ public class Level {
 		addRandomEnemies(dt);
 		
 		entities.addAll(newEntities);
-		entities.removeAll(removedEntities);
 		newEntities.clear();
-		removedEntities.clear();
 
 		for (Entity e : entities) {
 			e.update(dt);
 		}
+
+		entities.removeAll(removedEntities);
+		removedEntities.clear();
 	}
 
 	public void draw(Renderer r) {
