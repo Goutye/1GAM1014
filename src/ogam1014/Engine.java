@@ -19,8 +19,8 @@ public class Engine extends Canvas implements Runnable {
 	public static final String NAME = "1GAM1014";
 	public static final int WINDOW_WIDTH = 800;
 	public static final int WINDOW_HEIGHT = 600;
-	public static final int WIDTH = (int) (WINDOW_WIDTH * 0.75);
-	public static final int HEIGHT = (int) (WINDOW_HEIGHT * 0.75);
+	public static final int WIDTH = (int) (WINDOW_WIDTH * 0.6);
+	public static final int HEIGHT = (int) (WINDOW_HEIGHT * 0.6);
 
 	private boolean running = false;
 	private InputHandler input = new InputHandler(this);

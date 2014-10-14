@@ -16,11 +16,7 @@ public class Tileset {
 
 	public Tileset() {
 		try {
-			BufferedImage imgBeforeResize = ImageIO.read(new File("assets/tileset.png"));
-			img = new BufferedImage(imgBeforeResize.getWidth() * 2, imgBeforeResize.getHeight() * 2, imgBeforeResize.getType());
-			Graphics g = img.createGraphics();
-			g.drawImage(imgBeforeResize, 0, 0, imgBeforeResize.getWidth() * 2, imgBeforeResize.getHeight() * 2, null);
-			g.dispose();
+			img = ImageIO.read(new File("assets/tileset.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

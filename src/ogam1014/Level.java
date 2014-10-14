@@ -90,8 +90,8 @@ public class Level {
 	
 	public List<Warp> getWarps() {
 		List<Warp> warps =  new ArrayList<Warp>();
-		warps.add(new Warp(new Point(128, 32), 1, 2, "map"));
-		warps.add(new Warp(new Point(32, 128), 2, 1, "map"));
+		warps.add(new Warp(new Point(Tile.SIZE*4, Tile.SIZE*1), 1, 2, "map"));
+		warps.add(new Warp(new Point(Tile.SIZE*1, Tile.SIZE*4), 2, 1, "map"));
 		
 		return warps;
 	}
