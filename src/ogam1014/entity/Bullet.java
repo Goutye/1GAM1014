@@ -22,7 +22,6 @@ public class Bullet extends MobEntity {
 		h = 4;
 		hIgnored = 0;
 		this.box = new Box((int) x, (int) (y), w, (int) (h));
-		System.out.println(x + " " + y);
 	}
 
 	@Override
@@ -53,11 +52,6 @@ public class Bullet extends MobEntity {
 			e.takeDamage(1);
 		}
 		level.removeEntity(this);
-	}
-
-	@Override
-	protected double getFriction() {
-		return .99;
 	}
 
 	@Override
