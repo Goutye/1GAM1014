@@ -21,9 +21,4 @@ public class Enemy extends LivingEntity {
 		r.blit(IMAGE, x, y, 15, 31, 0, 0);
 	}
 	
-	@Override
-	protected double getFriction() {
-		return .9;
-	}
-
 }

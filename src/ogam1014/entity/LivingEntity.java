@@ -3,6 +3,10 @@ package ogam1014.entity;
 public abstract class LivingEntity extends MobEntity {
 	protected double health = 10;
 	
+	public LivingEntity() {
+		this.friction = 0.8;
+	}
+	
 	@Override
 	public void update(double dt) {
 		super.update(dt);

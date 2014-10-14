@@ -10,6 +10,7 @@ public abstract class MobEntity extends Entity {
 	protected double hIgnored;
 	protected double dx;
 	protected double dy;
+	protected double friction = 1;
 	protected int dir_x = 0;
 	protected int dir_y = 0;
 	protected double time;
@@ -17,8 +18,8 @@ public abstract class MobEntity extends Entity {
 	@Override
 	public void update(double dt) {
 		time += dt;
-		dx = dx * getFriction();
-		dy = dy * getFriction();
+		dx = dx * friction;
+		dy = dy * friction;
 
 		testWallCollision(dt);
 		testEntityCollision(dt);
@@ -82,8 +83,6 @@ public abstract class MobEntity extends Entity {
 		y = p.y - hIgnored;
 		this.box = new Box((int) x, (int) (y), w, (int) (h - hIgnored));
 	}
-
-	protected abstract double getFriction();
 
 	protected boolean collidesWithWalls() {
 		return true;
