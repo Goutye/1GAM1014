@@ -80,6 +80,10 @@ public class Player extends LivingEntity {
 	public void draw(Renderer r) {
 		if (dir == Direction.UP){
 			r.blit(IMAGE, x, y, w, h, 15, 0);
+		} else if (dir == Direction.LEFT) {
+			r.blit(IMAGE, x, y, w, h, 30, 0);
+		} else if (dir == Direction.RIGHT) {	
+			r.blit(IMAGE, x, y, w, h, 45, 0);
 		} else {
 			r.blit(IMAGE, x, y, w, h, 0, 0);
 		}
