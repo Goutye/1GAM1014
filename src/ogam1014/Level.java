@@ -35,7 +35,7 @@ public class Level implements Serializable{
 		switch(name){
 		case "map":
 			timeBeforeMobSpawn = 10.;
-			percent_mobByAvailablePositions = 0.15;
+			percent_mobByAvailablePositions = 0.03;
 			break;
 		default:
 			timeBeforeMobSpawn = 20.;
