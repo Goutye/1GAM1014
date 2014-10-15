@@ -20,7 +20,7 @@ import ogam1014.graphics.Tileset;
 public class Map implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	transient private Tileset tileset;
+	private Tileset tileset;
 	private Tile map[][];
 	
 	public Map(String fileName) {
@@ -36,10 +36,14 @@ public class Map implements Serializable{
 	public void draw(Renderer r) {
 		int i, j;
 		
-		for(i = 0; i < map.length; ++i)
+		
+		for(i = 0; i < map.length; ++i){
+		
 			for(j = 0; j < map[i].length; ++j) {
+				
 				tileset.draw(r, map[i][j], i * Tile.SIZE, j * Tile.SIZE);
 			}
+		}
 	}
 	
 	public void draw(Renderer r, int dx, int dy, int nbTileX, int nbTileY, int idTileStartX, int idTileStartY) {
