@@ -57,24 +57,28 @@ public class Menu extends Screen {
 		
 		int i=0;
 		for(Button button: buttons) {
-			if(input.leftButton.pressed) {
-				button.setClick();
-				
-				if(counter==0)
-				{
-
-					engine.setScreen(new Game());
-				}
-					
-				else if(counter==1)
-					engine.setScreen(new MOptions(this));
-					
-				else if(counter==2)
-					System.exit(0);
-			}
+			boolean hover = button.update(input.mouse);
+			if(counter==i)
+			button.setHover();
 			
-			if(button.update(input.mouse))
+			if(hover){
+				if(input.leftButton.pressed || input.validate.down) {
+					button.setClick();
+					
+					if(counter==0){
+						engine.setScreen(new Game());
+					}
+						
+					else if(counter==1){
+						engine.setScreen(new MOptions(this));
+					}
+						
+					else if(counter==2)
+						System.exit(0);
+				}
 				counter=i;
+				
+			}
 			
 			i++;
 		}
@@ -83,20 +87,11 @@ public class Menu extends Screen {
 	}
 
 	@Override
-	public void draw(Renderer r) {
-		int i=0;
+	public void draw(Renderer r) {	
 		for (Button button : buttons) {
 			button.drawUpdate(r);
 			
-			if (counter == i) {
-				button.drawSelected(r);
-				
-				if (input.validate.down) { /** TODO: dafuq? */
-					button.drawClicked(r);
-				}
-			}
-				
-			i++;
+			
 		}
 	}
 }

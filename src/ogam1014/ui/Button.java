@@ -49,7 +49,10 @@ public abstract class Button implements IButton {
 	public void setClick() {
 		down = true;
 	}
-
+	
+	public void setHover(){
+		hover = true;
+	}
 	public boolean update(Point p) {
 		if (p != null) {
 			if (Collide.AABB_point(box, p)) {
@@ -66,7 +69,6 @@ public abstract class Button implements IButton {
 
 	public void drawUpdate(Renderer r) {
 		if (down && hover) {
-			System.out.print("dessin");
 			drawClicked(r);
 			down = false;
 			return;
@@ -74,7 +76,6 @@ public abstract class Button implements IButton {
 		
 		if (hover) {
 			drawSelected(r);
-			down = false;
 			hover = false;
 			return;
 		}

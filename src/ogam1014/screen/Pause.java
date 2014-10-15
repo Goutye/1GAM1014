@@ -46,11 +46,11 @@ public class Pause extends Screen {
 		
 		int i=0;
 		for(Button button: buttons) {
+
 			if(input.leftButton.pressed) {
 				button.setClick();
 				
-				if(counter==0)
-				{
+				if(counter==0) {
 					((Game)parent).save();	
 					
 				}
