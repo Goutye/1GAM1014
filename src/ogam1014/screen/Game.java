@@ -77,6 +77,7 @@ public class Game extends Screen {
 	}
 
 	public void save() {
+		
 		File save = new File("assets/save");
 		if (!save.exists()) {
 			try {

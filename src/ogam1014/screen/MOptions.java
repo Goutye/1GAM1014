@@ -56,42 +56,40 @@ public class MOptions extends Screen {
 		}
 		
 		int i=0;
+
 		for(Button button: buttons) {
-			if(input.leftButton.pressed) {
-				button.setClick();
-				if(counter==0) {
-					
-				}
-				if(counter==1) {
-					engine.setScreen(new Menu());
-				}
-			}
+			boolean hover = button.update(input.mouse);
+			if(counter==i)
+			button.setHover();
 			
-			if(button.update(input.mouse))
+			if(hover){
+				if(input.leftButton.pressed || input.validate.down) {
+					button.setClick();
+					
+					if(counter==0) {
+						
+					}
+					if(counter==1) {
+						engine.setScreen(new Menu());
+					}
 				counter=i;
+				
+			}
 			
 			i++;
 		}
-
+		
+		}
 		counter %= buttons.size();
 	}
 	
 	public void draw(Renderer r) {
-		int i = 0;
+		
 		slide.draw(r);
 
 		for (Button button : buttons) {
 			button.drawUpdate(r);
 			
-			if (counter == i) {
-				button.drawSelected(r);
-				
-				if (input.validate.down) {
-					button.drawClicked(r);
-				}
-			}
-
-		i++;
-		}
+	}
 	}
 }
