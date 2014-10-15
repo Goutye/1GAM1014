@@ -8,7 +8,7 @@ import ogam1014.graphics.Renderer;
 public class Player extends LivingEntity {
 	static public double SPEED = 200;
 
-	private InputHandler input;
+	transient private InputHandler input;
 	
 	private PlayerInventory inventory;
 	

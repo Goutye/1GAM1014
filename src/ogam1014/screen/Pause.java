@@ -51,7 +51,7 @@ public class Pause extends Screen {
 				
 				if(counter==0)
 				{
-
+					((Game)parent).save();	
 					
 				}
 					

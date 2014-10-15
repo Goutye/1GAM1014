@@ -1,6 +1,7 @@
 package ogam1014;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -13,13 +14,13 @@ import ogam1014.entity.MobEntity;
 import ogam1014.entity.Player;
 import ogam1014.graphics.Renderer;
 
-public class Level {
+public class Level implements Serializable{
+	private static final long serialVersionUID = 1L;
 	static private Random random = new Random();
 	
-	
 	private List<Entity> entities = new ArrayList<Entity>();
-	private List<Entity> newEntities = new ArrayList<Entity>();
-	private List<Entity> removedEntities = new ArrayList<Entity>();
+	transient private List<Entity> newEntities = new ArrayList<Entity>();
+	transient private List<Entity> removedEntities = new ArrayList<Entity>();
 	private Map map;
 	private String name;
 	private Player player;
