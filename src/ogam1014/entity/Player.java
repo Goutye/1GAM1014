@@ -86,12 +86,19 @@ public class Player extends LivingEntity {
 			} else if (dir == Direction.RIGHT) {	
 				r.blit(IMAGE, x, y, w, h, 45, 0);
 			} else {
-				if (Math.ceil(time*5) % 4 == 0){
+				int frameNumber = (int)(Math.ceil(time*8) % 6);
+				if (frameNumber == 0){
 					r.blit(IMAGE, x, y, w, h, 60, 0);
-				} else if (Math.ceil(time*5) % 4 == 2){
+				} else if (frameNumber == 1){
 					r.blit(IMAGE, x, y, w, h, 75, 0);
-				} else {
+				} else if (frameNumber == 2){
 					r.blit(IMAGE, x, y, w, h, 90, 0);
+				} else if (frameNumber == 3){
+					r.blit(IMAGE, x, y, w, h, 105, 0);
+				} else if (frameNumber == 4){
+					r.blit(IMAGE, x, y, w, h, 90, 0);
+				} else {
+					r.blit(IMAGE, x, y, w, h, 75, 0);
 				}
 			}
 		} else {
