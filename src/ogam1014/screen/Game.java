@@ -32,8 +32,6 @@ public class Game extends Screen {
 			changeLevel("map", 1);
 		}
 	}
-	
-	
 
 	public void changeLevel(String name, int idWarp) {
 		level = new Level(name);
@@ -81,7 +79,7 @@ public class Game extends Screen {
 	}
 
 	public void save() {
-		
+
 		File save = new File("assets/save");
 		if (!save.exists()) {
 			try {
@@ -102,18 +100,18 @@ public class Game extends Screen {
 			e.printStackTrace();
 		}
 	}
-	
-	public void load(){
+
+	public void load() {
 		try {
 			FileInputStream fint = new FileInputStream("assets/save/" + "save1");
 			ObjectInputStream ois = new ObjectInputStream(fint);
-			level.setLoad((Level) ois.readObject());
-			
+			level.setLoad((Level) ois.readObject(),input);
+
 			ois.close();
 			System.out.println("Level loaded!");
-		} catch(IOException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
-		} catch(ClassNotFoundException e) {
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
