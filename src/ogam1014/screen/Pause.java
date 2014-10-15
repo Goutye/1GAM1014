@@ -46,22 +46,33 @@ public class Pause extends Screen {
 		
 		int i=0;
 		for(Button button: buttons) {
-
-			if(input.leftButton.pressed) {
-				button.setClick();
-				
-				if(counter==0) {
-					((Game)parent).save();	
-					
-				}
-					
-			}
+			boolean hover = button.update(input.mouse);
+			if(counter==i)
+			button.setHover();
 			
-			if(button.update(input.mouse))
+			if(hover){
+				if(input.leftButton.pressed || input.validate.down) {
+					button.setClick();
+					
+					if(counter==0){
+						((Game)parent).save();	
+					}
+						
+					else if(counter==1){
+						engine.setScreen(new MOptions(this));
+					}
+						
+					else if(counter==2)
+						System.exit(0);
+				}
 				counter=i;
+				
+			}
 			
 			i++;
 		}
+			
+		
 
 		counter %= buttons.size();
 		
@@ -73,17 +84,8 @@ public class Pause extends Screen {
 		boolean show = (int)(time * 2) % 2 == 0;
 		int i=0;
 		for (Button button : buttons) {
-			button.drawUpdate(r);
-			
-			if (counter == i) {
-				button.drawSelected(r);
+		button.drawUpdate(r);
 				
-				if (input.validate.down) { /** TODO: dafuq? */
-					button.drawClicked(r);
-				}
-			}
-				
-			i++;
 		}
 	
 		
