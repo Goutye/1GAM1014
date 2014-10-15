@@ -10,6 +10,7 @@ public class RoundedButton extends Button implements IButton {
 	public RoundedButton(int x, int y, int width, int height, String name,
 			Color txt, Color bg, Color cClick) {
 		super(x, y, width, height, name, txt, bg, cClick);
+	
 	}
 
 	@Override

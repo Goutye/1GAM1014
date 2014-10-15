@@ -2,13 +2,10 @@ package ogam1014.equipment;
 
 import ogam1014.entity.Player;
 
-public class MeleeWeaponItem extends Item implements IUsableItem {
+public class MeleeWeaponItem extends AttributeItem implements IUsableItem {
 	
-	private int attackDamage;
-	
-	public MeleeWeaponItem(String name, int attackDamage) {
+	public MeleeWeaponItem(String name) {
 		super(name);
-		this.attackDamage = attackDamage;
 	}
 
 	@Override

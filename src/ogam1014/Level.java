@@ -1,30 +1,31 @@
 package ogam1014;
 
 import java.awt.Point;
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
-
-import com.sun.org.apache.bcel.internal.generic.INSTANCEOF;
 
 import ogam1014.entity.Enemy;
 import ogam1014.entity.Entity;
 import ogam1014.entity.Player;
 import ogam1014.graphics.Renderer;
 
-public class Level {
+public class Level implements Serializable{
+	private static final long serialVersionUID = 1L;
 	static private Random random = new Random();
 	
-	
 	private List<Entity> entities = new ArrayList<Entity>();
-	private List<Entity> newEntities = new ArrayList<Entity>();
-	private List<Entity> removedEntities = new ArrayList<Entity>();
+	transient private List<Entity> newEntities = new ArrayList<Entity>();
+	transient private List<Entity> removedEntities = new ArrayList<Entity>();
 	private Map map;
 	private String name;
 	private Player player;
-	private double currentTimeMobSpawn = -1.;
-	private double timeBeforeMobSpawn;
-	private double percent_mobByAvailablePositions;
+	transient private double currentTimeMobSpawn = -1.;
+	transient private double timeBeforeMobSpawn;
+	transient private double percent_mobByAvailablePositions;
 
 	public Level(String name) {
 		map = new Map(name + ".tile");
@@ -33,7 +34,7 @@ public class Level {
 		switch(name){
 		case "map":
 			timeBeforeMobSpawn = 10.;
-			percent_mobByAvailablePositions = 0.15;
+			percent_mobByAvailablePositions = 0.03;
 			break;
 		default:
 			timeBeforeMobSpawn = 20.;
@@ -58,13 +59,23 @@ public class Level {
 		addRandomEnemies(dt);
 		
 		entities.addAll(newEntities);
-		entities.removeAll(removedEntities);
 		newEntities.clear();
-		removedEntities.clear();
 
 		for (Entity e : entities) {
 			e.update(dt);
 		}
+
+		entities.removeAll(removedEntities);
+		removedEntities.clear();
+		
+		Collections.sort(entities, new Comparator<Entity>() {
+			@Override
+			public int compare(Entity o1, Entity o2) {
+				int y1 = (int) (o1.getY() + o1.getHeight());
+				int y2 = (int) (o2.getY() + o2.getHeight());
+				return y1 - y2;
+			}
+		});
 	}
 
 	public void draw(Renderer r) {
@@ -83,8 +94,8 @@ public class Level {
 	
 	public List<Warp> getWarps() {
 		List<Warp> warps =  new ArrayList<Warp>();
-		warps.add(new Warp(new Point(128, 32), 1, 2, "map"));
-		warps.add(new Warp(new Point(32, 128), 2, 1, "map"));
+		warps.add(new Warp(new Point(Tile.SIZE*4, Tile.SIZE*1), 1, 2, "map"));
+		warps.add(new Warp(new Point(Tile.SIZE*1, Tile.SIZE*4), 2, 1, "map"));
 		
 		return warps;
 	}
@@ -141,5 +152,19 @@ public class Level {
 			}
 		}
 	}
+	
+	public void setLoad(Level l){
+		map=l.map;
+		player=l.player;
+		entities = l.entities;
+		
+		
+	}
+	
+	public Map getMap(){
+		return map;
+	}
+	
+	
 }
 

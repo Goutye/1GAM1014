@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,8 +17,10 @@ import ogam1014.entity.Player;
 import ogam1014.graphics.Renderer;
 import ogam1014.graphics.Tileset;
 
-public class Map {
-	private Tileset tileset;
+public class Map implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	transient private Tileset tileset;
 	private Tile map[][];
 	
 	public Map(String fileName) {
@@ -122,4 +125,6 @@ public class Map {
 		
 		return positions;
 	}
+	
+	
 }

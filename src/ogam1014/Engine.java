@@ -17,13 +17,16 @@ public class Engine extends Canvas implements Runnable {
 	private static final long serialVersionUID = 1L;
 
 	public static final String NAME = "1GAM1014";
-	public static final int WIDTH = 800;
-	public static final int HEIGHT = 600;
-
+	public static final int PIXEL_SIZE = 2;
+	public static final int WIDTH = 400;
+	public static final int HEIGHT = 300;
+	public static final int WINDOW_WIDTH = WIDTH * PIXEL_SIZE;
+	public static final int WINDOW_HEIGHT = HEIGHT * PIXEL_SIZE;
+	
 	private boolean running = false;
 	private InputHandler input = new InputHandler(this);
 	private Screen screen;
-	private Renderer renderer = new Renderer(WIDTH, HEIGHT);
+	private Renderer renderer = new Renderer(WIDTH, HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT);
 
 	public void setScreen(Screen screen) {
 		this.screen = screen;
@@ -126,7 +129,7 @@ public class Engine extends Canvas implements Runnable {
 		
 		JPanel panel = (JPanel) frame.getContentPane();
 		
-		panel.setPreferredSize(new Dimension(WIDTH, HEIGHT));
+		panel.setPreferredSize(new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT));
 		panel.add(engine, BorderLayout.CENTER);
 		
 		frame.pack();

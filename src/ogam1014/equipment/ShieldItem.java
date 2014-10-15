@@ -2,11 +2,11 @@ package ogam1014.equipment;
 
 import ogam1014.entity.Player;
 
-public class ShieldItem extends Item implements IUsableItem {
+public class ShieldItem extends AttributeItem implements IUsableItem {
 	
 	private float protection;
 	
-	public ShieldItem(String name, float protection) {
+	public ShieldItem(String name) {
 		super(name);
 		this.protection = protection;
 	}

@@ -11,14 +11,15 @@ import ogam1014.ui.RoundedButton;
 
 public class Menu extends Screen {
 
-	private Button start = new RoundedButton((int) Engine.WIDTH / 2,
-			(int) (Engine.HEIGHT * 0.2), 100, 50, "Start", Color.BLACK,
+	
+	private Button start = new RoundedButton((int) Engine.WIDTH / 2-Engine.WIDTH/10,
+			(int) (Engine.HEIGHT * 0.2), Engine.WIDTH/5, Engine.HEIGHT/7, "Start", Color.BLACK,
 			Color.YELLOW,Color.ORANGE);
-	private Button options = new RoundedButton((int) Engine.WIDTH / 2,
-			(int) (Engine.HEIGHT * 0.4), 100, 50, "Options", Color.BLACK,
+	private Button options = new RoundedButton((int) Engine.WIDTH / 2 - Engine.WIDTH/10,
+			(int) (Engine.HEIGHT * 0.4), Engine.WIDTH/5, Engine.HEIGHT/7, "Options", Color.BLACK,
 			Color.YELLOW,Color.ORANGE);
-	private Button quit = new RoundedButton((int) Engine.WIDTH / 2,
-			(int) (Engine.HEIGHT * 0.6), 100, 50, "Quit", Color.BLACK,
+	private Button quit = new RoundedButton((int) Engine.WIDTH / 2 -Engine.WIDTH/10,
+			(int) (Engine.HEIGHT * 0.6), Engine.WIDTH/5, Engine.HEIGHT/7, "Quit", Color.BLACK,
 			Color.YELLOW,Color.ORANGE);
 	private List<Button> buttons = new ArrayList<Button>();
 	private int counter = 0;
@@ -35,7 +36,7 @@ public class Menu extends Screen {
 		}
 
 		if (input.validate.pressed && counter == 1) {
-			engine.setScreen(new MOptions());
+			engine.setScreen(new MOptions(this));
 		}
 		if (input.validate.pressed && counter == 2) {
 			System.exit(0);
@@ -56,33 +57,28 @@ public class Menu extends Screen {
 		
 		int i=0;
 		for(Button button: buttons) {
-			if(input.leftButton.pressed) {
-				button.setClick();
-				
-				if(counter==0)
-				{
-					/**
-					 * TODO: Exemple à supprimer (@Goutye)
-					 */
-					/*
-					pscreen.setText("Tu veux quitter ou pas connard ?");
-					pscreen.addOption(0, "nan");
-					pscreen.addOption(1, "ouais");
-					pscreen.addOption(2, "ta gueule");
-					engine.setScreen(pscreen);
-					*/
-					engine.setScreen(new Game());
-				}
-					
-				else if(counter==1)
-					engine.setScreen(new MOptions());
-					
-				else if(counter==2)
-					System.exit(0);
-			}
+			boolean hover = button.update(input.mouse);
+			if(counter==i)
+			button.setHover();
 			
-			if(button.update(input.mouse))
+			if(hover){
+				if(input.leftButton.pressed || input.validate.down) {
+					button.setClick();
+					
+					if(counter==0){
+						engine.setScreen(new Game());
+					}
+						
+					else if(counter==1){
+						engine.setScreen(new MOptions(this));
+					}
+						
+					else if(counter==2)
+						System.exit(0);
+				}
 				counter=i;
+				
+			}
 			
 			i++;
 		}
@@ -91,20 +87,11 @@ public class Menu extends Screen {
 	}
 
 	@Override
-	public void draw(Renderer r) {
-		int i=0;
+	public void draw(Renderer r) {	
 		for (Button button : buttons) {
 			button.drawUpdate(r);
 			
-			if (counter == i) {
-				button.drawSelected(r);
-				
-				if (input.validate.down) { /** TODO: dafuq? */
-					button.drawClicked(r);
-				}
-			}
-				
-			i++;
+			
 		}
 	}
 }
