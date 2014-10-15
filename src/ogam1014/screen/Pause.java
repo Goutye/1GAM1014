@@ -50,6 +50,7 @@ public class Pause extends Screen {
 			if(counter==i)
 			button.setHover();
 			
+			
 			if(hover){
 				if(input.leftButton.pressed || input.validate.down) {
 					button.setClick();
@@ -59,7 +60,7 @@ public class Pause extends Screen {
 					}
 						
 					else if(counter==1){
-						
+						((Game)parent).load();	
 					}
 						
 					else if(counter==2)

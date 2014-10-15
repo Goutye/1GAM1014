@@ -10,7 +10,6 @@ import java.util.Random;
 
 import ogam1014.entity.Enemy;
 import ogam1014.entity.Entity;
-import ogam1014.entity.MobEntity;
 import ogam1014.entity.Player;
 import ogam1014.graphics.Renderer;
 
@@ -24,9 +23,9 @@ public class Level implements Serializable{
 	private Map map;
 	private String name;
 	private Player player;
-	private double currentTimeMobSpawn = -1.;
-	private double timeBeforeMobSpawn;
-	private double percent_mobByAvailablePositions;
+	transient private double currentTimeMobSpawn = -1.;
+	transient private double timeBeforeMobSpawn;
+	transient private double percent_mobByAvailablePositions;
 
 	public Level(String name) {
 		map = new Map(name + ".tile");
@@ -153,5 +152,19 @@ public class Level implements Serializable{
 			}
 		}
 	}
+	
+	public void setLoad(Level l){
+		map=l.map;
+		player=l.player;
+		entities = l.entities;
+		
+		
+	}
+	
+	public Map getMap(){
+		return map;
+	}
+	
+	
 }
 

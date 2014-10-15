@@ -1,8 +1,10 @@
 package ogam1014.screen;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.List;
 
@@ -30,6 +32,8 @@ public class Game extends Screen {
 			changeLevel("map", 1);
 		}
 	}
+	
+	
 
 	public void changeLevel(String name, int idWarp) {
 		level = new Level(name);
@@ -95,6 +99,21 @@ public class Game extends Screen {
 			oos.close();
 			System.out.println("Level saved!");
 		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void load(){
+		try {
+			FileInputStream fint = new FileInputStream("assets/save/" + "save1");
+			ObjectInputStream ois = new ObjectInputStream(fint);
+			level.setLoad((Level) ois.readObject());
+			
+			ois.close();
+			System.out.println("Level loaded!");
+		} catch(IOException e) {
+			e.printStackTrace();
+		} catch(ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
