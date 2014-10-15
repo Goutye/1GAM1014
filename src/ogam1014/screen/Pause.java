@@ -59,7 +59,7 @@ public class Pause extends Screen {
 					}
 						
 					else if(counter==1){
-						engine.setScreen(new MOptions(this));
+						
 					}
 						
 					else if(counter==2)
@@ -82,7 +82,7 @@ public class Pause extends Screen {
 	@Override
 	public void draw(Renderer r) {
 		boolean show = (int)(time * 2) % 2 == 0;
-		int i=0;
+		
 		for (Button button : buttons) {
 		button.drawUpdate(r);
 				

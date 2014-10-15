@@ -56,7 +56,6 @@ public class MOptions extends Screen {
 		}
 		
 		int i=0;
-
 		for(Button button: buttons) {
 			boolean hover = button.update(input.mouse);
 			if(counter==i)
@@ -66,20 +65,25 @@ public class MOptions extends Screen {
 				if(input.leftButton.pressed || input.validate.down) {
 					button.setClick();
 					
-					if(counter==0) {
+					if(counter==0){
 						
 					}
-					if(counter==1) {
-						engine.setScreen(new Menu());
+						
+					else if(counter==1){
+						engine.setScreen(parent);
 					}
+						
+					
+				}
 				counter=i;
 				
 			}
 			
 			i++;
 		}
+	
 		
-		}
+		
 		counter %= buttons.size();
 	}
 	

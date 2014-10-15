@@ -11,7 +11,7 @@ import ogam1014.ui.RoundedButton;
 
 public class Menu extends Screen {
 
-	private Screen parent;
+	
 	private Button start = new RoundedButton((int) Engine.WIDTH / 2-Engine.WIDTH/10,
 			(int) (Engine.HEIGHT * 0.2), Engine.WIDTH/5, Engine.HEIGHT/7, "Start", Color.BLACK,
 			Color.YELLOW,Color.ORANGE);
