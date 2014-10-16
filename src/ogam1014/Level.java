@@ -158,14 +158,14 @@ public class Level implements Serializable{
 		entities = l.entities;
 		player=l.player;
 		player.setInput(input);
-		
-		
-		
-		
 	}
 	
 	public Map getMap(){
 		return map;
+	}
+	
+	public List<Entity> getEntities() {
+		return entities;
 	}
 	
 	

@@ -115,4 +115,12 @@ public class Game extends Screen {
 			e.printStackTrace();
 		}
 	}
+	
+	public Level getLevel() {
+		return level;
+	}
+	
+	public Player getPlayer() {
+		return player;
+	}
 }
