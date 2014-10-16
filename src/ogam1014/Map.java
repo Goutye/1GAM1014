@@ -13,6 +13,7 @@ import java.util.List;
 
 import ogam1014.collide.Box;
 import ogam1014.collide.Collide;
+import ogam1014.entity.Entity;
 import ogam1014.entity.Player;
 import ogam1014.graphics.Renderer;
 import ogam1014.graphics.Tileset;
@@ -31,6 +32,10 @@ public class Map implements Serializable{
 	public Map(Tile map[][]) {
 		this.map = map;
 		tileset = new Tileset();
+	}
+	
+	public Tile[][] getMap() {
+		return map;
 	}
 	
 	public void draw(Renderer r) {
@@ -126,5 +131,15 @@ public class Map implements Serializable{
 		return positions;
 	}
 	
+	
+	public Point findPosTile(Entity e) throws NullPointerException{
+		Point p = new Point((int) (e.getX() / Tile.SIZE), (int) (e.getY() / Tile.SIZE));
+		return p;
+	}
+	
+	public Tile findTile(Entity e) throws NullPointerException{
+		System.out.println((int) (e.getX() / Tile.SIZE) + ", " + (int) (e.getY() / Tile.SIZE));
+		return map[(int) (e.getX() / Tile.SIZE)][(int) (e.getY() / Tile.SIZE)];
+	}
 	
 }
