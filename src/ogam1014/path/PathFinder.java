@@ -18,7 +18,7 @@ public class PathFinder {
 	private int index = 0;
 	private boolean[][] marker;
 	private Tile tiles[][];
-
+	
 	public PathFinder(Entity start, Entity end, Map map) {
 		this.start = start;
 		this.end = end;
@@ -88,7 +88,7 @@ public class PathFinder {
 	public ArrayList<Point> A_star() {
 
 		ArrayList<QueueElement> stock = new ArrayList<>();
-		Point PosEnd = map.findPosTile(end);
+		Point PosEnd = Tile.convertToTilePos(end.getX(), end.getY());
 		Point curTileIJ = map.findPosTile(start);
 		marker[curTileIJ.x][curTileIJ.y] = true;
 		QueueElement e = new QueueElement(curTileIJ);

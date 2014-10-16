@@ -1,5 +1,7 @@
 package ogam1014;
 
+import java.awt.Point;
+
 public enum Tile{
 	TL, T, TR, WATERBORDER_TL, WATERBORDER_T, WATERBORDER_TR,
 	TTL, TT, TTR, WATERBORDER_L, GRASS, WATERBORDER_R,
@@ -18,5 +20,9 @@ public enum Tile{
 			|| this == TR
 			|| this == T
 			|| this == VOID;
+	}
+	
+	public static Point convertToTilePos(double x, double y){
+		return new Point((int) (x / SIZE), (int) (y / SIZE));
 	}
 }
