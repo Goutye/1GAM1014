@@ -4,12 +4,19 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.image.BufferStrategy;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import ogam1014.entity.Entity;
+import ogam1014.entity.Player;
 import ogam1014.graphics.Renderer;
+import ogam1014.path.PathFinder;
+import ogam1014.screen.Game;
 import ogam1014.screen.Menu;
 import ogam1014.screen.Screen;
 
@@ -114,9 +121,59 @@ public class Engine extends Canvas implements Runnable {
 		renderer.clear();
 		screen.draw(renderer);
 		renderer.flip(g);
-
+		drawPath(g);
 		g.dispose();
 		bs.show();
+	}
+	
+	
+	public void drawPath(Graphics g) {
+		try {
+			// System.out.println("écran trouvé !");
+			Game game = ((Game) this.screen);
+			Player p = game.getPlayer();
+
+			List<Entity> ennemies = game.getLevel().getEntities();
+
+			for (Entity e : ennemies) {
+
+				// LANCEMENT DE A_STAR
+				if (e != p) {
+					PathFinder pF = new PathFinder(e, p, game.getLevel()
+							.getMap());
+					ArrayList<Point> lp = pF.A_star();
+System.out.println("A_STAR");
+					Point precedent = new Point(pF.getPosEnd());
+					int diffX = WIDTH / 2 - precedent.x*Tile.SIZE;
+					int diffY = HEIGHT / 2 - precedent.y*Tile.SIZE;
+					// tracé de la droite
+					g.drawLine(WIDTH / 2, HEIGHT / 2,
+							(int) (e.getX() - p.getX()) + WIDTH / 2,
+							(int) (e.getY() - p.getY()) + HEIGHT / 2);
+					// tracé du tableau
+					for (Point point : lp) {
+						//System.out.println("precedent : (" + precedent.x*Tile.SIZE + Tile.SIZE/2 + "," + precedent.y*Tile.SIZE + Tile.SIZE/2 +")");
+						//System.out.println("courant : (" + point.x*Tile.SIZE + Tile.SIZE/2 + "," + point.y*Tile.SIZE + Tile.SIZE/2 +")");
+						//System.out.println(precedent.x + " , " + precedent.x);
+/*System.out.println((precedent.x*Tile.SIZE + Tile.SIZE/2 + diffX) 
+		+ " , " + (precedent.y*Tile.SIZE + Tile.SIZE/2 + diffY)
+		+ " -> " + (point.x*Tile.SIZE + Tile.SIZE/2 + diffX)
+		+ " , " + (point.y*Tile.SIZE + Tile.SIZE/2 + diffY));*/
+						g.drawLine(precedent.x*Tile.SIZE + Tile.SIZE/2 + diffX,
+								precedent.y*Tile.SIZE + Tile.SIZE/2 + diffY,
+								point.x*Tile.SIZE + Tile.SIZE/2 + diffX,
+								point.y*Tile.SIZE + Tile.SIZE/2 + diffY);
+						precedent = point;
+
+					}
+					//System.out.println("last Pos : " + precedent.toString());
+
+				}
+				// System.out.println(e);
+			}
+		} catch (ClassCastException cce) {
+			System.err.println("Cet écran n'est une game !");
+		}
 	}
 
 	public static void main(String[] args) {
