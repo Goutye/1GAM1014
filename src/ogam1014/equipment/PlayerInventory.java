@@ -45,6 +45,17 @@ public class PlayerInventory implements Serializable {
 		}
 	}
 
+	public void equipItem(int slot, IUsableItem item) {
+		if (slot < 0 || slot > 2)
+			return;
+
+		equipped[slot] = item;
+	}
+
+	public void addItem(Item item) {
+		items.add(item);
+	}
+
 	public float getTotalArmorProtection() {
 		float total = 0;
 

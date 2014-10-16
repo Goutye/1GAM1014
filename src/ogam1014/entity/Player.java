@@ -1,15 +1,18 @@
 package ogam1014.entity;
 
 import ogam1014.InputHandler;
-import ogam1014.equipment.PlayerInventory;
 import ogam1014.Tile;
+import ogam1014.equipment.ItemFactory;
+import ogam1014.equipment.PlayerInventory;
+import ogam1014.equipment.RangeWeaponItem;
 import ogam1014.graphics.Renderer;
 
 public class Player extends LivingEntity {
+	private static final long serialVersionUID = 1L;
+
 	static public double SPEED = 200;
 
 	transient private InputHandler input;
-	
 	private PlayerInventory inventory;
 	
 	public Player(InputHandler input) {
@@ -18,6 +21,13 @@ public class Player extends LivingEntity {
 		this.h = 31;
 		
 		inventory = new PlayerInventory(this);
+		RangeWeaponItem gun = (RangeWeaponItem) ItemFactory.make("rangeweapon.simplegun");
+		inventory.addItem(gun);
+		inventory.equipItem(0, gun);
+		RangeWeaponItem shotgun = (RangeWeaponItem) ItemFactory.make("rangeweapon.shotgun");
+		inventory.addItem(shotgun);
+		inventory.equipItem(1, shotgun);
+
 		this.hIgnored = Math.max( this.h * PERSPECTIVE, this.h - Tile.SIZE);
 	}
 	
@@ -27,7 +37,6 @@ public class Player extends LivingEntity {
 
 	@Override
 	public void update(double dt) {
-		//System.out.println(input.up.down);
 		if (input.up.down) {
 			dy = -SPEED;
 			dir = Direction.UP;
@@ -48,34 +57,14 @@ public class Player extends LivingEntity {
 			dir = Direction.LEFT;
 		}
 
-		boolean fire = false;
-		double fireDx = 0;
-		double fireDy = 0;
-
-		if (input.fireUp.down) {
-			fire = true;
-			fireDy = -1;
+		if (input.slot1.down) {
+			inventory.use(0);
 		}
-
-		if (input.fireDown.down) {
-			fire = true;
-			fireDy = 1;
+		if (input.slot2.down) {
+			inventory.use(1);
 		}
-
-		if (input.fireLeft.down) {
-			fire = true;
-			fireDx = -1;
-		}
-
-		if (input.fireRight.down) {
-			fire = true;
-			fireDx = 1;
-		}
-	
-
-		if (fire) {
-			Bullet b = new Bullet(this, fireDx * Bullet.SPEED, fireDy * Bullet.SPEED);
-			level.addEntity(b);
+		if (input.slot3.down) {
+			inventory.use(2);
 		}
 
 		super.update(dt);		
@@ -144,6 +133,14 @@ public class Player extends LivingEntity {
 				r.blit(IMAGE, x, y, w, h, 0, 0);
 			}
 		}
+	}
+
+	public double getShootingAngle() {
+		return Math.atan2(dy, dx);
+	}
+
+	public void spawnBullet(Bullet b) {
+		level.addEntity(b);
 	}
 
 }

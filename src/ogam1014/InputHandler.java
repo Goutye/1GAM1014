@@ -49,6 +49,9 @@ public class InputHandler {
 	public Key down = addKey(KeyEvent.VK_S);
 	public Key left = addKey(KeyEvent.VK_Q);
 	public Key right = addKey(KeyEvent.VK_D);
+	public Key slot1 = addKey(KeyEvent.VK_J);
+	public Key slot2 = addKey(KeyEvent.VK_K);
+	public Key slot3 = addKey(KeyEvent.VK_L);
 	public Key fireUp = addKey(KeyEvent.VK_UP);
 	public Key fireDown = addKey(KeyEvent.VK_DOWN);
 	public Key fireLeft = addKey(KeyEvent.VK_LEFT);

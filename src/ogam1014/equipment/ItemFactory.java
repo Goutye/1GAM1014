@@ -39,8 +39,19 @@ public abstract class ItemFactory {
 	}
 
 	private static Item makeRangeWeapon(String descriptor) {
-		// TODO Auto-generated method stub
-		return null;
+		RangeWeaponItem rw = null;
+		switch (descriptor) {
+		case "rangeweapon.simplegun":
+			rw = new RangeWeaponItem("Gun");
+			rw.setSpreadAngle(Math.PI / 36);
+			break;
+		case "rangeweapon.shotgun":
+			rw = new RangeWeaponItem("Shotgun");
+			rw.setSpreadAngle(Math.PI / 8);
+			rw.setNumBullets(8);
+			break;
+		}
+		return rw;
 	}
 
 	private static Item makeMeleeWeapon(String descriptor) {
