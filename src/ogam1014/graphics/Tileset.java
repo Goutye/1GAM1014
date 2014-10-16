@@ -4,15 +4,16 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 
 import javax.imageio.ImageIO;
 
 import ogam1014.Tile;
 
-public class Tileset {
+public class Tileset implements Serializable{
 	static private final int nbTileW = 12;
 	static private final int nbTileH = 4;
-	private BufferedImage img;
+	transient private BufferedImage img;
 
 	public Tileset() {
 		try {

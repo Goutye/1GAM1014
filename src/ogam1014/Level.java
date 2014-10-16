@@ -23,9 +23,9 @@ public class Level implements Serializable{
 	private Map map;
 	private String name;
 	private Player player;
-	transient private double currentTimeMobSpawn = -1.;
-	transient private double timeBeforeMobSpawn;
-	transient private double percent_mobByAvailablePositions;
+	private double currentTimeMobSpawn = -1.;
+	private double timeBeforeMobSpawn;
+	 private double percent_mobByAvailablePositions;
 
 	public Level(String name) {
 		map = new Map(name + ".tile");
@@ -153,10 +153,13 @@ public class Level implements Serializable{
 		}
 	}
 	
-	public void setLoad(Level l){
+	public void setLoad(Level l,InputHandler input){
 		map=l.map;
-		player=l.player;
 		entities = l.entities;
+		player=l.player;
+		player.setInput(input);
+		
+		
 		
 		
 	}

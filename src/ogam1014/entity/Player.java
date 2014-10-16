@@ -20,9 +20,14 @@ public class Player extends LivingEntity {
 		inventory = new PlayerInventory(this);
 		this.hIgnored = Math.max( this.h * PERSPECTIVE, this.h - Tile.SIZE);
 	}
+	
+	public void setInput(InputHandler input){
+		this.input = input;
+	}
 
 	@Override
 	public void update(double dt) {
+		//System.out.println(input.up.down);
 		if (input.up.down) {
 			dy = -SPEED;
 			dir = Direction.UP;
@@ -66,6 +71,7 @@ public class Player extends LivingEntity {
 			fire = true;
 			fireDx = 1;
 		}
+	
 
 		if (fire) {
 			Bullet b = new Bullet(this, fireDx * Bullet.SPEED, fireDy * Bullet.SPEED);

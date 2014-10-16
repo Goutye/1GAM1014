@@ -56,15 +56,17 @@ public class Pause extends Screen {
 					button.setClick();
 					
 					if(counter==0){
-						((Game)parent).save();	
+						System.out.println(((Game)parent).toString());
+						((Game)parent).save();
+						
+						
 					}
 						
 					else if(counter==1){
 						((Game)parent).load();	
+						System.out.println(((Game)parent).toString());
 					}
-						
-					else if(counter==2)
-						System.exit(0);
+					
 				}
 				counter=i;
 				
