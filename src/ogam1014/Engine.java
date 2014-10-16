@@ -119,9 +119,9 @@ public class Engine extends Canvas implements Runnable {
 		Graphics g = bs.getDrawGraphics();
 		
 		renderer.clear();
-		//screen.draw(renderer);
+		screen.draw(renderer);
 		renderer.flip(g);
-		drawPath(g);
+		//drawPath(g);
 		g.dispose();
 		bs.show();
 	}
