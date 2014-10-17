@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 
@@ -14,6 +15,7 @@ import ogam1014.graphics.Renderer;
 
 public abstract class Entity implements Serializable{
 	private static final long serialVersionUID = 1L;
+	static protected Random random = new Random();
 	
 	static protected Image IMAGE;
 	static {

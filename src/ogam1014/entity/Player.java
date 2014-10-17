@@ -10,8 +10,6 @@ import ogam1014.graphics.Renderer;
 public class Player extends LivingEntity {
 	private static final long serialVersionUID = 1L;
 
-	static public double SPEED = 200;
-
 	transient private InputHandler input;
 	private PlayerInventory inventory;
 	

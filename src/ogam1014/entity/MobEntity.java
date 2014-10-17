@@ -6,7 +6,8 @@ import ogam1014.collide.Box;
 import ogam1014.collide.Collide;
 
 public abstract class MobEntity extends Entity {
-	protected static double PERSPECTIVE = 0.5; // 0.5 => 50% du haut du sprite ignor� dans les collisions.
+	static protected double PERSPECTIVE = 0.5; // 0.5 => 50% du haut du sprite ignor� dans les collisions.
+	static protected double SPEED = 200;
 	protected double hIgnored;
 	protected double dx;
 	protected double dy;

@@ -9,8 +9,10 @@ import java.util.List;
 import java.util.Random;
 
 import ogam1014.entity.Enemy;
+import ogam1014.entity.EnemyType;
 import ogam1014.entity.Entity;
 import ogam1014.entity.Player;
+import ogam1014.entity.Thief;
 import ogam1014.graphics.Renderer;
 
 public class Level implements Serializable{
@@ -20,6 +22,8 @@ public class Level implements Serializable{
 	private List<Entity> entities = new ArrayList<Entity>();
 	transient private List<Entity> newEntities = new ArrayList<Entity>();
 	transient private List<Entity> removedEntities = new ArrayList<Entity>();
+	private EnemyType allowedEnemyType[] =  {EnemyType.Enemy, EnemyType.Thief};
+	private double ratioEnemyType[] = {0.5, 0.5};
 	private Map map;
 	private String name;
 	private Player player;
@@ -28,6 +32,16 @@ public class Level implements Serializable{
 	 private double percent_mobByAvailablePositions;
 
 	public Level(String name) {
+		double checkRatioEnemyType = 0;
+		
+		for(double e : ratioEnemyType) 
+			checkRatioEnemyType += e;
+		
+		if( checkRatioEnemyType != 1.0) {
+			System.out.println("La somme des ratios des types d'ennemies du level " + name + " est différente de 1. (" + checkRatioEnemyType + ")");
+			System.exit(1);
+		}
+		
 		map = new Map(name + ".tile");
 		this.name = name;
 		
@@ -112,6 +126,20 @@ public class Level implements Serializable{
 		return entities;
 	}
 	
+	private Enemy newEnemy() {
+		double rand = random.nextDouble();
+		
+		if (rand <= ratioEnemyType[0])
+			return (Enemy) (new Enemy());
+		
+		rand -= ratioEnemyType[0];
+		
+		if (rand <= ratioEnemyType[1])
+			return (Enemy) (new Thief());
+		
+		return new Enemy();
+	}
+	
 	private void addRandomEnemies(double dt) {
 		if (currentTimeMobSpawn < 0) {
 			//Level just loaded
@@ -124,7 +152,7 @@ public class Level implements Serializable{
 			
 			for (int i = 0; i < nbMob; ++i) {
 				Point p = positions.get( random.nextInt(positions.size()) );
-				Enemy e = new Enemy();
+				Enemy e = newEnemy();
 				
 				e.setPosition(p);
 				positions.remove(p);
