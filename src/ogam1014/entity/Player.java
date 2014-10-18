@@ -1,11 +1,14 @@
 package ogam1014.entity;
 
+import java.awt.Point;
+
 import ogam1014.InputHandler;
 import ogam1014.Tile;
 import ogam1014.equipment.ItemFactory;
 import ogam1014.equipment.PlayerInventory;
 import ogam1014.equipment.RangeWeaponItem;
 import ogam1014.graphics.Renderer;
+import ogam1014.entity.DialogBox;
 
 public class Player extends LivingEntity {
 	private static final long serialVersionUID = 1L;
@@ -57,6 +60,7 @@ public class Player extends LivingEntity {
 
 		if (input.slot1.down) {
 			inventory.use(0);
+			level.addEntity(new DialogBox(this , "Bonjour !", false));
 		}
 		if (input.slot2.down) {
 			inventory.use(1);

@@ -22,6 +22,11 @@ public class Level implements Serializable{
 	private List<Entity> entities = new ArrayList<Entity>();
 	transient private List<Entity> newEntities = new ArrayList<Entity>();
 	transient private List<Entity> removedEntities = new ArrayList<Entity>();
+	
+	private List<Entity> passivEntities = new ArrayList<Entity>();
+	transient private List<Entity> passivNewEntities = new ArrayList<Entity>();
+	transient private List<Entity> passivRemovedEntities = new ArrayList<Entity>();
+	
 	private EnemyType allowedEnemyType[] =  {EnemyType.Enemy, EnemyType.Thief};
 	private double ratioEnemyType[] = {0.5, 0.5};
 	private Map map;
@@ -57,7 +62,11 @@ public class Level implements Serializable{
 	}
 
 	public void addEntity(Entity entity) {
-		newEntities.add(entity);
+		if (entity.isPassiv())
+			passivNewEntities.add(entity);
+		else
+			newEntities.add(entity);
+		
 		entity.setLevel(this);
 		
 		if(entity instanceof Player) {
@@ -66,21 +75,31 @@ public class Level implements Serializable{
 	}
 
 	public void removeEntity(Entity e) {
-		removedEntities.add(e);
+		if (e.isPassiv())
+			passivRemovedEntities.add(e);
+		else
+			removedEntities.add(e);
 	}
 	
 	public void update(double dt) {
 		addRandomEnemies(dt);
 		
 		entities.addAll(newEntities);
+		passivEntities.addAll(passivNewEntities);
 		newEntities.clear();
+		passivNewEntities.clear();
 
 		for (Entity e : entities) {
 			e.update(dt);
 		}
+		for (Entity e : passivEntities) {
+			e.update(dt);
+		}
 
 		entities.removeAll(removedEntities);
+		passivEntities.removeAll(passivRemovedEntities);
 		removedEntities.clear();
+		passivRemovedEntities.clear();
 		
 		Collections.sort(entities, new Comparator<Entity>() {
 			@Override
@@ -98,6 +117,10 @@ public class Level implements Serializable{
 		for (Entity e : entities) {
 			e.draw(r);
 		}
+		for (Entity e : passivEntities) {
+			e.draw(r);
+		}
+		
 	}
 	
 	public Tile getTile(double x, double y){

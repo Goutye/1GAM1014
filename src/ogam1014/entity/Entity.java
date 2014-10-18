@@ -32,6 +32,7 @@ public abstract class Entity implements Serializable{
 	protected int h;
 	protected Direction dir;
 	protected Box box;
+	protected Boolean passiv = false;
 	
 	
 	public abstract void update(double dt);
@@ -60,6 +61,10 @@ public abstract class Entity implements Serializable{
 	
 	public Box getBox() {
 		return box;
+	}
+	
+	public Boolean isPassiv() {
+		return passiv;
 	}
 
 	public Direction getDirection() {
