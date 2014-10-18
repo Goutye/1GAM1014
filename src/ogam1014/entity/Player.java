@@ -1,7 +1,5 @@
 package ogam1014.entity;
 
-import java.awt.Point;
-
 import ogam1014.InputHandler;
 import ogam1014.Tile;
 import ogam1014.equipment.ItemFactory;
