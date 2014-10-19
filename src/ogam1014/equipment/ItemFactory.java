@@ -24,12 +24,27 @@ public abstract class ItemFactory {
 		else if(descriptor.startsWith("spell.")) {
 			item = makeSpell(descriptor);
 		}
+		else if (descriptor.startsWith("ammopack.")) {
+			item = makeAmmoPack(descriptor);
+		}
 
 		if (item == null)
 			throw new RuntimeException("Item " + descriptor + " unknown");
 
 		item.setDescriptor(descriptor);
 		return item;
+	}
+
+	private static Item makeAmmoPack(String descriptor) {
+		AmmoPackItem ap = null;
+		switch (descriptor) {
+		case "ammopack.smallx20":
+			ap = new AmmoPackItem("20 small bullets");
+			ap.setAmount(20);
+			ap.setBulletType(BulletType.SMALL);
+			break;
+		}
+		return ap;
 	}
 
 	private static Item makeSpell(String descriptor) {

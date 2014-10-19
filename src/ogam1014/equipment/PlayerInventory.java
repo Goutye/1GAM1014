@@ -56,6 +56,19 @@ public class PlayerInventory implements Serializable {
 		items.add(item);
 	}
 
+	public void removeItem(Item item) {
+		items.remove(item);
+	}
+
+	public List<Item> getAll(String descriptor) {
+		List<Item> list = new ArrayList<Item>();
+		for (Item i : items) {
+			if (i.getDescriptor().startsWith(descriptor))
+				list.add(i);
+		}
+		return list;
+	}
+
 	public float getTotalArmorProtection() {
 		float total = 0;
 
@@ -65,4 +78,5 @@ public class PlayerInventory implements Serializable {
 
 		return total;
 	}
+
 }

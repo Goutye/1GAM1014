@@ -13,8 +13,9 @@ public class RangeWeaponItem extends AttributeItem implements IUsableItem, IUpda
 	private double cooldown;
 	private double cooldownTimer;
 	private BulletType bulletType;
+	private int bulletsLoaded;
 
-	public RangeWeaponItem(String name) {
+	RangeWeaponItem(String name) {
 		super(name);
 	}
 
@@ -22,9 +23,13 @@ public class RangeWeaponItem extends AttributeItem implements IUsableItem, IUpda
 	public void use(Player player) {
 		if (cooldownTimer > 0)
 			return;
+		if (bulletsLoaded == 0)
+			tryReload(player);
+		if (bulletsLoaded == 0)
+			return;
 
 		double angle = player.getShootingAngle();
-		for (int i = 0; i < numBullets; i++) {
+		for (int i = 0; i < Math.min(numBullets, bulletsLoaded - numBullets); i++) {
 			double offangle = random.nextDouble() * spreadAngle - spreadAngle / 2;
 			double dx = Math.cos(angle + offangle);
 			double dy = Math.sin(angle + offangle);
@@ -32,8 +37,18 @@ public class RangeWeaponItem extends AttributeItem implements IUsableItem, IUpda
 			player.spawnBullet(b);
 		}
 
+		bulletsLoaded = Math.max(0, bulletsLoaded - numBullets);
 		cooldownTimer = cooldown;
-		// TODO remove ammo from player's inventory
+	}
+
+	private void tryReload(Player player) {
+		AmmoPackItem pack = player.retrieveAmmoPack(bulletType);
+		if (pack != null) {
+			bulletsLoaded = pack.getAmount();
+			System.out.println("*shack shack* Reloading");
+		} else {
+			System.out.println("*click click* Can't found ammopack for " + bulletType);
+		}
 	}
 
 	@Override

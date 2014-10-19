@@ -1,7 +1,12 @@
 package ogam1014.entity;
 
+import java.util.List;
+
 import ogam1014.InputHandler;
 import ogam1014.Tile;
+import ogam1014.equipment.AmmoPackItem;
+import ogam1014.equipment.BulletType;
+import ogam1014.equipment.Item;
 import ogam1014.equipment.ItemFactory;
 import ogam1014.equipment.PlayerInventory;
 import ogam1014.equipment.RangeWeaponItem;
@@ -25,6 +30,8 @@ public class Player extends LivingEntity {
 		RangeWeaponItem shotgun = (RangeWeaponItem) ItemFactory.make("rangeweapon.shotgun");
 		inventory.addItem(shotgun);
 		inventory.equipItem(1, shotgun);
+		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
+		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
 
 		this.hIgnored = Math.max( this.h * PERSPECTIVE, this.h - Tile.SIZE);
 	}
@@ -137,6 +144,22 @@ public class Player extends LivingEntity {
 
 	public void spawnBullet(Bullet b) {
 		level.addEntity(b);
+	}
+
+	public AmmoPackItem retrieveAmmoPack(BulletType bulletType) {
+		List<Item> list = inventory.getAll("ammopack.");
+		AmmoPackItem ap = null;
+		for (Item i : list) {
+			AmmoPackItem pack = (AmmoPackItem) i;
+			if (pack.getBulletType() == bulletType) {
+				if (ap == null || pack.getAmount() > ap.getAmount()) {
+					ap = pack;
+				}
+			}
+		}
+		if (ap != null)
+			inventory.removeItem(ap);
+		return ap;
 	}
 
 }
