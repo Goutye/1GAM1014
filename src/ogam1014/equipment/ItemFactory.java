@@ -44,11 +44,13 @@ public abstract class ItemFactory {
 		case "rangeweapon.simplegun":
 			rw = new RangeWeaponItem("Gun");
 			rw.setSpreadAngle(Math.PI / 36);
+			rw.setCooldown(0.1);
 			break;
 		case "rangeweapon.shotgun":
 			rw = new RangeWeaponItem("Shotgun");
 			rw.setSpreadAngle(Math.PI / 8);
 			rw.setNumBullets(8);
+			rw.setCooldown(0.8);
 			break;
 		}
 		return rw;
