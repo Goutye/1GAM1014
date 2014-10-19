@@ -34,22 +34,36 @@ public class PathFinder {
 		return false;
 	}
 
-	private void appendQueue(Point curTileIJ) {
+	protected void appendQueue(Point curTileIJ,Point end) {
 		Point p[] = new Point[8];
-		p[0] = new Point(curTileIJ.x - 1, curTileIJ.y - 1);
-		p[1] = new Point(curTileIJ.x, curTileIJ.y - 1);
-		p[2] = new Point(curTileIJ.x + 1, curTileIJ.y - 1);
-		p[3] = new Point(curTileIJ.x - 1, curTileIJ.y);
-		p[4] = new Point(curTileIJ.x + 1, curTileIJ.y);
-		p[5] = new Point(curTileIJ.x - 1, curTileIJ.y + 1);
-		p[6] = new Point(curTileIJ.x, curTileIJ.y + 1);
+		int withOrWithoutDiag;
+		p[0] = new Point(curTileIJ.x, curTileIJ.y - 1);
+		p[1] = new Point(curTileIJ.x - 1, curTileIJ.y);
+		p[2] = new Point(curTileIJ.x + 1, curTileIJ.y);
+		p[3] = new Point(curTileIJ.x, curTileIJ.y + 1);
+		
+		p[4] = new Point(curTileIJ.x - 1, curTileIJ.y - 1);
+		p[5] = new Point(curTileIJ.x + 1, curTileIJ.y - 1);
+		p[6] = new Point(curTileIJ.x - 1, curTileIJ.y + 1);
 		p[7] = new Point(curTileIJ.x + 1, curTileIJ.y + 1);
-
-		for (int i = 0; i < 8; i++) {
+		
+		int loinEnd = curTileIJ.x-end.x+curTileIJ.y-end.y;
+		
+		if(loinEnd > 10 || loinEnd < -10)
+			withOrWithoutDiag = 4;
+		else
+			withOrWithoutDiag = 8;
+		
+		for (int i = 0; i < withOrWithoutDiag; i++) {
+			if (p[i] == null)
+				continue;
 			if (valide(p[i], marker)) {
 				QueueElement qe = new QueueElement(p[i], index);
 				queue.add(qe);
 				marker[p[i].x][p[i].y] = true;
+				// System.out.println("ajout de : " + qe.toString());
+			} else {
+				// System.out.println("position invalide : " + p[i]);
 			}
 		}
 
@@ -97,7 +111,7 @@ public class PathFinder {
 			e = queue.remove();
 			stock.add(e);
 			curTileIJ = e.getTile();
-			appendQueue(curTileIJ);
+			appendQueue(curTileIJ,PosEnd);
 			index++;
 		} while (!queue.isEmpty() && !end(curTileIJ, PosEnd));
 
