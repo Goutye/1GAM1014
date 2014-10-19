@@ -9,6 +9,7 @@ import java.util.Random;
 
 import javax.imageio.ImageIO;
 
+import ogam1014.InputHandler;
 import ogam1014.Level;
 import ogam1014.collide.Box;
 import ogam1014.graphics.Renderer;
@@ -74,5 +75,9 @@ public abstract class Entity implements Serializable{
 	public void drawBox(Renderer r) {
 		r.setColor(Color.red);
 		r.getGraphics().drawRect(box.x, box.y, box.width, box.height);
+	}
+
+	public void speaks(InputHandler input, Player interlocutor) {
+		interlocutor.stopSpeaking();
 	}
 }

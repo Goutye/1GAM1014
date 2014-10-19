@@ -16,6 +16,7 @@ public abstract class MobEntity extends Entity {
 	protected int dir_y = 0;
 	protected double time;
 	protected Boolean speaking = false;
+	protected Boolean speakingToSomeone = false;
 	
 	@Override
 	public void update(double dt) {
@@ -92,5 +93,6 @@ public abstract class MobEntity extends Entity {
 	
 	public void stopSpeaking() {
 		speaking = false;
+		speakingToSomeone = false;
 	}
 }

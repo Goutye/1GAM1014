@@ -43,7 +43,7 @@ public class Level implements Serializable{
 			checkRatioEnemyType += e;
 		
 		if( checkRatioEnemyType != 1.0) {
-			System.out.println("La somme des ratios des types d'ennemies du level " + name + " est différente de 1. (" + checkRatioEnemyType + ")");
+			System.out.println("La somme des ratios des types d'ennemies du level " + name + " est diffï¿½rente de 1. (" + checkRatioEnemyType + ")");
 			System.exit(1);
 		}
 		
@@ -53,7 +53,7 @@ public class Level implements Serializable{
 		switch(name){
 		case "map":
 			timeBeforeMobSpawn = 10.;
-			percent_mobByAvailablePositions = 0.03;
+			percent_mobByAvailablePositions = 0.01;
 			break;
 		default:
 			timeBeforeMobSpawn = 20.;
