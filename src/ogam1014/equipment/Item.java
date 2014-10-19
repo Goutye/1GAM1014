@@ -4,24 +4,25 @@ import ogam1014.graphics.Renderer;
 
 public abstract class Item {
 	
+	private String descriptor;
 	private String name;
 	private boolean stackable;
 	protected int quantity;
 	
-	public Item(String name) {
+	Item(String name) {
 		this.name = name;
 		stackable = false;
 		quantity = 1;
 	}
 	
-	public Item(String name, int quantity) {
+	Item(String name, int quantity) {
 		this.name = name;
 		this.quantity = quantity;
 		stackable = true;
 	}
 	
 	public void mergeStack(Item item) {
-		if(stackable && item.name == name) {
+		if(stackable && item.descriptor.equals(descriptor)) {
 			quantity += item.quantity;
 		}
 	}
@@ -41,7 +42,15 @@ public abstract class Item {
 	public void setQuantity(int i) {
 		quantity = i;
 	}
-	
+
+	public void setDescriptor(String descriptor) {
+		this.descriptor = descriptor;
+	}
+
+	public String getDescriptor() {
+		return descriptor;
+	}
+
 	public void drawIcon(Renderer r) {
 	}
 	

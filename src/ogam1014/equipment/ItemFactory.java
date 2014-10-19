@@ -5,27 +5,31 @@ import ogam1014.attributes.PlayerAttributes.Attr;
 public abstract class ItemFactory {
 	
 	public static Item make(String descriptor) {
+		Item item = null;
 		if(descriptor.startsWith("potion.")) {
-			return makePotion(descriptor);
+			item = makePotion(descriptor);
 		}
 		else if(descriptor.startsWith("armor.")) {
-			return makeArmor(descriptor);
+			item = makeArmor(descriptor);
 		}
 		else if(descriptor.startsWith("meleeweapon.")) {
-			return makeMeleeWeapon(descriptor);
+			item = makeMeleeWeapon(descriptor);
 		}
 		else if(descriptor.startsWith("rangeweapon.")) {
-			return makeRangeWeapon(descriptor);
+			item = makeRangeWeapon(descriptor);
 		}
 		else if(descriptor.startsWith("shield.")) {
-			return makeShield(descriptor);
+			item = makeShield(descriptor);
 		}
 		else if(descriptor.startsWith("spell.")) {
-			return makeSpell(descriptor);
+			item = makeSpell(descriptor);
 		}
-		else {
+
+		if (item == null)
 			throw new RuntimeException("Item " + descriptor + " unknown");
-		}
+
+		item.setDescriptor(descriptor);
+		return item;
 	}
 
 	private static Item makeSpell(String descriptor) {
