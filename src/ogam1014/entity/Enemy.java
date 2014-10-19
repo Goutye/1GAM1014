@@ -4,7 +4,7 @@ import ogam1014.Tile;
 import ogam1014.graphics.Renderer;
 
 public class Enemy extends LivingEntity {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = -1125801212253913516L;
 
 	public Enemy() {
 		this.h = 31;

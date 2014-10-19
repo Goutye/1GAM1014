@@ -3,9 +3,7 @@ package ogam1014.path;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedList;
-import java.util.PriorityQueue;
 
-import ogam1014.Engine;
 import ogam1014.Map;
 import ogam1014.Tile;
 import ogam1014.entity.Entity;

@@ -6,8 +6,8 @@ import ogam1014.collide.Box;
 import ogam1014.collide.Collide;
 
 public abstract class MobEntity extends Entity {
-	private static final long serialVersionUID = 1L;
-	static protected double PERSPECTIVE = 0.5; // 0.5 => 50% du haut du sprite ignoré dans les collisions.
+	private static final long serialVersionUID = 1128212645153539541L;
+	static protected double PERSPECTIVE = 0.5; // 0.5 => 50% du haut du sprite ignor� dans les collisions.
 	static protected double SPEED = 200;
 
 	protected double hIgnored;
@@ -17,6 +17,8 @@ public abstract class MobEntity extends Entity {
 	protected int dir_x = 0;
 	protected int dir_y = 0;
 	protected double time;
+	protected Boolean speaking = false;
+	protected Boolean speakingToSomeone = false;
 	
 	@Override
 	public void update(double dt) {
@@ -89,5 +91,10 @@ public abstract class MobEntity extends Entity {
 
 	protected boolean collidesWithWalls() {
 		return true;
+	}
+	
+	public void stopSpeaking() {
+		speaking = false;
+		speakingToSomeone = false;
 	}
 }

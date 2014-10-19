@@ -2,8 +2,6 @@ package ogam1014.path;
 
 import java.awt.Point;
 
-import ogam1014.Tile;
-
 public class QueueElement {
 	private Point tile;
 	private int precedente;

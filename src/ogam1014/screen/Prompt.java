@@ -31,7 +31,7 @@ public class Prompt extends Screen {
 	
 	public void addOption(int i, String txt) {
 		choices.add(txt);
-		buttons.add(new RectangleButton(40, 200 + 50 * i, 200, 40,
+		buttons.add(new RectangleButton(20, 100 + 25 * i, 100, 20,
 				txt, new Color(50, 50, 50),
 				new Color(0.7f, 0.7f, 0.7f), new Color(0.4f, 0.4f, 0.4f)));
 	}

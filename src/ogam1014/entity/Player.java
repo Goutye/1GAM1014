@@ -1,13 +1,15 @@
 package ogam1014.entity;
 
 import java.util.List;
-
 import ogam1014.InputHandler;
 import ogam1014.Tile;
 import ogam1014.attributes.PlayerAttributes;
 import ogam1014.equipment.AmmoPackItem;
 import ogam1014.equipment.BulletType;
 import ogam1014.equipment.Item;
+import java.util.ArrayList;
+import ogam1014.collide.Box;
+import ogam1014.collide.Collide;
 import ogam1014.equipment.ItemFactory;
 import ogam1014.equipment.PlayerInventory;
 import ogam1014.equipment.RangeWeaponItem;
@@ -49,32 +51,45 @@ public class Player extends LivingEntity {
 
 	@Override
 	public void update(double dt) {
-		if (input.up.down) {
-			dy = -SPEED;
-			dir = Direction.UP;
-		}
 
-		if (input.down.down) {
-			dy = SPEED;
-			dir = Direction.DOWN;
-		}
-
-		if (input.right.down) {
-			dx = SPEED;
-			dir = Direction.RIGHT;
-		}
-
-		if (input.left.down) {
-			dx = -SPEED;
-			dir = Direction.LEFT;
-		}
-
-		if (input.slot1.down) {
-			inventory.use(0);
-		} else if (input.slot2.down) {
-			inventory.use(1);
-		} else if (input.slot3.down) {
-			inventory.use(2);
+		if (!speaking) {
+			if (input.up.down) {
+				dy = -SPEED;
+				dir = Direction.UP;
+			}
+	
+			if (input.down.down) {
+				dy = SPEED;
+				dir = Direction.DOWN;
+			}
+	
+			if (input.right.down) {
+				dx = SPEED;
+				dir = Direction.RIGHT;
+			}
+	
+			if (input.left.down) {
+				dx = -SPEED;
+				dir = Direction.LEFT;
+			}
+	
+			if (input.slot1.down) {
+				inventory.use(0);
+			} else if (input.slot2.down) {
+				inventory.use(1);
+			} else if (input.slot3.down) {
+				inventory.use(2);
+			}
+		
+			if (input.validate.released) {
+				Box boxAbove = new Box(box.x, box.y - box.height, box.width, box.height);
+				ArrayList<Entity> entities = getEntitiesIn(boxAbove);
+				
+				if(entities.size() > 0) {
+					speaking = true;
+					entities.get(0).speaks(input, this);
+				}
+			}
 		}
 		
 		inventory.update(dt);
@@ -163,6 +178,7 @@ public class Player extends LivingEntity {
 		level.addEntity(b);
 	}
 
+
 	public AmmoPackItem retrieveAmmoPack(BulletType bulletType) {
 		List<Item> list = inventory.getAll("ammopack.");
 		AmmoPackItem ap = null;
@@ -195,6 +211,17 @@ public class Player extends LivingEntity {
 			Item it = drop.popItem();
 			inventory.addItem(it);
 		}
+	}
+
+	private ArrayList<Entity> getEntitiesIn(Box box){
+		ArrayList<Entity> entities = new ArrayList<Entity>();
+		
+		for(Entity e : level.getEntities()){
+			if (Collide.AABB_AABB(e.getBox(), box))
+				entities.add(e);
+		}
+		
+		return entities;
 	}
 
 }

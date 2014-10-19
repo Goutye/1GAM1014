@@ -5,9 +5,9 @@ import ogam1014.equipment.BulletType;
 import ogam1014.graphics.Renderer;
 
 public class Bullet extends MobEntity {
-	private static final long serialVersionUID = 1L;
-	private static final double LIFETIME = 3.;
-	public static final double SPEED = 600.;
+	private static final long serialVersionUID = 4341836626802694282L;
+	final private static double LIFETIME = 3.;
+	final public static double SPEED = 600.;
 
 	private Entity owner;
 	private BulletType type;

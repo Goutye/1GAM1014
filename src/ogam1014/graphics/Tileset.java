@@ -1,6 +1,5 @@
 package ogam1014.graphics;
 
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -11,6 +10,7 @@ import javax.imageio.ImageIO;
 import ogam1014.Tile;
 
 public class Tileset implements Serializable{
+	private static final long serialVersionUID = -2346856151575637835L;
 	static private final int nbTileW = 12;
 	static private final int nbTileH = 4;
 	transient private BufferedImage img;
