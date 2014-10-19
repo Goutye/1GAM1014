@@ -42,6 +42,23 @@ public abstract class Item {
 	public void setQuantity(int i) {
 		quantity = i;
 	}
+	
+	public void addQuantity(int i) {
+		quantity += i;
+	}
+	
+	public int removeQuantity(int i) {
+		int overflowAmmount = 0;
+		
+		quantity -= i;
+		
+		if(quantity < 0) {
+			overflowAmmount = -quantity;
+			quantity = 0;
+		}
+		
+		return overflowAmmount;
+	}
 
 	public void setDescriptor(String descriptor) {
 		this.descriptor = descriptor;
@@ -55,5 +72,12 @@ public abstract class Item {
 	}
 	
 	public void drawWorld(Renderer r) {
+	}
+	
+	public boolean equals(Object o) {
+		if(!(o instanceof Item))
+			return false;
+		
+		return ((Item) o).descriptor.equalsIgnoreCase(descriptor);
 	}
 }

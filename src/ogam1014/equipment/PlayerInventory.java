@@ -58,12 +58,35 @@ public class PlayerInventory implements Serializable {
 	}
 
 	public void addItem(Item item) {
-		items.add(item);
+		if(item.isStackable()) {
+			for(Item i : items) {
+				if(i == item) {
+					i.addQuantity(item.getQuantity());
+					break;
+				}
+			}
+		}
+		else {
+			items.add(item);
+		}
+		
 		dirty = true;
 	}
 
 	public void removeItem(Item item) {
-		items.remove(item);
+		if(item.isStackable()) {
+			for(Item i : items) {
+				if(i == item) {
+					int ovf = i.removeQuantity(item.getQuantity());
+					item.setQuantity(ovf);
+					break;
+				}
+			}
+		}
+		else {
+			items.remove(item);
+		}
+		
 		dirty = true;
 	}
 
