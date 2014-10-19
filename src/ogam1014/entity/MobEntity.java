@@ -15,6 +15,7 @@ public abstract class MobEntity extends Entity {
 	protected int dir_x = 0;
 	protected int dir_y = 0;
 	protected double time;
+	protected Boolean speaking = false;
 	
 	@Override
 	public void update(double dt) {
@@ -87,5 +88,9 @@ public abstract class MobEntity extends Entity {
 
 	protected boolean collidesWithWalls() {
 		return true;
+	}
+	
+	public void stopSpeaking() {
+		speaking = false;
 	}
 }

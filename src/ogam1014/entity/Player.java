@@ -58,7 +58,6 @@ public class Player extends LivingEntity {
 
 		if (input.slot1.down) {
 			inventory.use(0);
-			level.addEntity(new DialogBox(this , "Bonjour !", false));
 		}
 		if (input.slot2.down) {
 			inventory.use(1);

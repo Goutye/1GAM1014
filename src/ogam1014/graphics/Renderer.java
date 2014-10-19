@@ -2,6 +2,7 @@ package ogam1014.graphics;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -85,5 +86,10 @@ public class Renderer {
 	
 	public void setStroke(int x) {
 		graphics.setStroke(new BasicStroke(x));;
+	}
+	
+	public void setFontSize(int x) {
+		Font f = new Font(graphics.getFont().getFontName(), Font.PLAIN, x);
+		graphics.setFont(f);
 	}
 }

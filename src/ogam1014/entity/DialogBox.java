@@ -7,44 +7,78 @@ import ogam1014.entity.Entity;
 import ogam1014.graphics.Renderer;
 
 public class DialogBox extends Entity {
-	private static int maxWidth = 150;
-	private static int maxHeight = 40;
-	private static int fontSize = 10;
+	private static int FONTSIZE = 10;
+	private static double TIME_BEFORE_NEXT_STR = 2;
 	
-	private String text;
-	private Entity e;
+	private String[][] texts;
+	private MobEntity e;
 	private Box box = new Box(0,0,0,0);
 	private Boolean validBox; 
 	private int currentText = 0;
+	private double time = 0;
 	
-	public DialogBox(Entity e, String text, Boolean validBox) {
-		this.text = text;
+	public DialogBox(MobEntity e, String text, Boolean validBox) {
+		this.texts = prepareString(text);
 		this.validBox = validBox;
 		this.passiv = true;
 		this.e = e;
 		
-		if (text.length() * 10 <= maxWidth) {
-			box.width = text.length() * 10;
-			box.height = maxHeight/2;
-		}
-		else {
-			box.width = maxWidth;
-			box.height = maxHeight;
-		}
+		box.width = Math.max(texts[currentText][0].length(), texts[currentText][1].length()) * FONTSIZE / 2;
+		box.height = 2 * FONTSIZE;
 		
-		box.x = (int) e.getX() - box.width/2;
+		box.x = (int) e.getX() - (int) (box.width/2);
 		box.y = (int) e.getY() - box.height;
 	}
 
+	private String[][] prepareString(String text) {
+		String texts[][];
+		
+		String textSplit[] = text.split("\n");
+		
+		texts = new String[textSplit.length][2];
+		
+		for(int i = 0; i < textSplit.length; ++i){
+			String splitSpace[] = textSplit[i].split(" ");
+			
+			int maxPerLine = textSplit[i].length() / 2;
+			int currentLengthLine = 0;
+			texts[i][0] = "";
+			texts[i][1] = "";
+			
+			for(String s : splitSpace){
+				currentLengthLine += s.length() + 1;
+				
+				if (currentLengthLine < maxPerLine)
+					texts[i][0] += s + " ";
+				else
+					texts[i][1] += s + " ";
+			}
+			
+			texts[i][0] = texts[i][0].substring(0, texts[i][0].length() - 1);
+			texts[i][1] = texts[i][1].substring(0, texts[i][1].length() - 1);
+		}
+		
+		return texts;
+	}
+	
 	@Override
 	public void update(double dt) {
-		box.x = (int) e.getX() - box.width/2;
+		time += dt;
+		if (time >= texts.length * TIME_BEFORE_NEXT_STR){
+			level.removeEntity(this);
+			e.stopSpeaking();
+			return;
+		}
+		
+		box.x = (int) e.getX() - (int) (box.width/2);
 		box.y = (int) e.getY() - box.height;
 		
-		/* TODO Time duration of a dialogBox for a non validBox
-		 * TODO If validBox, need to block other keyboard action (iPrompt ?)
+		/* TODO If validBox, need to block other keyboard action (iPrompt ?)
 		 * TODO Transparency + real bubble
 		 */
+		
+		currentText = (int) ((time / TIME_BEFORE_NEXT_STR) % texts.length);
+		box.width = Math.max(texts[currentText][0].length(), texts[currentText][1].length()) * FONTSIZE / 2;
 	}
 
 	@Override
@@ -53,6 +87,8 @@ public class DialogBox extends Entity {
 		r.setStroke(1);
 		r.getGraphics().fillRoundRect(box.x, box.y, box.width, box.height, 10, 10);
 		r.setColor(Color.white);
-		r.drawCenteredText(text, box.x, box.y + 5, box.width);
+		r.setFontSize(FONTSIZE);
+		r.drawCenteredText(texts[currentText][0], box.x, box.y + 5, box.width);
+		r.drawCenteredText(texts[currentText][1], box.x, box.y + 5 + FONTSIZE, box.width);
 	}
 }
