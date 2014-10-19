@@ -57,11 +57,9 @@ public class Player extends LivingEntity {
 
 		if (input.slot1.down) {
 			inventory.use(0);
-		}
-		if (input.slot2.down) {
+		} else if (input.slot2.down) {
 			inventory.use(1);
-		}
-		if (input.slot3.down) {
+		} else if (input.slot3.down) {
 			inventory.use(2);
 		}
 
