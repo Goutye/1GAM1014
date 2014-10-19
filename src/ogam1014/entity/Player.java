@@ -32,6 +32,9 @@ public class Player extends LivingEntity {
 		inventory.equipItem(1, shotgun);
 		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
 		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
+		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
+		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
+		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
 
 		this.hIgnored = Math.max( this.h * PERSPECTIVE, this.h - Tile.SIZE);
 	}
@@ -160,6 +163,21 @@ public class Player extends LivingEntity {
 		if (ap != null)
 			inventory.removeItem(ap);
 		return ap;
+	}
+
+	@Override
+	protected boolean collidesWith(Entity e) {
+		return super.collidesWith(e) || e instanceof DroppedItem;
+	}
+
+	@Override
+	protected void onCollision(Entity other) {
+		super.onCollision(other);
+		if (other instanceof DroppedItem) {
+			DroppedItem drop = (DroppedItem) other;
+			Item it = drop.popItem();
+			inventory.addItem(it);
+		}
 	}
 
 }

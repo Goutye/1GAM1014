@@ -45,7 +45,7 @@ public class Bullet extends MobEntity {
 
 	@Override
 	protected boolean collidesWith(Entity e) {
-		return e != owner && !(e instanceof Bullet);
+		return e != owner && e instanceof LivingEntity;
 	}
 
 	@Override

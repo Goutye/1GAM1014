@@ -1,20 +1,23 @@
 package ogam1014.entity;
 
 public abstract class LivingEntity extends MobEntity {
+	private static final long serialVersionUID = 1L;
+
 	protected double health = 10;
-	
+
 	public LivingEntity() {
 		this.friction = 0.8;
 	}
-	
+
 	@Override
 	public void update(double dt) {
 		super.update(dt);
 		if (health <= 0) {
+			onDeath();
 			level.removeEntity(this);
 		}
 	}
-	
+
 	@Override
 	protected boolean collidesWith(Entity e) {
 		return e instanceof LivingEntity;
@@ -30,9 +33,12 @@ public abstract class LivingEntity extends MobEntity {
 			dy = 0;
 		}
 	}
-	
+
 	public void takeDamage(double n) {
 		health -= n;
+	}
+
+	protected void onDeath() {
 	}
 
 }
