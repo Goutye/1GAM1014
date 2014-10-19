@@ -97,8 +97,10 @@ public class PlayerInventory implements Serializable {
 		}
 		
 		for(ArmorItem item : armor.values()) {
-			attr.applyRaw(item.getRawModifiers());
-			attr.applyRelative(item.getRelativeModifiers());
+			if(item != null) {
+				attr.applyRaw(item.getRawModifiers());
+				attr.applyRelative(item.getRelativeModifiers());
+			}
 		}
 	}
 	
