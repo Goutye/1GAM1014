@@ -3,11 +3,14 @@ package ogam1014.graphics;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Font;
+import java.awt.FontFormatException;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Renderer {
 
@@ -27,7 +30,19 @@ public class Renderer {
 		image = new BufferedImage(realWidth, realHeight, BufferedImage.TYPE_INT_RGB);
 		graphics = (Graphics2D) image.getGraphics();
 		originTransform = graphics.getTransform();
-		
+		loadFont("VeraMono.ttf");
+	}
+
+	private void loadFont(String name) {
+		try {
+			Font font = Font.createFont(Font.TRUETYPE_FONT,
+					new File("assets/" + name)).deriveFont(12.f);
+			graphics.setFont(font);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (FontFormatException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void clear() {
