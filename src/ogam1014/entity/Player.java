@@ -70,7 +70,7 @@ public class Player extends LivingEntity {
 				inventory.use(2);
 			}
 		
-			if (input.validate.pressed) {
+			if (input.validate.released) {
 				Box boxAbove = new Box(box.x, box.y - box.height, box.width, box.height);
 				ArrayList<Entity> entities = getEntitiesIn(boxAbove);
 				

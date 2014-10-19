@@ -89,7 +89,7 @@ public class DialogBox extends Entity {
 		if( !validBox)
 			currentText = (int) ((time / TIME_BEFORE_NEXT_STR) % texts.length);
 		else
-			if(input.validate.pressed || input.leftButton.pressed)
+			if(input.validate.released || input.leftButton.released)
 				currentText += 1;
 		
 		if (currentText >= texts.length || time > TIME_BEFORE_NEXT_STR * texts.length){
