@@ -31,7 +31,7 @@ public class PlayerInventory implements Serializable {
 	public void update(double dt) {
 		for (Item item : items) {
 			if (item instanceof IUpdatableItem) {
-				((IUpdatableItem) items).update(dt);
+				((IUpdatableItem) item).update(dt);
 			}
 		}
 	}
