@@ -43,7 +43,7 @@ public class Thief extends Enemy {
 			dy = dir_y * SPEED / 3;
 			dx = dir_x * SPEED / 3;
 			
-			if( direction != prevDirection && random.nextInt(10) == 0){			
+			if( dir_x != prevDirection && random.nextInt(10) == 0){			
 				if (!speaking){
 					level.addEntity(new DialogBox(this , "Bonjour ! Comment vas tu ? Moi nickel !\n"
 						+ "C'est vrai que je ressemble à rien, mais la vie est faite ainsi !\n"
@@ -53,7 +53,7 @@ public class Thief extends Enemy {
 				}
 			}
 			
-			prevDirection = direction;
+			prevDirection = dir_x;
 		}
 		else {
 			dx = 0;
