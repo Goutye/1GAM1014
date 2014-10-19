@@ -1,0 +1,36 @@
+<categories>
+	<rangeweapon>
+		<item name="simplegun" display="Gun">
+			<!-- PI / spread -->
+			<spread>36</spread>
+			<cooldown>0.1</cooldown>
+			<bulletType>SMALL</bulletType>
+		</item>
+		<item name="shotgun" display="Shotgun">
+			<spread>8</spread>
+			<cooldown>0.8</cooldown>
+			<bulletType>SMALL</bulletType>
+			<numBullets>8</numBullets>
+		</item>
+	</rangeweapon>
+
+	<armor>
+		<helmet>
+			<item name="iron" display="Iron helmet">
+				<protection>0.3</protection>
+				<relativeModifier>
+					<!-- slows you down when worn -->
+					<type>speed</type>
+					<value>0.9</value>
+				</relativeModifier>
+			</item>
+		</helmet>
+	</armor>
+
+	<ammopack>
+		<item name="smallx20" display="20 small bullets">
+			<amount>20</amount>
+			<bulletType>SMALL</bulletType>
+		</item>
+	</ammopack>
+</categories>

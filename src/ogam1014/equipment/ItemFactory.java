@@ -1,102 +1,166 @@
 package ogam1014.equipment;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+
 import ogam1014.attributes.PlayerAttributes.Attr;
 
-public abstract class ItemFactory {
-	
+import org.w3c.dom.Document;
+import org.w3c.dom.NamedNodeMap;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+
+final public class ItemFactory {
+
+	static private HashMap<String, Node> nodesByDescriptor = new HashMap<>();
+	static {
+		reload();
+	}
+
 	public static Item make(String descriptor) {
 		Item item = null;
+		Node node = nodesByDescriptor.get(descriptor);
+		
+		if (node == null)
+			throw new RuntimeException("Item " + descriptor + " unknown");
+
 		if(descriptor.startsWith("potion.")) {
-			item = makePotion(descriptor);
+			item = makePotion(node);
 		}
 		else if(descriptor.startsWith("armor.")) {
-			item = makeArmor(descriptor);
+			item = makeArmor(node);
 		}
 		else if(descriptor.startsWith("meleeweapon.")) {
-			item = makeMeleeWeapon(descriptor);
+			item = makeMeleeWeapon(node);
 		}
 		else if(descriptor.startsWith("rangeweapon.")) {
-			item = makeRangeWeapon(descriptor);
+			item = makeRangeWeapon(node);
 		}
 		else if(descriptor.startsWith("shield.")) {
-			item = makeShield(descriptor);
-		}
-		else if(descriptor.startsWith("spell.")) {
-			item = makeSpell(descriptor);
+			item = makeShield(node);
 		}
 		else if (descriptor.startsWith("ammopack.")) {
-			item = makeAmmoPack(descriptor);
+			item = makeAmmoPack(node);
 		}
-
-		if (item == null)
-			throw new RuntimeException("Item " + descriptor + " unknown");
 
 		item.setDescriptor(descriptor);
 		return item;
 	}
 
-	private static Item makeAmmoPack(String descriptor) {
-		AmmoPackItem ap = null;
-		switch (descriptor) {
-		case "ammopack.smallx20":
-			ap = new AmmoPackItem("20 small bullets");
-			ap.setAmount(20);
-			ap.setBulletType(BulletType.SMALL);
-			break;
-		}
+	private static Item makeAmmoPack(Node node) {
+		AmmoPackItem ap = new AmmoPackItem(getAttribute(node, "display"));
+		ap.setAmount(getIntElement(node, "amount", 0));
+		ap.setBulletType(BulletType.valueOf(getTextElement(node, "bulletType", "small").toUpperCase()));
 		return ap;
 	}
 
-	private static Item makeSpell(String descriptor) {
+	private static Item makeShield(Node node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private static Item makeShield(String descriptor) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	private static Item makeRangeWeapon(String descriptor) {
-		RangeWeaponItem rw = null;
-		switch (descriptor) {
-		case "rangeweapon.simplegun":
-			rw = new RangeWeaponItem("Gun");
-			rw.setSpreadAngle(Math.PI / 36);
-			rw.setCooldown(0.1);
-			rw.setBulletType(BulletType.SMALL);
-			break;
-		case "rangeweapon.shotgun":
-			rw = new RangeWeaponItem("Shotgun");
-			rw.setSpreadAngle(Math.PI / 8);
-			rw.setNumBullets(8);
-			rw.setCooldown(0.8);
-			rw.setBulletType(BulletType.SMALL);
-			break;
-		}
+	private static Item makeRangeWeapon(Node node) {
+		RangeWeaponItem rw = new RangeWeaponItem(getAttribute(node, "display"));
+		float spread = getFloatElement(node, "spread", 0);
+		rw.setSpreadAngle(spread == 0 ? 0 : Math.PI / spread);
+		rw.setCooldown(getFloatElement(node, "cooldown", 0));
+		rw.setBulletType(BulletType.valueOf(getTextElement(node, "bulletType", "small").toUpperCase()));
+		rw.setNumBullets(getIntElement(node, "numBullets", 1));
 		return rw;
 	}
 
-	private static Item makeMeleeWeapon(String descriptor) {
+	private static Item makeMeleeWeapon(Node node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	private static Item makeArmor(String descriptor) {
-		String name = descriptor.substring("armor.".length());
-		
-		// Example
-		if(name == "helmet.iron") {
-			ArmorItem helmet = new ArmorItem("Iron", ArmorType.HELMET, 0.3f);
-			helmet.setRelativeModifier(Attr.SPEED, 0.9f); // slows you down whan worn
-			return helmet;
+	private static Item makeArmor(Node node) {
+		String display = getAttribute(node, "display");
+		float protect = getFloatElement(node, "protection", 0);
+		ArmorItem helmet = new ArmorItem(display, ArmorType.HELMET, protect);
+		for (Node c : childrenOf(node)) {
+			if (c.getNodeName().equals("relativeModifier")) {
+				Attr attr = Attr.valueOf(getTextElement(node, "attribute", ""));
+				float value = getFloatElement(node, "value", 0);
+				helmet.setRelativeModifier(attr, value);
+			}
 		}
-		
-		return null;
+		return helmet;
 	}
 
-	private static Item makePotion(String descriptor) {
+	private static Item makePotion(Node node) {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	public static void reload() {
+		nodesByDescriptor = new HashMap<>();
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.parse("assets/items.xml");
+			NodeList items = document.getElementsByTagName("item");
+			for (int i = 0; i < items.getLength(); i++) {
+				Node item = items.item(i);
+				String descriptor = getDescriptor(item);
+				nodesByDescriptor.put(descriptor, item);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	private static String getDescriptor(Node item) {
+		String name = getAttribute(item, "name");
+		String category = "";
+		Node parent = item.getParentNode();
+		do {
+			category = parent.getNodeName() + '.' + category;
+			parent = parent.getParentNode();
+		} while (parent.getNodeName() != "categories");
+		return category + name;
+	}
+
+	private static String getAttribute(Node node, String str) {
+		NamedNodeMap attrs = node.getAttributes();
+		return attrs.getNamedItem(str).getTextContent();
+	}
+
+	private static List<Node> childrenOf(Node node) {
+		NodeList children = node.getChildNodes();
+		List<Node> list = new ArrayList<Node>(children.getLength());
+		for (int i = 0; i < children.getLength(); i++) {
+			list.add(children.item(i));
+		}
+		return list;
+	}
+	
+	private static Node getElement(Node node, String str) {
+		for (Node child : childrenOf(node)) {
+			if (child.getNodeName().equals(str)) {
+				return child;
+			}
+		}
+		return null;
+	}
+
+	private static String getTextElement(Node node, String str, String def) {
+		Node n = getElement(node, str);
+		return n != null ? n.getTextContent() : def;
+	}
+
+	private static int getIntElement(Node node, String str, int def) {
+		String value = getTextElement(node, str, "" + def);
+		return Integer.parseInt(value);
+	}
+
+	private static float getFloatElement(Node node, String str, float def) {
+		String value = getTextElement(node, str, "" + def);
+		return Float.parseFloat(value);
+	}
+
 }
