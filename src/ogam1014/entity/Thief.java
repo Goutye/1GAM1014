@@ -1,5 +1,7 @@
 package ogam1014.entity;
 
+import java.awt.Point;
+
 import ogam1014.equipment.ItemFactory;
 import ogam1014.InputHandler;
 
@@ -8,6 +10,7 @@ public class Thief extends Enemy {
 	private int direction = 1;
 	private int prevDirection = 1;
 	
+
 	public Thief() {
 		this.w = 15;
 		this.h = 31;
@@ -19,12 +22,26 @@ public class Thief extends Enemy {
 
 		if (!speakingToSomeone) {
 			
-			if(Math.floor(time) % 2 == 0)
-				direction = -1;
-			else
-				direction = 1;
-			
-			dx = direction * SPEED;
+			Point p = moveTowardPlayer();
+
+			if (p == null) {
+				if (Math.floor(time) % 2 == 0)
+					dir_x = -1;
+				else
+					dir_x = 1;
+				
+				if (Math.floor(time) % 2 == 0)
+					dir_y = -1;
+				else
+					dir_y = 1;
+			}
+
+			else{
+				dir_x = p.x;
+				dir_y = p.y; 
+			}
+			dy = dir_y * SPEED / 3;
+			dx = dir_x * SPEED / 3;
 			
 			if( direction != prevDirection && random.nextInt(10) == 0){			
 				if (!speaking){
@@ -44,11 +61,15 @@ public class Thief extends Enemy {
 		}
 	}
 
+		
+
+
 	@Override
 	protected void onDeath() {
 		super.onDeath();
 		if (random.nextFloat() < 0.8) {
-			DroppedItem drop = new DroppedItem(ItemFactory.make("ammopack.smallx20"), x + w / 2, y + h / 2);
+			DroppedItem drop = new DroppedItem(
+					ItemFactory.make("ammopack.smallx20"), x + w / 2, y + h / 2);
 			level.addEntity(drop);
 		}
 	}
