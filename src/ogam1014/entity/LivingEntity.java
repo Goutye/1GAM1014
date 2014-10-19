@@ -1,6 +1,7 @@
 package ogam1014.entity;
 
 public abstract class LivingEntity extends MobEntity {
+	private static final long serialVersionUID = 5051404621894792305L;
 	protected double health = 10;
 	
 	public LivingEntity() {

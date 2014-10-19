@@ -27,7 +27,6 @@ public class Level implements Serializable{
 	transient private List<Entity> passivNewEntities = new ArrayList<Entity>();
 	transient private List<Entity> passivRemovedEntities = new ArrayList<Entity>();
 	
-	private EnemyType allowedEnemyType[] =  {EnemyType.Enemy, EnemyType.Thief};
 	private double ratioEnemyType[] = {0.5, 0.5};
 	private Map map;
 	private String name;

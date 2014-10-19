@@ -8,6 +8,7 @@ import ogam1014.entity.Entity;
 import ogam1014.graphics.Renderer;
 
 public class DialogBox extends Entity {
+	private static final long serialVersionUID = 1426754327705143607L;
 	private static int FONTSIZE = 10;
 	private static double TIME_BEFORE_NEXT_STR = 2;
 	

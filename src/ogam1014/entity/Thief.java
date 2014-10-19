@@ -3,6 +3,7 @@ package ogam1014.entity;
 import ogam1014.InputHandler;
 
 public class Thief extends Enemy {
+	private static final long serialVersionUID = 8877449123438883245L;
 	private int direction = 1;
 	private int prevDirection = 1;
 	

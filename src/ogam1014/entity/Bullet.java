@@ -4,7 +4,7 @@ import ogam1014.collide.Box;
 import ogam1014.graphics.Renderer;
 
 public class Bullet extends MobEntity {
-
+	private static final long serialVersionUID = 4341836626802694282L;
 	final private static double LIFETIME = 3.;
 	final public static double SPEED = 600.;
 
