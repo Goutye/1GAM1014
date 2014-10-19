@@ -80,4 +80,21 @@ public abstract class Item {
 		
 		return ((Item) o).descriptor.equalsIgnoreCase(descriptor);
 	}
+	
+	public Item makeClone(int quantity) {
+		if(!isStackable())
+			return null;
+		
+		Item item = ItemFactory.make(descriptor);
+		item.setQuantity(quantity);
+		return item;
+	}
+	
+	public Item makeClone() {
+		if(isStackable())
+			return makeClone(1);
+		
+		Item item = ItemFactory.make(descriptor);
+		return item;
+	}
 }

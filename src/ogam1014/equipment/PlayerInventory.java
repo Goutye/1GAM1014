@@ -58,15 +58,19 @@ public class PlayerInventory implements Serializable {
 	}
 
 	public void addItem(Item item) {
+		boolean added = false;
+		
 		if(item.isStackable()) {
 			for(Item i : items) {
-				if(i == item) {
+				if(i.equals(item)) {
 					i.addQuantity(item.getQuantity());
+					added = true;
 					break;
 				}
 			}
 		}
-		else {
+		
+		if(!added) {
 			items.add(item);
 		}
 		
@@ -76,7 +80,7 @@ public class PlayerInventory implements Serializable {
 	public void removeItem(Item item) {
 		if(item.isStackable()) {
 			for(Item i : items) {
-				if(i == item) {
+				if(i.equals(item)) {
 					int ovf = i.removeQuantity(item.getQuantity());
 					item.setQuantity(ovf);
 					break;

@@ -166,16 +166,19 @@ public class Player extends LivingEntity {
 	public AmmoPackItem retrieveAmmoPack(BulletType bulletType) {
 		List<Item> list = inventory.getAll("ammopack.");
 		AmmoPackItem ap = null;
+		
 		for (Item i : list) {
 			AmmoPackItem pack = (AmmoPackItem) i;
 			if (pack.getBulletType() == bulletType) {
-				if (ap == null || pack.getAmount() > ap.getAmount()) {
-					ap = pack;
+				if ((ap == null || pack.getAmount() > ap.getAmount()) && pack.getQuantity() > 0) {
+					ap = (AmmoPackItem) pack.makeClone(1);
 				}
 			}
 		}
+		
 		if (ap != null)
 			inventory.removeItem(ap);
+		
 		return ap;
 	}
 
