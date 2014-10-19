@@ -39,8 +39,8 @@ public class DialogBox extends Entity {
 		this.texts = prepareString(text);
 		this.passiv = true;
 		
-		box.width = Math.max(texts[currentText][0].length(), texts[currentText][1].length()) * FONTSIZE / 2;
-		box.height = 2 * FONTSIZE;
+		box.width = Math.max(texts[currentText][0].length(), texts[currentText][1].length()) * (FONTSIZE+1) / 2 ;
+		box.height = 2 * FONTSIZE + 3;
 		
 		box.x = (int) e.getX() - (int) (box.width/2);
 		box.y = (int) e.getY() - box.height;
@@ -86,10 +86,6 @@ public class DialogBox extends Entity {
 		box.x = (int) e.getX() - (int) (box.width/2);
 		box.y = (int) e.getY() - box.height;
 		
-		/* TODO If validBox, need to block other keyboard action (iPrompt ?)
-		 * TODO Transparency + real bubble
-		 */
-		
 		if( !validBox)
 			currentText = (int) ((time / TIME_BEFORE_NEXT_STR) % texts.length);
 		else
@@ -104,17 +100,28 @@ public class DialogBox extends Entity {
 			return;
 		}
 		
-		box.width = Math.max(texts[currentText][0].length(), texts[currentText][1].length()) * FONTSIZE / 2;
+		box.width = Math.max(texts[currentText][0].length(), texts[currentText][1].length()) * (FONTSIZE+1) / 2;
 	}
 
 	@Override
 	public void draw(Renderer r) {
-		r.setColor(Color.black);
+		/* TODO Little )/  ou \( suivant la direction et la bulle
+		 */
+		r.setColor(new Color(0, 0, 0, 0.8f));
 		r.setStroke(1);
+		r.getGraphics().drawRoundRect(box.x, box.y, box.width, box.height, 10, 10);
+		r.setColor(new Color(0, 0, 0, 0.4f));
 		r.getGraphics().fillRoundRect(box.x, box.y, box.width, box.height, 10, 10);
 		r.setColor(Color.white);
 		r.setFontSize(FONTSIZE);
 		r.drawCenteredText(texts[currentText][0], box.x, box.y + 5, box.width);
 		r.drawCenteredText(texts[currentText][1], box.x, box.y + 5 + FONTSIZE, box.width);
+		
+		if (validBox) {
+			if (Math.floor(time * 2) % 2 == 0)
+				r.drawCenteredText("»", box.x + box.width - 5, box.y + 6);
+			else
+				r.drawCenteredText(">", box.x + box.width - 5, box.y + 6);
+		}
 	}
 }

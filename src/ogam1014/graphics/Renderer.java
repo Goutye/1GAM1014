@@ -27,6 +27,8 @@ public class Renderer {
 		image = new BufferedImage(realWidth, realHeight, BufferedImage.TYPE_INT_RGB);
 		graphics = (Graphics2D) image.getGraphics();
 		originTransform = graphics.getTransform();
+		
+		graphics.setFont(new Font("assets/fonts/VeraMono.ttf", Font.PLAIN, 10));
 	}
 
 	public void clear() {
