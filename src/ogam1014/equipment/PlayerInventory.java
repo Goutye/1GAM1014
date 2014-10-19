@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import ogam1014.attributes.PlayerAttributes;
 import ogam1014.entity.Player;
 
 public class PlayerInventory implements Serializable {
@@ -15,6 +16,7 @@ public class PlayerInventory implements Serializable {
 	private List<Item> items = new ArrayList<Item>();
 	private Map<ArmorType, ArmorItem> armor = new HashMap<ArmorType, ArmorItem>();
 	private IUsableItem[] equipped = new IUsableItem[3];
+	private boolean dirty;
 
 	public PlayerInventory(Player player) {
 		equipped[0] = null;
@@ -24,6 +26,8 @@ public class PlayerInventory implements Serializable {
 		for (ArmorType type : ArmorType.values()) {
 			armor.put(type, null);
 		}
+		
+		dirty = true;
 
 		this.player = player;
 	}
@@ -50,22 +54,27 @@ public class PlayerInventory implements Serializable {
 			return;
 
 		equipped[slot] = item;
+		dirty = true;
 	}
 
 	public void addItem(Item item) {
 		items.add(item);
+		dirty = true;
 	}
 
 	public void removeItem(Item item) {
 		items.remove(item);
+		dirty = true;
 	}
 
 	public List<Item> getAll(String descriptor) {
 		List<Item> list = new ArrayList<Item>();
+		
 		for (Item i : items) {
 			if (i.getDescriptor().startsWith(descriptor))
 				list.add(i);
 		}
+		
 		return list;
 	}
 
@@ -78,5 +87,26 @@ public class PlayerInventory implements Serializable {
 
 		return total;
 	}
-
+	
+	public void applyModifiers(PlayerAttributes attr) {
+		for(int i = 0; i < 3; i++) {
+			if(equipped[i] != null && equipped[i] instanceof AttributeItem) {
+				attr.applyRaw(((AttributeItem) equipped[i]).getRawModifiers());
+				attr.applyRelative(((AttributeItem) equipped[i]).getRelativeModifiers());
+			}
+		}
+		
+		for(ArmorItem item : armor.values()) {
+			attr.applyRaw(item.getRawModifiers());
+			attr.applyRelative(item.getRelativeModifiers());
+		}
+	}
+	
+	public boolean needsAttributesUpdate() {
+		return dirty;
+	}
+	
+	public void acknowledgeUpdate() {
+		dirty = false;
+	}
 }

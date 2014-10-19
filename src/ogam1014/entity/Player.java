@@ -4,6 +4,7 @@ import java.util.List;
 
 import ogam1014.InputHandler;
 import ogam1014.Tile;
+import ogam1014.attributes.PlayerAttributes;
 import ogam1014.equipment.AmmoPackItem;
 import ogam1014.equipment.BulletType;
 import ogam1014.equipment.Item;
@@ -17,6 +18,7 @@ public class Player extends LivingEntity {
 
 	transient private InputHandler input;
 	private PlayerInventory inventory;
+	private PlayerAttributes attributes;
 	
 	public Player(InputHandler input) {
 		this.input = input;
@@ -35,6 +37,8 @@ public class Player extends LivingEntity {
 		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
 		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
 		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
+
+		attributes = new PlayerAttributes();
 
 		this.hIgnored = Math.max( this.h * PERSPECTIVE, this.h - Tile.SIZE);
 	}
@@ -72,9 +76,19 @@ public class Player extends LivingEntity {
 		} else if (input.slot3.down) {
 			inventory.use(2);
 		}
-
-		super.update(dt);		
+		
 		inventory.update(dt);
+		
+		if(inventory.needsAttributesUpdate())
+			updateAttributes(dt);
+		
+		super.update(dt);
+	}
+	
+	private void updateAttributes(double dt) {
+		attributes.resetAll();
+		inventory.applyModifiers(attributes);
+		inventory.acknowledgeUpdate();
 	}
 
 	@Override
