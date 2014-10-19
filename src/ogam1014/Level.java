@@ -38,7 +38,7 @@ public class Level implements Serializable{
 			checkRatioEnemyType += e;
 		
 		if( checkRatioEnemyType != 1.0) {
-			System.out.println("La somme des ratios des types d'ennemies du level " + name + " est différente de 1. (" + checkRatioEnemyType + ")");
+			System.out.println("La somme des ratios des types d'ennemies du level " + name + " est diffÃ©rente de 1. (" + checkRatioEnemyType + ")");
 			System.exit(1);
 		}
 		
