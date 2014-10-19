@@ -10,8 +10,9 @@ public class RangeWeaponItem extends AttributeItem implements IUsableItem, IUpda
 
 	private double spreadAngle;
 	private int numBullets = 1;
-	private double cooldown = 0;
-	private double cooldownTimer = 0;
+	private double cooldown;
+	private double cooldownTimer;
+	private BulletType bulletType;
 
 	public RangeWeaponItem(String name) {
 		super(name);
@@ -27,7 +28,7 @@ public class RangeWeaponItem extends AttributeItem implements IUsableItem, IUpda
 			double offangle = random.nextDouble() * spreadAngle - spreadAngle / 2;
 			double dx = Math.cos(angle + offangle);
 			double dy = Math.sin(angle + offangle);
-			Bullet b = new Bullet(player, dx * Bullet.SPEED, dy * Bullet.SPEED);
+			Bullet b = new Bullet(player, bulletType, dx * Bullet.SPEED, dy * Bullet.SPEED);
 			player.spawnBullet(b);
 		}
 
@@ -49,9 +50,13 @@ public class RangeWeaponItem extends AttributeItem implements IUsableItem, IUpda
 	public void setNumBullets(int num) {
 		this.numBullets = num;
 	}
-	
+
 	public void setCooldown(double cooldown) {
 		this.cooldown = cooldown;
+	}
+
+	public void setBulletType(BulletType bulletType) {
+		this.bulletType = bulletType;
 	}
 
 }

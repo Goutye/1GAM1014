@@ -1,19 +1,22 @@
 package ogam1014.entity;
 
 import ogam1014.collide.Box;
+import ogam1014.equipment.BulletType;
 import ogam1014.graphics.Renderer;
 
 public class Bullet extends MobEntity {
-
-	final private static double LIFETIME = 3.;
-	final public static double SPEED = 600.;
+	private static final long serialVersionUID = 1L;
+	private static final double LIFETIME = 3.;
+	public static final double SPEED = 600.;
 
 	private Entity owner;
+	private BulletType type;
 	private double originalDx;
 	private double originalDy;
 
-	public Bullet(Entity owner, double dx, double dy) {
+	public Bullet(Entity owner, BulletType type, double dx, double dy) {
 		this.owner = owner;
+		this.type = type;
 		this.originalDx = dx;
 		this.originalDy = dy;
 		x = owner.getX() + owner.getWidth()/2;
@@ -49,7 +52,7 @@ public class Bullet extends MobEntity {
 	public void onCollision(Entity other) {
 		if (other instanceof LivingEntity) {
 			LivingEntity e = (LivingEntity) other;
-			e.takeDamage(1);
+			e.takeDamage(type.getDamage());
 		}
 		level.removeEntity(this);
 	}
