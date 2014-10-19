@@ -6,7 +6,7 @@ public class AmmoPackItem extends Item {
 	private int amount;
 
 	AmmoPackItem(String name) {
-		super(name);
+		super(name, 1);
 	}
 
 	public BulletType getBulletType() {
