@@ -24,7 +24,7 @@ public abstract class ItemFactory {
 			return makeSpell(descriptor);
 		}
 		else {
-			return null;
+			throw new RuntimeException("Item " + descriptor + " unknown");
 		}
 	}
 
