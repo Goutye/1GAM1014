@@ -214,6 +214,10 @@ public class Level implements Serializable{
 		return map;
 	}
 	
+	public Player getPlayer(){
+		return player;
+	}
+	
 	public List<Entity> getEntities() {
 		return entities;
 	}
