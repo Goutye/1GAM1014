@@ -5,7 +5,8 @@ import ogam1014.graphics.Renderer;
 
 public class Enemy extends LivingEntity {
 	private static final long serialVersionUID = -1125801212253913516L;
-
+	protected DialogBox dialogBox;
+	
 	public Enemy() {
 		this.h = 31;
 		this.w = 15;

@@ -45,10 +45,11 @@ public class Thief extends Enemy {
 			
 			if( dir_x != prevDirection && random.nextInt(10) == 0){			
 				if (!speaking){
-					level.addEntity(new DialogBox(this , "Bonjour ! Comment vas tu ? Moi nickel !\n"
-						+ "C'est vrai que je ressemble à rien, mais la vie est faite ainsi !\n"
-						+ "Veux tu manger avec moi ?\n"
-						+ "Bien sur le coca est gratuite :D"));
+					dialogBox = new DialogBox(this , "Bonjour ! Comment vas tu ? Moi nickel !\n"
+							+ "C'est vrai que je ressemble à rien, mais la vie est faite ainsi !\n"
+							+ "Veux tu manger avec moi ?\n"
+							+ "Bien sur le coca est gratuite :D");
+					level.addEntity(dialogBox);
 					speaking = true;
 				}
 			}
@@ -72,14 +73,20 @@ public class Thief extends Enemy {
 					ItemFactory.make("ammopack.smallx20"), x + w / 2, y + h / 2);
 			level.addEntity(drop);
 		}
+		
+		if (speaking) {
+			level.removeEntity(dialogBox);
+		}
 	}
 
 	public void speaks(InputHandler input, Player interlocutor) {
 		if (!speaking){
-			level.addEntity(new DialogBox(input, this, interlocutor,"Ceci est une validBox.\n"
-													+ "Sugoi da na lololoooooool\n"
-													+ "Bon sur ce, je parle beaucoup pour agrandir le monde !"));
+			dialogBox = new DialogBox(input, this, interlocutor,"Ceci est une validBox.\n"
+					+ "Sugoi da na lololoooooool\n"
+					+ "Bon sur ce, je parle beaucoup pour agrandir le monde !");
+			level.addEntity(dialogBox);
 			speakingToSomeone = true;
+			speaking = true;
 		}
 		else {
 			interlocutor.stopSpeaking();
