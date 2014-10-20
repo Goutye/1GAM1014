@@ -24,7 +24,7 @@ public class DroppedItem extends Entity {
 
 	@Override
 	public void draw(Renderer r) {
-		r.blit(IMAGE, x - 2, y - 2, 8, 8, 0, 44); /* TODO */
+		r.blit(IMAGE, x - 2, y - 2, 8, 8, 8, 44); /* TODO */
 	}
 
 	public Item popItem() {
