@@ -22,6 +22,9 @@ public class Player extends LivingEntity {
 	private PlayerInventory inventory;
 	private PlayerAttributes attributes;
 	
+	private double lastShootDirX = 1;
+	private double lastShootDirY = 0;
+	
 	public Player(InputHandler input) {
 		this.input = input;
 		this.w = 15;
@@ -53,24 +56,37 @@ public class Player extends LivingEntity {
 	public void update(double dt) {
 
 		if (!speaking) {
+			
 			if (input.up.down) {
 				dy = -SPEED;
+				lastShootDirY = -SPEED;
 				dir = Direction.UP;
 			}
 	
 			if (input.down.down) {
 				dy = SPEED;
+				lastShootDirY = SPEED;
 				dir = Direction.DOWN;
+			}
+			
+			if(!input.up.down && !input.down.down) {
+				lastShootDirY /= SPEED * 10;
 			}
 	
 			if (input.right.down) {
 				dx = SPEED;
+				lastShootDirX = SPEED;
 				dir = Direction.RIGHT;
 			}
 	
 			if (input.left.down) {
 				dx = -SPEED;
+				lastShootDirX = -SPEED;
 				dir = Direction.LEFT;
+			}
+			
+			if(!input.right.down && !input.left.down) {
+				lastShootDirX /= SPEED * 10;
 			}
 	
 			if (input.slot1.down) {
@@ -184,7 +200,7 @@ public class Player extends LivingEntity {
 	}
 
 	public double getShootingAngle() {
-		return Math.atan2(dy, dx);
+		return Math.atan2(lastShootDirY, lastShootDirX);
 	}
 
 	public void spawnBullet(Bullet b) {
