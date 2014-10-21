@@ -9,6 +9,9 @@ public abstract class AttributeItem extends Item {
 	
 	public AttributeItem(String name) {
 		super(name);
+		
+		rawModifier.resetBaseRaw();
+		relativeModifier.resetBaseRelative();
 	}
 	
 	public AttributeItem(String name, int quantity) {

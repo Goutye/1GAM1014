@@ -1,13 +1,17 @@
 package ogam1014.entity;
 
 import java.util.List;
+
 import ogam1014.InputHandler;
 import ogam1014.Tile;
 import ogam1014.attributes.PlayerAttributes;
+import ogam1014.attributes.PlayerAttributes.Attr;
 import ogam1014.equipment.AmmoPackItem;
 import ogam1014.equipment.BulletType;
 import ogam1014.equipment.Item;
+
 import java.util.ArrayList;
+
 import ogam1014.collide.Box;
 import ogam1014.collide.Collide;
 import ogam1014.equipment.ItemFactory;
@@ -54,39 +58,39 @@ public class Player extends LivingEntity {
 
 	@Override
 	public void update(double dt) {
-
+		double speed = attributes.get(Attr.SPEED);
 		if (!speaking) {
 			
 			if (input.up.down) {
-				dy = -SPEED;
-				lastShootDirY = -SPEED;
+				dy = -speed;
+				lastShootDirY = -speed;
 				dir = Direction.UP;
 			}
 	
 			if (input.down.down) {
-				dy = SPEED;
-				lastShootDirY = SPEED;
+				dy = speed;
+				lastShootDirY = speed;
 				dir = Direction.DOWN;
 			}
 			
 			if(!input.up.down && !input.down.down) {
-				lastShootDirY /= SPEED * 10;
+				lastShootDirY /= speed * 10;
 			}
 	
 			if (input.right.down) {
-				dx = SPEED;
-				lastShootDirX = SPEED;
+				dx = speed;
+				lastShootDirX = speed;
 				dir = Direction.RIGHT;
 			}
 	
 			if (input.left.down) {
-				dx = -SPEED;
-				lastShootDirX = -SPEED;
+				dx = -speed;
+				lastShootDirX = -speed;
 				dir = Direction.LEFT;
 			}
 			
 			if(!input.right.down && !input.left.down) {
-				lastShootDirX /= SPEED * 10;
+				lastShootDirX /= speed * 10;
 			}
 	
 			if (input.slot1.down) {

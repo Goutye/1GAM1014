@@ -5,6 +5,10 @@
 			<spread>36</spread>
 			<cooldown>0.1</cooldown>
 			<bulletType>SMALL</bulletType>
+			<relativeModifier>
+				<attribute>speed</attribute>
+				<value>0.9</value>
+			</relativeModifier>
 		</item>
 		<item name="shotgun" display="Shotgun">
 			<spread>8</spread>
@@ -20,7 +24,7 @@
 				<protection>0.3</protection>
 				<relativeModifier>
 					<!-- slows you down when worn -->
-					<type>speed</type>
+					<attribute>speed</attribute>
 					<value>0.9</value>
 				</relativeModifier>
 			</item>
