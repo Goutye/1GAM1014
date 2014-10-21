@@ -41,11 +41,10 @@ public class Player extends LivingEntity {
 		RangeWeaponItem shotgun = (RangeWeaponItem) ItemFactory.make("rangeweapon.shotgun");
 		inventory.addItem(shotgun);
 		inventory.equipItem(1, shotgun);
-		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
-		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
-		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
-		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
-		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
+		
+		Item ammo = ItemFactory.make("ammopack.smallx20");
+		ammo.setQuantity(5);
+		inventory.addItem(ammo);
 
 		attributes = new PlayerAttributes();
 
@@ -63,34 +62,34 @@ public class Player extends LivingEntity {
 			
 			if (input.up.down) {
 				dy = -speed;
-				lastShootDirY = -speed;
+				lastShootDirY = -SPEED;
 				dir = Direction.UP;
 			}
 	
 			if (input.down.down) {
 				dy = speed;
-				lastShootDirY = speed;
+				lastShootDirY = SPEED;
 				dir = Direction.DOWN;
 			}
 			
 			if(!input.up.down && !input.down.down) {
-				lastShootDirY /= speed * 10;
+				lastShootDirY /= SPEED * 100;
 			}
 	
 			if (input.right.down) {
 				dx = speed;
-				lastShootDirX = speed;
+				lastShootDirX = SPEED;
 				dir = Direction.RIGHT;
 			}
 	
 			if (input.left.down) {
 				dx = -speed;
-				lastShootDirX = -speed;
+				lastShootDirX = -SPEED;
 				dir = Direction.LEFT;
 			}
 			
 			if(!input.right.down && !input.left.down) {
-				lastShootDirX /= speed * 10;
+				lastShootDirX /= SPEED * 100;
 			}
 	
 			if (input.slot1.down) {
