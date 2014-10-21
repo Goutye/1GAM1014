@@ -255,20 +255,40 @@ public class MapEditor extends Screen{
 		}
 		
 		if (input.left.pressed) {
-			if (currentTile.ordinal() % tileset.getNbTileW() > 0)
+			
+			if (currentTile.ordinal() % tileset.getNbTileW() > 0) {
 				currentTile = Tile.values()[currentTile.ordinal() - 1];
+				
+				if (currentTile.ordinal() % tileset.getNbTileW() < tilesetDisplayStart.x)
+					--tilesetDisplayStart.x;
+			}
+
 		}
 		else if (input.right.pressed) {
-			if (currentTile.ordinal() % tileset.getNbTileW() < tileset.getNbTileW() - 1)
+			if (currentTile.ordinal() % tileset.getNbTileW() < tileset.getNbTileW() - 1) {
 				currentTile = Tile.values()[currentTile.ordinal() + 1];
+				
+				System.out.println(currentTile);
+				
+				if (currentTile.ordinal() % tileset.getNbTileW() >= tilesetDisplayStart.x + Tileset.nbDisplayTileW)
+					++tilesetDisplayStart.x;
+			}
 		}
 		else if (input.up.pressed) {
-			if (currentTile.ordinal() / tileset.getNbTileW() > 0)
+			if (currentTile.ordinal() / tileset.getNbTileW() > 0) {
 				currentTile = Tile.values()[currentTile.ordinal() - tileset.getNbTileW()];
+				
+				if (currentTile.ordinal() / tileset.getNbTileW() < tilesetDisplayStart.y)
+					--tilesetDisplayStart.y;
+			}
 		}
 		else if (input.down.pressed) {
-			if (currentTile.ordinal() / tileset.getNbTileW() < tileset.getNbTiles() / tileset.getNbTileW() - 1)
+			if (currentTile.ordinal() / tileset.getNbTileW() < tileset.getNbTiles() / tileset.getNbTileW() - 1) {
 				currentTile = Tile.values()[currentTile.ordinal() + tileset.getNbTileW()];
+				
+				if (currentTile.ordinal() / tileset.getNbTileW() >= tilesetDisplayStart.y + Tileset.nbDisplayTileH)
+					++tilesetDisplayStart.y;
+			}
 		}
 		
 		Point p = input.mouse;
@@ -290,7 +310,7 @@ public class MapEditor extends Screen{
 		int x = (input.mouse.x - POS_TILESET_X) / Tile.SIZE + tilesetDisplayStart.x;
 		int y = (input.mouse.y - POS_TILESET_Y) / Tile.SIZE + tilesetDisplayStart.y;
 		
-		currentTile = Tile.values()[y * NB_COL_TILESET + x]; 
+		currentTile = Tile.values()[y * tileset.getNbTileW() + x]; 
 	}
 	
 	public void resize(int x, int y) {
@@ -353,8 +373,8 @@ public class MapEditor extends Screen{
 	}
 	
 	public void drawSelectedTile(Renderer r) {
-		int x = currentTile.ordinal() % NB_COL_TILESET * Tile.SIZE + POS_TILESET_X;
-		int y = currentTile.ordinal() / NB_COL_TILESET * Tile.SIZE + POS_TILESET_Y;
+		int x = (currentTile.ordinal() % tileset.getNbTileW() - tilesetDisplayStart.x) * Tile.SIZE + POS_TILESET_X ;
+		int y = (currentTile.ordinal() / tileset.getNbTileW() - tilesetDisplayStart.y) * Tile.SIZE + POS_TILESET_Y;
 		Color prevColor = r.getGraphics().getColor();
 		Stroke prevStroke = r.getGraphics().getStroke();
 		r.getGraphics().setColor(Color.red);
