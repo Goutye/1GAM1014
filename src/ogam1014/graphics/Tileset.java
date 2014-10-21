@@ -24,8 +24,8 @@ public class Tileset implements Serializable{
 	}
 
 	public void draw(Renderer r, Tile t, int x, int y) {
-		int xTileset = (t.ordinal() % nbDisplayTileW) * Tile.SIZE;
-		int yTileset = (t.ordinal() / nbDisplayTileW) * Tile.SIZE;
+		int xTileset = (t.ordinal() % getNbTileW()) * Tile.SIZE;
+		int yTileset = (t.ordinal() / getNbTileW()) * Tile.SIZE;
 
 		r.blit(img, x, y, Tile.SIZE, Tile.SIZE, xTileset, yTileset);
 	}

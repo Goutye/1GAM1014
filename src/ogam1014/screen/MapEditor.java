@@ -268,8 +268,6 @@ public class MapEditor extends Screen{
 			if (currentTile.ordinal() % tileset.getNbTileW() < tileset.getNbTileW() - 1) {
 				currentTile = Tile.values()[currentTile.ordinal() + 1];
 				
-				System.out.println(currentTile);
-				
 				if (currentTile.ordinal() % tileset.getNbTileW() >= tilesetDisplayStart.x + Tileset.nbDisplayTileW)
 					++tilesetDisplayStart.x;
 			}
