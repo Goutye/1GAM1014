@@ -40,13 +40,16 @@ public class MapEditor extends Screen{
 	private Tile tab[][];
 	private Map map;
 	private Point mapDisplayStart = new Point(0,0);
+	private Point tilesetDisplayStart = new Point(0,0);
 	private Box boxTileset;
 	private Box boxMap;
 	private Tile currentTile = Tile.GRASS;
 	private String fileName = "map1.tile";
 	private double currentTimeBeforeIncrease = 0;
 	private boolean mapCurrentlyClicked = false;
+	private boolean tilesetCurrentlyClicked = false;
 	private Point mapClickPosition = new Point(0,0);
+	private Point tilesetClickPosition = new Point(0,0);
 	
 	public MapEditor() {
 		int nb = 0;
@@ -100,7 +103,7 @@ public class MapEditor extends Screen{
 	}
 	
 	private void initBoxes() {
-		boxTileset = new Box(POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET * Tile.SIZE, ((tileset.getNbTiles() - 1) / NB_COL_TILESET + 1) * Tile.SIZE);
+		boxTileset = new Box(POS_TILESET_X, POS_TILESET_Y, Tileset.nbDisplayTileW * Tile.SIZE, Tileset.nbDisplayTileH * Tile.SIZE);
 		boxMap = new Box(POS_MAP_X, POS_MAP_Y, Math.min(tab.length, MAP_DISPLAY_NB_TILE_X) * Tile.SIZE, Math.min(tab[0].length, MAP_DISPLAY_NB_TILE_Y)  * Tile.SIZE);
 	}
 	
@@ -159,6 +162,10 @@ public class MapEditor extends Screen{
 				mapCurrentlyClicked = true;
 				mapClickPosition = new Point(input.mouse);
 			}
+			else if(Collide.AABB_point(boxTileset, input.mouse)) {
+				tilesetCurrentlyClicked = true;
+				tilesetClickPosition = new Point(input.mouse);
+			}
 			else {
 				map.save(fileName);
 			}
@@ -192,10 +199,38 @@ public class MapEditor extends Screen{
 					}
 				}
 			}
+			else if (tilesetCurrentlyClicked) {
+				if (input.mouse.x - tilesetClickPosition.x >= Tile.SIZE) {
+					if (tilesetDisplayStart.x > 0) {
+						--tilesetDisplayStart.x;
+						tilesetClickPosition.x += Tile.SIZE;
+					}
+				}
+				else if (tilesetClickPosition.x - input.mouse.x >= Tile.SIZE) {
+					if (tilesetDisplayStart.x < tileset.getNbTileW() - Tileset.nbDisplayTileW) {
+						++tilesetDisplayStart.x;
+						tilesetClickPosition.x -= Tile.SIZE;
+					}
+				}
+				
+				if (input.mouse.y - tilesetClickPosition.y >= Tile.SIZE) {
+					if (tilesetDisplayStart.y > 0) {
+						--tilesetDisplayStart.y;
+						tilesetClickPosition.y += Tile.SIZE;
+					}
+				}
+				else if (tilesetClickPosition.y - input.mouse.y >= Tile.SIZE) {
+					if (tilesetDisplayStart.y < tileset.getNbTileH() - Tileset.nbDisplayTileH) {
+						++tilesetDisplayStart.y;
+						tilesetClickPosition.y -= Tile.SIZE;
+					}
+				}
+			}
 		}
 		
 		if (input.rightButton.released) {
 			mapCurrentlyClicked = false;
+			tilesetCurrentlyClicked = false;
 		}
 		
 		if (input.leftButton.released) {
@@ -220,20 +255,20 @@ public class MapEditor extends Screen{
 		}
 		
 		if (input.left.pressed) {
-			if (currentTile.ordinal() % NB_COL_TILESET > 0)
+			if (currentTile.ordinal() % tileset.getNbTileW() > 0)
 				currentTile = Tile.values()[currentTile.ordinal() - 1];
 		}
 		else if (input.right.pressed) {
-			if (currentTile.ordinal() % NB_COL_TILESET < NB_COL_TILESET - 1)
+			if (currentTile.ordinal() % tileset.getNbTileW() < tileset.getNbTileW() - 1)
 				currentTile = Tile.values()[currentTile.ordinal() + 1];
 		}
 		else if (input.up.pressed) {
-			if (currentTile.ordinal() / NB_COL_TILESET > 0)
-				currentTile = Tile.values()[currentTile.ordinal() - NB_COL_TILESET];
+			if (currentTile.ordinal() / tileset.getNbTileW() > 0)
+				currentTile = Tile.values()[currentTile.ordinal() - tileset.getNbTileW()];
 		}
 		else if (input.down.pressed) {
-			if (currentTile.ordinal() / NB_COL_TILESET < tileset.getNbTiles() / NB_COL_TILESET - 1)
-				currentTile = Tile.values()[currentTile.ordinal() + NB_COL_TILESET];
+			if (currentTile.ordinal() / tileset.getNbTileW() < tileset.getNbTiles() / tileset.getNbTileW() - 1)
+				currentTile = Tile.values()[currentTile.ordinal() + tileset.getNbTileW()];
 		}
 		
 		Point p = input.mouse;
@@ -252,8 +287,8 @@ public class MapEditor extends Screen{
 	}
 
 	private void selectTile() {
-		int x = (input.mouse.x - POS_TILESET_X) / Tile.SIZE;
-		int y = (input.mouse.y - POS_TILESET_Y) / Tile.SIZE;
+		int x = (input.mouse.x - POS_TILESET_X) / Tile.SIZE + tilesetDisplayStart.x;
+		int y = (input.mouse.y - POS_TILESET_Y) / Tile.SIZE + tilesetDisplayStart.y;
 		
 		currentTile = Tile.values()[y * NB_COL_TILESET + x]; 
 	}
@@ -296,7 +331,7 @@ public class MapEditor extends Screen{
 	@Override
 	public void draw(Renderer r) {
 		map.draw(r, POS_MAP_X , POS_MAP_Y, boxMap.width / 16, boxMap.height / 16, mapDisplayStart.x, mapDisplayStart.y);
-		tileset.drawTileset(r, POS_TILESET_X, POS_TILESET_Y, NB_COL_TILESET);
+		tileset.drawTileset(r, tilesetDisplayStart.x, tilesetDisplayStart.y, POS_TILESET_X, POS_TILESET_Y);
 		drawSelectedTile(r);
 		drawMapArea(r);
 		drawButtonIncrDecr(r);
