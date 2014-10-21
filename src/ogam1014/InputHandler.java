@@ -58,6 +58,7 @@ public class InputHandler {
 	public Key fireRight = addKey(KeyEvent.VK_RIGHT);
 	public Key validate = addKey(KeyEvent.VK_ENTER);
 	public Key pause = addKey(KeyEvent.VK_P);
+	public Key escape = addKey(KeyEvent.VK_ESCAPE);
 
 	public Button rightButton = addButton(MouseEvent.BUTTON3);
 	public Button leftButton = addButton(MouseEvent.BUTTON1);
