@@ -20,11 +20,10 @@ public class MapEditor extends Screen{
 	private static final int POS_MAP_Y = Tile.SIZE * 4 + ogam1014.Engine.HEIGHT % Tile.SIZE;
 	private static final int POS_TILESET_X = 0;
 	private static final int POS_TILESET_Y = 0;
-	private static final int NB_COL_TILESET = 12;
 	private static final int MAP_DISPLAY_NB_TILE_X = ogam1014.Engine.WIDTH / Tile.SIZE;
 	private static final int MAP_DISPLAY_NB_TILE_Y = (ogam1014.Engine.HEIGHT - POS_MAP_Y) / Tile.SIZE;
 	
-	private static final Box BOX_MENU = new Box(NB_COL_TILESET * Tile.SIZE, 0, 200, 320);
+	private static final Box BOX_MENU = new Box(Tileset.nbDisplayTileW * Tile.SIZE, 0, 200, 320);
 	private static final Box BOX_SIZE_X_DECR = new Box(BOX_MENU.x, BOX_MENU.y, 16, 16);
 	private static final Box BOX_SIZE_X_INCR = new Box(BOX_MENU.x + 16, BOX_MENU.y, 16, 16);
 	private static final RectangleButton BUTTON_X_DECR = new RectangleButton(BOX_MENU.x, BOX_MENU.y, 16, 16, "-", Color.white, Color.black,Color.gray);
@@ -35,6 +34,8 @@ public class MapEditor extends Screen{
 	private static final RectangleButton BUTTON_Y_INCR = new RectangleButton(BOX_MENU.x + 16, 16, 16, 16, "+", Color.white, Color.black,Color.gray);
 	
 	private static final double TIME_BEFORE_INCR_BY_MOUSE_DOWN = 0.5;
+	
+	private enum Mode { Map, Entity};
 	
 	private Tileset tileset;
 	private Tile tab[][];
@@ -50,6 +51,7 @@ public class MapEditor extends Screen{
 	private boolean tilesetCurrentlyClicked = false;
 	private Point mapClickPosition = new Point(0,0);
 	private Point tilesetClickPosition = new Point(0,0);
+	private Mode mode = Mode.Map;
 	
 	public MapEditor() {
 		int nb = 0;
@@ -129,7 +131,10 @@ public class MapEditor extends Screen{
 		
 		if (input.leftButton.down) {
 			if (Collide.AABB_point(boxMap, input.mouse)) {
-				putTile();
+				if (mode == Mode.Map)
+					putTile();
+				else
+					putEntity();
 			}
 			else if (Collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)) {
 				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
@@ -294,6 +299,11 @@ public class MapEditor extends Screen{
 		BUTTON_X_INCR.update(p);
 		BUTTON_Y_DECR.update(p);
 		BUTTON_Y_INCR.update(p);
+	}
+
+	private void putEntity() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	private void putTile() {
