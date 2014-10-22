@@ -20,6 +20,7 @@ public abstract class MobEntity extends Entity {
 	protected double friction = 1;
 	protected int dir_x = 0;
 	protected int dir_y = 0;
+	private int movementSemaphore;
 
 	protected Boolean speaking = false;
 	protected Boolean speakingToSomeone = false;
@@ -36,10 +37,12 @@ public abstract class MobEntity extends Entity {
 		testWallCollision(dt);
 		testEntityCollision(dt);
 
-		x += dx * dt;
-		y += dy * dt;
-		this.box.x = (int) x;
-		this.box.y = (int) (y + hIgnored);
+		if (canMove()) {
+			x += dx * dt;
+			y += dy * dt;
+			this.box.x = (int) x;
+			this.box.y = (int) (y + hIgnored);
+		}
 	}
 
 	public Point moveTowardPlayer() {
@@ -127,6 +130,18 @@ public abstract class MobEntity extends Entity {
 				break;
 			}
 		}
+	}
+
+	private boolean canMove() {
+		return movementSemaphore == 0;
+	}
+
+	public void lockMovement() {
+		movementSemaphore++;
+	}
+
+	public void unlockMovement() {
+		movementSemaphore--;
 	}
 
 	abstract protected boolean collidesWith(Entity e);
