@@ -8,6 +8,7 @@ import java.awt.Stroke;
 import java.io.File;
 import java.util.ArrayList;
 
+import ogam1014.mapeditor.ConverterEntitiesToXML;
 import ogam1014.mapeditor.EntityXML;
 import ogam1014.mapeditor.Mode;
 import ogam1014.Map;
@@ -54,7 +55,7 @@ public class MapEditor extends Screen{
 	private Tile currentTile = Tile.GRASS;
 	private EnemyType currentEntity = EnemyType.Enemy;
 	private boolean inSelectionOfEntity = false;
-	private String fileName = "map1.tile";
+	private String fileName = "map1";
 	private double currentTimeBeforeIncrease = 0;
 	private boolean mapCurrentlyClicked = false;
 	private boolean tilesetCurrentlyClicked = false;
@@ -66,13 +67,13 @@ public class MapEditor extends Screen{
 	public MapEditor() {
 		int nb = 0;
 		File f;
-		
+
 		do {
 			++nb;
 			f = new File("assets/maps/map" + nb + ".tile");
 		} while(f.exists() || f.isDirectory());
 		
-		fileName = "map" + nb + ".tile";
+		fileName = "map" + nb;
 		
 		tab = new Tile[DEFAULT_SIZE][DEFAULT_SIZE];
 		initTab(tab);
@@ -82,7 +83,7 @@ public class MapEditor extends Screen{
 	}
 	
 	public MapEditor(String fileName) {
-		map = new Map(fileName);
+		map = new Map(fileName + ".tile");
 		tab = map.getTab();
 		this.fileName = fileName;
 		tileset = new Tileset();
@@ -98,7 +99,7 @@ public class MapEditor extends Screen{
 			f = new File("assets/maps/map" + nb + ".tile");
 		} while(f.exists() || f.isDirectory());
 		
-		fileName = "map" + nb + ".tile";
+		fileName = "map" + nb;
 		
 		tab = new Tile[x][y];
 		initTab(tab);
@@ -214,7 +215,10 @@ public class MapEditor extends Screen{
 				tilesetClickPosition = new Point(input.mouse);
 			}
 			else {
-				map.save(fileName);
+				if (mode == Mode.Map)
+					map.save(fileName + ".tile");
+				else
+					ConverterEntitiesToXML.convert(fileName, entities);
 			}
 		}
 		

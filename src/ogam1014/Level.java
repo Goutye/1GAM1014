@@ -48,7 +48,7 @@ public class Level implements Serializable{
 			System.exit(1);
 		}
 		
-		map = new Map(name + ".tile");
+		map = new Map(name);
 		this.name = name;
 		
 		switch(name){
