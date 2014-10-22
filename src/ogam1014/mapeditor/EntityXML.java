@@ -1,4 +1,4 @@
-package mapeditor;
+package ogam1014.mapeditor;
 
 import java.awt.Point;
 

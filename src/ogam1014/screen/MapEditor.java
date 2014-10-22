@@ -8,8 +8,8 @@ import java.awt.Stroke;
 import java.io.File;
 import java.util.ArrayList;
 
-import mapeditor.EntityXML;
-import mapeditor.Mode;
+import ogam1014.mapeditor.EntityXML;
+import ogam1014.mapeditor.Mode;
 import ogam1014.Map;
 import ogam1014.Tile;
 import ogam1014.collide.Box;
