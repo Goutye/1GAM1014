@@ -61,6 +61,7 @@ public class MapEditor extends Screen{
 	private Point mapClickPosition = new Point(0,0);
 	private Point tilesetClickPosition = new Point(0,0);
 	private Mode mode = Mode.Map;
+	private EntityXML currentSelectedEntityXML = null;
 	
 	public MapEditor() {
 		int nb = 0;
@@ -137,6 +138,18 @@ public class MapEditor extends Screen{
 						putEntity();
 					else
 						displayInfoEntity();
+				}
+				else if (Collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)) {
+					currentSelectedEntityXML.setIDWalkingText(currentSelectedEntityXML.getIDWalkingText() - 1);
+				}
+				else if (Collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)) {
+					currentSelectedEntityXML.setIDSpeakingText(currentSelectedEntityXML.getIDSpeakingText() - 1);
+				}
+				else if (Collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)) {
+					currentSelectedEntityXML.setIDWalkingText(currentSelectedEntityXML.getIDWalkingText() + 1);
+				}
+				else if (Collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)) {
+					currentSelectedEntityXML.setIDSpeakingText(currentSelectedEntityXML.getIDSpeakingText() + 1);
 				}
 			}
 			else if (mode == Mode.Map) {
@@ -334,17 +347,18 @@ public class MapEditor extends Screen{
 	}
 
 	private void displayInfoEntity() {
-		int x = (input.mouse.x - POS_TILESET_X) / Tile.SIZE + tilesetDisplayStart.x;
-		int y = (input.mouse.y - POS_TILESET_Y) / Tile.SIZE + tilesetDisplayStart.y;
+		int x = (input.mouse.x - POS_MAP_X) / Tile.SIZE + mapDisplayStart.x;
+		int y = (input.mouse.y - POS_MAP_Y) / Tile.SIZE + mapDisplayStart.y;
 		Point p = new Point(x, y);
-		EntityXML eXML;
 		
 		for (EntityXML e : entities) {
 			if (e.getPos().equals(p)) {
-				eXML = e;
+				currentSelectedEntityXML = e;
 				break;
 			}
 		}
+		
+		System.out.println(currentSelectedEntityXML);
 		
 		// TODO Display info of the entity clicked
 		// TODO Une var pour stocker l'entity où on doit afficher l'info ?
@@ -358,10 +372,13 @@ public class MapEditor extends Screen{
 		if ( y * NB_COL_ENTITY_AREA + x < EnemyType.values().length) {
 			if (currentEntity == EnemyType.values()[y * NB_COL_ENTITY_AREA + x]) {
 				inSelectionOfEntity = !inSelectionOfEntity;
+				if (inSelectionOfEntity)
+					currentSelectedEntityXML = null;
 			}
 			else {
 				currentEntity = EnemyType.values()[y * NB_COL_ENTITY_AREA + x];
 				inSelectionOfEntity = true;
+				currentSelectedEntityXML = null;
 			}
 		}
 	}
@@ -456,9 +473,16 @@ public class MapEditor extends Screen{
 			drawButtonIncrDecr(r);
 		}
 		else {
+			drawEntityXMLInfo(r);
 			drawEntitiesType(r);
 			drawSelectedEntity(r);
 			drawEntitiesOnMap(r);
+			if (currentSelectedEntityXML != null) {
+				BUTTON_X_DECR.drawUpdate(r);
+				BUTTON_X_INCR.drawUpdate(r);
+				BUTTON_Y_DECR.drawUpdate(r);
+				BUTTON_Y_INCR.drawUpdate(r);
+			}
 		}
 		
 		
@@ -544,5 +568,17 @@ public class MapEditor extends Screen{
 				r.drawCenteredText(e.getEnemyType().toString().substring(0, 2), boxMap.x + x * Tile.SIZE, boxMap.y + y * Tile.SIZE + 6, Tile.SIZE);
 			}
 		}
+	}
+	
+	public void drawEntityXMLInfo(Renderer r) {
+		if (currentSelectedEntityXML == null)
+			return;
+		
+		EntityXML e = currentSelectedEntityXML;
+		r.setColor(Color.black);
+		r.drawText("Position:\t" + e.getPos().x + "," + e.getPos().y, BOX_MENU.x+32, BOX_MENU.y+24);
+		r.drawText("Type:\t" + e.getEnemyType(), BOX_MENU.x+32, BOX_MENU.y+32);
+		r.drawText("ID:\t" + e.getIDWalkingText() + " [walking text (0 = No text)]", BOX_MENU.x+32, BOX_MENU.y+40);
+		r.drawText("ID:\t" + e.getIDSpeakingText() + " [text (When we speak to him)]", BOX_MENU.x+32, BOX_MENU.y+48);
 	}
 }

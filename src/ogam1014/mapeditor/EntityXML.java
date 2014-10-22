@@ -7,6 +7,8 @@ import ogam1014.entity.EnemyType;
 public class EntityXML {
 	private EnemyType type;
 	private Point p;
+	private int IDWalkingText = 0;
+	private int IDSpeakingText = 0;
 
 	public EntityXML(Point p, EnemyType type) {
 		this.p = p;
@@ -23,5 +25,21 @@ public class EntityXML {
 
 	public EnemyType getEnemyType() {
 		return type;
+	}
+
+	public int getIDWalkingText() {
+		return IDWalkingText;
+	}
+
+	public int getIDSpeakingText() {
+		return IDSpeakingText;
+	}
+
+	public void setIDWalkingText(int i) {
+		IDWalkingText = i;
+	}
+
+	public void setIDSpeakingText(int i) {
+		IDSpeakingText = i;
 	}
 }
