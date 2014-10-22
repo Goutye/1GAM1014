@@ -124,7 +124,7 @@ public abstract class MobEntity extends Entity {
 			boolean collide = Collide.aabb(xx, yy + hIgnored, getWidth(),
 					(int) (getHeight() - hIgnored), e.getBox().x, e.getBox().y,
 					e.getBox().width, e.getBox().height);
-			;
+
 			if (collide && collidesWith(e)) {
 				this.onCollision(e);
 				break;

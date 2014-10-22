@@ -9,6 +9,7 @@ import ogam1014.attributes.PlayerAttributes.Attr;
 import ogam1014.equipment.AmmoPackItem;
 import ogam1014.equipment.BulletType;
 import ogam1014.equipment.Item;
+import ogam1014.equipment.MeleeWeaponItem;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,10 @@ public class Player extends LivingEntity {
 		RangeWeaponItem shotgun = (RangeWeaponItem) ItemFactory.make("rangeweapon.shotgun");
 		inventory.addItem(shotgun);
 		inventory.equipItem(1, shotgun);
-		
+		MeleeWeaponItem knife = (MeleeWeaponItem) ItemFactory.make("meleeweapon.knife");
+		inventory.addItem(knife);
+		inventory.equipItem(2, knife);
+
 		Item ammo = ItemFactory.make("ammopack.smallx20");
 		ammo.setQuantity(5);
 		inventory.addItem(ammo);
@@ -210,6 +214,9 @@ public class Player extends LivingEntity {
 		level.addEntity(b);
 	}
 
+	public void spawnSwing(Swing swing) {
+		level.addEntity(swing);
+	}
 
 	public AmmoPackItem retrieveAmmoPack(BulletType bulletType) {
 		List<Item> list = inventory.getAll("ammopack.");

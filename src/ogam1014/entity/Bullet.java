@@ -24,7 +24,7 @@ public class Bullet extends MobEntity {
 		w = 4;
 		h = 4;
 		hIgnored = 0;
-		this.box = new Box((int) x, (int) (y), w, (int) (h));
+		this.box = new Box((int) x, (int) (y), w, h);
 	}
 
 	@Override

@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <categories>
 	<rangeweapon>
 		<item name="simplegun" display="Gun">
@@ -17,6 +18,11 @@
 			<numBullets>8</numBullets>
 		</item>
 	</rangeweapon>
+
+	<meleeweapon>
+		<item name="knife" display="Knife">
+		</item>
+	</meleeweapon>
 
 	<armor>
 		<helmet>

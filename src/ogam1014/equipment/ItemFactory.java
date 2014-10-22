@@ -92,8 +92,8 @@ final public class ItemFactory {
 	}
 
 	private static Item makeMeleeWeapon(Node node) {
-		// TODO Auto-generated method stub
-		return null;
+		MeleeWeaponItem mw = new MeleeWeaponItem(getAttribute(node, "display"));
+		return mw;
 	}
 
 	private static Item makeArmor(Node node) {
