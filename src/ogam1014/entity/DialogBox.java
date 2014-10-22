@@ -19,7 +19,6 @@ public class DialogBox extends Entity {
 	private Box box = new Box(0,0,0,0);
 	private Boolean validBox; 
 	private int currentText = 0;
-	private double time = 0;
 	
 	public DialogBox(MobEntity e, String text) {
 		this.validBox = false;
@@ -81,8 +80,7 @@ public class DialogBox extends Entity {
 	
 	@Override
 	public void update(double dt) {
-		time += dt;
-		
+		super.update(dt);
 		box.x = (int) e.getX() - (int) (box.width/2);
 		box.y = (int) e.getY() - box.height;
 		

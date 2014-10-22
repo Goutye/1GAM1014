@@ -19,10 +19,6 @@ public class DroppedItem extends Entity {
 	}
 
 	@Override
-	public void update(double dt) {
-	}
-
-	@Override
 	public void draw(Renderer r) {
 		r.blit(IMAGE, x - 2, y - 2, 8, 8, 8, 44); /* TODO */
 	}

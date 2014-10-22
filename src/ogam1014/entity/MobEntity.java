@@ -20,18 +20,16 @@ public abstract class MobEntity extends Entity {
 	protected double friction = 1;
 	protected int dir_x = 0;
 	protected int dir_y = 0;
-	protected double time;
 
 	protected Boolean speaking = false;
 	protected Boolean speakingToSomeone = false;
 	
-
 	protected int aggro = 300;
 
 
 	@Override
 	public void update(double dt) {
-		time += dt;
+		super.update(dt);
 		dx = dx * friction;
 		dy = dy * friction;
 
