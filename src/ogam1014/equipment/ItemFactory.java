@@ -93,6 +93,11 @@ final public class ItemFactory {
 
 	private static Item makeMeleeWeapon(Node node) {
 		MeleeWeaponItem mw = new MeleeWeaponItem(getAttribute(node, "display"));
+		mw.setCooldown(getFloatElement(node, "cooldown", 0));
+		mw.setDuration(getFloatElement(node, "duration", 0));
+		mw.setSize(getIntElement(node, "size", 32));
+		mw.setDamage(getFloatElement(node, "damage", 0));
+		mw.setRepulsePower(getFloatElement(node, "repulsePower", 0));
 		return mw;
 	}
 

@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.Random;
 
 import ogam1014.entity.Enemy;
-import ogam1014.entity.EnemyType;
 import ogam1014.entity.Entity;
 import ogam1014.entity.Player;
 import ogam1014.entity.Thief;
