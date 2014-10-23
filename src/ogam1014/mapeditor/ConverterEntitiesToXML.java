@@ -1,6 +1,8 @@
 package ogam1014.mapeditor;
 
+import java.awt.Point;
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -13,11 +15,15 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
+import ogam1014.entity.EnemyType;
 import ogam1014.mapeditor.EntityXML;
 
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class ConverterEntitiesToXML {
 	
@@ -25,7 +31,7 @@ public class ConverterEntitiesToXML {
 
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 		Document doc;
-		System.out.println(name);
+
 		try {
 			DocumentBuilder builder = factory.newDocumentBuilder();
 			doc = builder.newDocument();
@@ -78,5 +84,69 @@ public class ConverterEntitiesToXML {
 		}
 		
 		System.out.println("Entities saved!");
+	}
+
+	public static ArrayList<EntityXML> inverseConvert(String fileName) {
+		ArrayList<EntityXML> entities = new ArrayList<EntityXML>();
+		
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		Document doc;
+
+		try {
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			doc = builder.parse(new File("assets/maps/" + fileName + ".entities"));
+		
+			NodeList list = doc.getElementsByTagName("entity");
+			
+			EnemyType type;
+			Point pos;
+			int idWalking;
+			int idSpeaking;
+			
+			for (int i = 0; i < list.getLength(); ++i) {
+				Node e = list.item(i);
+				e = e.getFirstChild();
+				
+				if (e.getNodeName().equals("type")) 
+					type = EnemyType.valueOf(e.getTextContent());
+				else
+					throw new Exception();
+				
+				e = e.getNextSibling();
+				if (e.getNodeName().equals("position")) 
+					pos = new Point(Integer.parseInt(e.getAttributes().getNamedItem("x").getNodeValue()),
+							Integer.parseInt(e.getAttributes().getNamedItem("y").getNodeValue()));
+				else
+					throw new Exception();
+				
+				e = e.getNextSibling();
+				
+				if (e.getNodeName().equals("idSpeaking")) 
+					idSpeaking = Integer.parseInt( e.getTextContent() );
+				else
+					throw new Exception();
+				
+				e = e.getNextSibling();
+				
+				if (e.getNodeName().equals("idWalking"))
+					idWalking = Integer.parseInt( e.getTextContent() );
+				else
+					throw new Exception();
+				
+				entities.add(new EntityXML(type, pos, idSpeaking, idWalking));
+			}
+		
+		} catch (ParserConfigurationException e1) {
+			e1.printStackTrace();
+		} catch (SAXException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} catch (Exception e1) {
+			System.out.println("XML Problem! Please redownload the full-game.");
+			e1.printStackTrace();
+		}
+		
+		return entities;
 	}
 }

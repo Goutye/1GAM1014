@@ -84,6 +84,7 @@ public class MapEditor extends Screen{
 	
 	public MapEditor(String fileName) {
 		map = new Map(fileName + ".tile");
+		entities = ConverterEntitiesToXML.inverseConvert(fileName);
 		tab = map.getTab();
 		this.fileName = fileName;
 		tileset = new Tileset();
@@ -215,10 +216,8 @@ public class MapEditor extends Screen{
 				tilesetClickPosition = new Point(input.mouse);
 			}
 			else {
-				if (mode == Mode.Map)
-					map.save(fileName + ".tile");
-				else
-					ConverterEntitiesToXML.convert(fileName, entities);
+				map.save(fileName + ".tile");
+				ConverterEntitiesToXML.convert(fileName, entities);
 			}
 		}
 		
@@ -361,12 +360,6 @@ public class MapEditor extends Screen{
 				break;
 			}
 		}
-		
-		System.out.println(currentSelectedEntityXML);
-		
-		// TODO Display info of the entity clicked
-		// TODO Une var pour stocker l'entity où on doit afficher l'info ?
-		// TODO Draw function for that.
 	}
 
 	private void selectEntity() {

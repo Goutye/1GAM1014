@@ -15,6 +15,13 @@ public class EntityXML {
 		this.type = type;
 	}
 	
+	public EntityXML(EnemyType type, Point pos, int idSpeaking, int idWalking) {
+		this.p = pos;
+		this.IDSpeakingText = idSpeaking;
+		this.IDWalkingText = idWalking;
+		this.type = type;
+	}
+
 	public Point getPos() {
 		return p;
 	}
