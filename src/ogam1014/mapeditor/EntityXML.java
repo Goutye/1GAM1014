@@ -1,8 +1,15 @@
 package ogam1014.mapeditor;
 
 import java.awt.Point;
+import java.util.ArrayList;
 
+import ogam1014.Level;
+import ogam1014.Tile;
+import ogam1014.entity.Enemy;
 import ogam1014.entity.EnemyType;
+import ogam1014.entity.Entity;
+import ogam1014.entity.MobEntity;
+import ogam1014.entity.Thief;
 
 public class EntityXML {
 	private EnemyType type;
@@ -48,5 +55,28 @@ public class EntityXML {
 
 	public void setIDSpeakingText(int i) {
 		IDSpeakingText = i;
+	}
+	
+	public static void convertToEntities(Level level, ArrayList<EntityXML> entitiesXML) {		
+		for (EntityXML eXML : entitiesXML) {
+			MobEntity e;
+			
+			switch(eXML.getEnemyType()) {
+			case Thief: 
+				e = new Thief();
+				break;
+			default:
+				e = new Enemy();
+				break;
+			}
+			
+			e.setPosition(new Point(eXML.getPos().x * Tile.SIZE, eXML.getPos().y * Tile.SIZE));
+			
+			/* TODO eXML.getIDWalkingText
+			 * TODO eXML.getIDSpeakingText
+			 */
+			e.setLevel(level);
+			level.addEntity(e);
+		}
 	}
 }

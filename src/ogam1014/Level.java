@@ -8,13 +8,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Random;
 
-import ogam1014.entity.Bullet;
 import ogam1014.entity.Enemy;
-import ogam1014.entity.EnemyType;
 import ogam1014.entity.Entity;
 import ogam1014.entity.Player;
 import ogam1014.entity.Thief;
 import ogam1014.graphics.Renderer;
+import ogam1014.mapeditor.ConverterEntitiesToXML;
+import ogam1014.mapeditor.EntityXML;
 
 public class Level implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -48,13 +48,15 @@ public class Level implements Serializable{
 			System.exit(1);
 		}
 		
-		map = new Map(name);
+		map = new Map(name + ".tile");
+		EntityXML.convertToEntities(this, ConverterEntitiesToXML.inverseConvert(name));
 		this.name = name;
+		
 		
 		switch(name){
 		case "map":
 			timeBeforeMobSpawn = 10.;
-			percent_mobByAvailablePositions = 0.005;
+			percent_mobByAvailablePositions = 0.000;
 			nbMaxEnemies = 50;
 			break;
 		default:
