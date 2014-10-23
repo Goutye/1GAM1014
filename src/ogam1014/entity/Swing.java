@@ -26,7 +26,7 @@ public class Swing extends Entity {
 		w = size;
 		h = size;
 		x = owner.getX() + owner.getWidth() / 2 - w / 2 + Math.cos(angle) * size / 2;
-		y = owner.getY() + owner.getHeight() / 2 - h / 2 + Math.sin(angle) * size / 2;
+		y = owner.getY() + (owner.getHeight() + owner.hIgnored) / 2 - h / 2 + Math.sin(angle) * size / 2;
 		this.box = new Box((int) x, (int) y, w, h);
 	}
 

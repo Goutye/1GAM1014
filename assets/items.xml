@@ -21,9 +21,9 @@
 
 	<meleeweapon>
 		<item name="knife" display="Knife">
-			<damage>0</damage>
-			<repulsePower>300</repulsePower>
-			<size>300</size>
+			<damage>2</damage>
+			<repulsePower>40</repulsePower>
+			<size>24</size>
 			<duration>0.2</duration>
 			<cooldown>0.2</cooldown>
 		</item>
