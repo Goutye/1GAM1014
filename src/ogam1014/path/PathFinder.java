@@ -3,6 +3,7 @@ package ogam1014.path;
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 
 import ogam1014.Map;
 import ogam1014.Tile;
@@ -12,7 +13,7 @@ public class PathFinder {
 	private Entity start;
 	private Entity end;
 	private Map map;
-	private LinkedList<QueueElement> queue;
+	private PriorityQueue<QueueElement> queue;
 	private int index = 0;
 	private boolean[][] marker;
 	private Tile tiles[][];
@@ -23,7 +24,7 @@ public class PathFinder {
 		this.map = map;
 		marker = new boolean[map.getWidth()][map.getHeight()];
 		tiles = map.getMap();
-		queue = new LinkedList<QueueElement>();
+		queue = new PriorityQueue<QueueElement>(100, new QEComparator());
 
 	}
 
@@ -61,12 +62,8 @@ public class PathFinder {
 				QueueElement qe = new QueueElement(p[i], index);
 				queue.add(qe);
 				marker[p[i].x][p[i].y] = true;
-				// System.out.println("ajout de : " + qe.toString());
-			} else {
-				// System.out.println("position invalide : " + p[i]);
 			}
 		}
-
 	}
 
 	private boolean valide(Point point, boolean[][] marker) {
@@ -108,7 +105,7 @@ public class PathFinder {
 		queue.add(e);
 
 		do {
-			e = queue.remove();
+			e = queue.poll();
 			stock.add(e);
 			curTileIJ = e.getTile();
 			appendQueue(curTileIJ,posEnd);
