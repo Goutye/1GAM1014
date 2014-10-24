@@ -47,6 +47,24 @@ final public class ItemFactory {
 			item = makeAmmoPack(node);
 		}
 
+		if (item instanceof AttributeItem) {
+			AttributeItem attrItem = (AttributeItem) item;
+			for (Node c : childrenOf(node)) {
+				if (c.getNodeName().equals("relativeModifier")) {
+					String attrStr = getTextElement(c, "attribute", "").toUpperCase();
+					Attr attr = Attr.valueOf(attrStr);
+					float value = getFloatElement(c, "value", 0);
+					attrItem.setRelativeModifier(attr, value);
+				}
+				if (c.getNodeName().equals("rawModifier")) {
+					String attrStr = getTextElement(c, "attribute", "").toUpperCase();
+					Attr attr = Attr.valueOf(attrStr);
+					float value = getFloatElement(c, "value", 0);
+					attrItem.setRawModifier(attr, value);
+				}
+			}
+		}
+
 		item.setDescriptor(descriptor);
 		return item;
 	}
@@ -74,22 +92,21 @@ final public class ItemFactory {
 	}
 
 	private static Item makeMeleeWeapon(Node node) {
-		// TODO Auto-generated method stub
-		return null;
+		MeleeWeaponItem mw = new MeleeWeaponItem(getAttribute(node, "display"));
+		mw.setCooldown(getFloatElement(node, "cooldown", 0));
+		mw.setDuration(getFloatElement(node, "duration", 0));
+		mw.setSize(getIntElement(node, "size", 32));
+		mw.setDamage(getFloatElement(node, "damage", 0));
+		mw.setRepulsePower(getFloatElement(node, "repulsePower", 0));
+		return mw;
 	}
 
 	private static Item makeArmor(Node node) {
 		String display = getAttribute(node, "display");
 		float protect = getFloatElement(node, "protection", 0);
-		ArmorItem helmet = new ArmorItem(display, ArmorType.HELMET, protect);
-		for (Node c : childrenOf(node)) {
-			if (c.getNodeName().equals("relativeModifier")) {
-				Attr attr = Attr.valueOf(getTextElement(node, "attribute", ""));
-				float value = getFloatElement(node, "value", 0);
-				helmet.setRelativeModifier(attr, value);
-			}
-		}
-		return helmet;
+		ArmorType type = ArmorType.valueOf(node.getParentNode().getNodeName());
+		ArmorItem armor = new ArmorItem(display, type, protect);
+		return armor;
 	}
 
 	private static Item makePotion(Node node) {

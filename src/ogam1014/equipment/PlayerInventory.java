@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import ogam1014.attributes.PlayerAttributes;
+import ogam1014.attributes.PlayerAttributes.Attr;
 import ogam1014.entity.Player;
 
 public class PlayerInventory implements Serializable {
@@ -122,7 +123,6 @@ public class PlayerInventory implements Serializable {
 				attr.applyRelative(((AttributeItem) equipped[i]).getRelativeModifiers());
 			}
 		}
-		
 		for(ArmorItem item : armor.values()) {
 			if(item != null) {
 				attr.applyRaw(item.getRawModifiers());

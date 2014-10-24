@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <categories>
 	<rangeweapon>
 		<item name="simplegun" display="Gun">
@@ -5,6 +6,10 @@
 			<spread>36</spread>
 			<cooldown>0.1</cooldown>
 			<bulletType>SMALL</bulletType>
+			<relativeModifier>
+				<attribute>speed</attribute>
+				<value>0.9</value>
+			</relativeModifier>
 		</item>
 		<item name="shotgun" display="Shotgun">
 			<spread>8</spread>
@@ -14,13 +19,23 @@
 		</item>
 	</rangeweapon>
 
+	<meleeweapon>
+		<item name="knife" display="Knife">
+			<damage>2</damage>
+			<repulsePower>40</repulsePower>
+			<size>24</size>
+			<duration>0.2</duration>
+			<cooldown>0.2</cooldown>
+		</item>
+	</meleeweapon>
+
 	<armor>
 		<helmet>
 			<item name="iron" display="Iron helmet">
 				<protection>0.3</protection>
 				<relativeModifier>
 					<!-- slows you down when worn -->
-					<type>speed</type>
+					<attribute>speed</attribute>
 					<value>0.9</value>
 				</relativeModifier>
 			</item>

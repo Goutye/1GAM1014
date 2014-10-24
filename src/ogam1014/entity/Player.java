@@ -1,13 +1,18 @@
 package ogam1014.entity;
 
 import java.util.List;
+
 import ogam1014.InputHandler;
 import ogam1014.Tile;
 import ogam1014.attributes.PlayerAttributes;
+import ogam1014.attributes.PlayerAttributes.Attr;
 import ogam1014.equipment.AmmoPackItem;
 import ogam1014.equipment.BulletType;
 import ogam1014.equipment.Item;
+import ogam1014.equipment.MeleeWeaponItem;
+
 import java.util.ArrayList;
+
 import ogam1014.collide.Box;
 import ogam1014.collide.Collide;
 import ogam1014.equipment.ItemFactory;
@@ -24,6 +29,7 @@ public class Player extends LivingEntity {
 	
 	private double lastShootDirX = 1;
 	private double lastShootDirY = 0;
+	private boolean speaking = false;
 	
 	public Player(InputHandler input) {
 		this.input = input;
@@ -37,11 +43,13 @@ public class Player extends LivingEntity {
 		RangeWeaponItem shotgun = (RangeWeaponItem) ItemFactory.make("rangeweapon.shotgun");
 		inventory.addItem(shotgun);
 		inventory.equipItem(1, shotgun);
-		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
-		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
-		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
-		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
-		inventory.addItem(ItemFactory.make("ammopack.smallx20"));
+		MeleeWeaponItem knife = (MeleeWeaponItem) ItemFactory.make("meleeweapon.knife");
+		inventory.addItem(knife);
+		inventory.equipItem(2, knife);
+
+		Item ammo = ItemFactory.make("ammopack.smallx20");
+		ammo.setQuantity(5);
+		inventory.addItem(ammo);
 
 		attributes = new PlayerAttributes();
 
@@ -54,39 +62,39 @@ public class Player extends LivingEntity {
 
 	@Override
 	public void update(double dt) {
-
+		double speed = attributes.get(Attr.SPEED);
 		if (!speaking) {
 			
 			if (input.up.down) {
-				dy = -SPEED;
+				dy = -speed;
 				lastShootDirY = -SPEED;
 				dir = Direction.UP;
 			}
 	
 			if (input.down.down) {
-				dy = SPEED;
+				dy = speed;
 				lastShootDirY = SPEED;
 				dir = Direction.DOWN;
 			}
 			
 			if(!input.up.down && !input.down.down) {
-				lastShootDirY /= SPEED * 10;
+				lastShootDirY /= SPEED * 100;
 			}
 	
 			if (input.right.down) {
-				dx = SPEED;
+				dx = speed;
 				lastShootDirX = SPEED;
 				dir = Direction.RIGHT;
 			}
 	
 			if (input.left.down) {
-				dx = -SPEED;
+				dx = -speed;
 				lastShootDirX = -SPEED;
 				dir = Direction.LEFT;
 			}
 			
 			if(!input.right.down && !input.left.down) {
-				lastShootDirX /= SPEED * 10;
+				lastShootDirX /= SPEED * 100;
 			}
 	
 			if (input.slot1.down) {
@@ -207,6 +215,9 @@ public class Player extends LivingEntity {
 		level.addEntity(b);
 	}
 
+	public void spawnSwing(Swing swing) {
+		level.addEntity(swing);
+	}
 
 	public AmmoPackItem retrieveAmmoPack(BulletType bulletType) {
 		List<Item> list = inventory.getAll("ammopack.");
@@ -252,5 +263,9 @@ public class Player extends LivingEntity {
 		
 		return entities;
 	}
-
+	
+	
+	public void stopSpeaking() {
+		speaking = false;
+	}
 }

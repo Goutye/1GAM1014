@@ -27,6 +27,7 @@ public abstract class Entity implements Serializable{
 		}
 	}
 	protected Level level;
+	protected double time;
 	protected double x;
 	protected double y;
 	protected int w;
@@ -36,7 +37,9 @@ public abstract class Entity implements Serializable{
 	protected Boolean passiv = false;
 	
 	
-	public abstract void update(double dt);
+	public void update(double dt) {
+		time += dt;
+	}
 
 	public abstract void draw(Renderer r);
 

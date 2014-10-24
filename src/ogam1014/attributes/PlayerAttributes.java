@@ -25,6 +25,18 @@ public class PlayerAttributes {
 		resetBase();
 	}
 	
+	public void resetBaseRelative() {
+		for(int i = 0; i < NB_ATTR; i++) {
+			base[i] = 1;
+		}
+	}
+	
+	public void resetBaseRaw() {
+		for(int i = 0; i < NB_ATTR; i++) {
+			base[i] = 0;
+		}
+	}
+	
 	public void resetModifiers() {
 		for(int i = 0; i < NB_ATTR; i++) {
 			raw[i] = 0;

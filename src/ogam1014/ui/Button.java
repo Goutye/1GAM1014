@@ -20,9 +20,10 @@ public abstract class Button implements IButton {
 	protected boolean hover;
 	protected Box box;
 	protected boolean down;
+	protected int stroke;
 
 	public Button(int x, int y, int width, int height, String name, Color txt,
-			Color bg, Color cClick) {
+			Color bg, Color cClick, int stroke) {
 		this.x = x;
 		this.y = y;
 		this.txt = txt;
@@ -32,6 +33,7 @@ public abstract class Button implements IButton {
 		this.bg = bg;
 		this.cClick = cClick;
 		this.box = new Box(x, y, w, h);
+		this.stroke = stroke;
 
 	}
 
@@ -65,6 +67,10 @@ public abstract class Button implements IButton {
 		}
 		
 		return false;
+	}
+	
+	public void setText(String text) {
+		this.name = text;
 	}
 
 	public void drawUpdate(Renderer r) {
