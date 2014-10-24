@@ -100,10 +100,10 @@ public class PathFinder {
 	public ArrayList<Point> A_star() {
 
 		ArrayList<QueueElement> stock = new ArrayList<>();
-		Point PosEnd = Tile.convertToTilePos(end.getX(), end.getY());
+		Point posEnd = Tile.convertToTilePos(end.getX(), end.getY());
 		Point curTileIJ = map.findPosTile(start);
 		marker[curTileIJ.x][curTileIJ.y] = true;
-		QueueElement e = new QueueElement(curTileIJ);
+		QueueElement e = new QueueElement(curTileIJ,posEnd);
 
 		queue.add(e);
 
@@ -111,9 +111,9 @@ public class PathFinder {
 			e = queue.remove();
 			stock.add(e);
 			curTileIJ = e.getTile();
-			appendQueue(curTileIJ,PosEnd);
+			appendQueue(curTileIJ,posEnd);
 			index++;
-		} while (!queue.isEmpty() && !end(curTileIJ, PosEnd));
+		} while (!queue.isEmpty() && !end(curTileIJ, posEnd));
 
 		ArrayList<Point> finalStock = sortStock(stock);
 
