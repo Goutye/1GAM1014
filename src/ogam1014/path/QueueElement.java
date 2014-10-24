@@ -2,9 +2,7 @@ package ogam1014.path;
 
 import java.awt.Point;
 
-import com.sun.javafx.collections.SortableList;
-
-public class QueueElement implements Comparable {
+public class QueueElement{
 	private Point tile;
 	private int precedente;
 	private Point end;
@@ -26,14 +24,8 @@ public class QueueElement implements Comparable {
 	public int getPrecedente() {
 		return precedente;
 	}
-
-	@Override
-	public int compareTo(Object o) {
-		if(o instanceof QueueElement){
-			QueueElement qe = (QueueElement) o;
-			
-			
-		}
-		return 0;
+	
+	public Point getEnd() {
+		return end;
 	}
 }

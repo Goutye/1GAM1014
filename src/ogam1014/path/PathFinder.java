@@ -15,14 +15,14 @@ public class PathFinder {
 	private LinkedList<QueueElement> queue;
 	private int index = 0;
 	private boolean[][] marker;
-	private Tile tiles[][];
+	
 	
 	public PathFinder(Entity start, Entity end, Map map) {
 		this.start = start;
 		this.end = end;
 		this.map = map;
 		marker = new boolean[map.getWidth()][map.getHeight()];
-		tiles = map.getMap();
+		map.getMap();
 		queue = new LinkedList<QueueElement>();
 
 	}
@@ -61,12 +61,8 @@ public class PathFinder {
 				QueueElement qe = new QueueElement(p[i], index);
 				queue.add(qe);
 				marker[p[i].x][p[i].y] = true;
-				// System.out.println("ajout de : " + qe.toString());
-			} else {
-				// System.out.println("position invalide : " + p[i]);
 			}
 		}
-
 	}
 
 	private boolean valide(Point point, boolean[][] marker) {
