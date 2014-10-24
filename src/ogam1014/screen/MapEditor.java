@@ -2,19 +2,25 @@ package ogam1014.screen;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Point;
 import java.awt.Stroke;
 import java.io.File;
+import java.util.ArrayList;
 
+import ogam1014.mapeditor.ConverterEntitiesToXML;
+import ogam1014.mapeditor.EntityXML;
+import ogam1014.mapeditor.Mode;
 import ogam1014.Map;
 import ogam1014.Tile;
 import ogam1014.collide.Box;
 import ogam1014.collide.Collide;
+import ogam1014.entity.EnemyType;
 import ogam1014.graphics.Renderer;
 import ogam1014.graphics.Tileset;
 import ogam1014.ui.RectangleButton;
 
-public class MapEditor extends Screen{
+public class MapEditor extends Screen {
 	private static final int DEFAULT_SIZE = 100;
 	private static final int POS_MAP_X = 0;
 	private static final int POS_MAP_Y = Tile.SIZE * 4 + ogam1014.Engine.HEIGHT % Tile.SIZE;
@@ -22,47 +28,52 @@ public class MapEditor extends Screen{
 	private static final int POS_TILESET_Y = 0;
 	private static final int MAP_DISPLAY_NB_TILE_X = ogam1014.Engine.WIDTH / Tile.SIZE;
 	private static final int MAP_DISPLAY_NB_TILE_Y = (ogam1014.Engine.HEIGHT - POS_MAP_Y) / Tile.SIZE;
+	private static final int NB_COL_ENTITY_AREA = 12;
 	
 	private static final Box BOX_MENU = new Box(Tileset.nbDisplayTileW * Tile.SIZE, 0, 200, 320);
-	private static final Box BOX_SIZE_X_DECR = new Box(BOX_MENU.x, BOX_MENU.y, 16, 16);
-	private static final Box BOX_SIZE_X_INCR = new Box(BOX_MENU.x + 16, BOX_MENU.y, 16, 16);
-	private static final RectangleButton BUTTON_X_DECR = new RectangleButton(BOX_MENU.x, BOX_MENU.y, 16, 16, "-", Color.white, Color.black,Color.gray);
-	private static final RectangleButton BUTTON_X_INCR = new RectangleButton(BOX_MENU.x + 16, BOX_MENU.y, 16, 16, "+", Color.white, Color.black,Color.gray);
-	private static final Box BOX_SIZE_Y_DECR = new Box(BOX_MENU.x, 16, 16, 16);
-	private static final Box BOX_SIZE_Y_INCR = new Box(BOX_MENU.x + 16, 16, 16, 16);
-	private static final RectangleButton BUTTON_Y_DECR = new RectangleButton(BOX_MENU.x, 16, 16, 16, "-", Color.white, Color.black,Color.gray);
-	private static final RectangleButton BUTTON_Y_INCR = new RectangleButton(BOX_MENU.x + 16, 16, 16, 16, "+", Color.white, Color.black,Color.gray);
+	private static final Box BOX_SIZE_X_DECR = new Box(BOX_MENU.x, BOX_MENU.y, 8, 8);
+	private static final Box BOX_SIZE_X_INCR = new Box(BOX_MENU.x + 8, BOX_MENU.y, 8, 8);
+	private static final RectangleButton BUTTON_X_DECR = new RectangleButton(BOX_MENU.x, BOX_MENU.y, 8, 8, "-", Color.white, Color.black,Color.gray, 1);
+	private static final RectangleButton BUTTON_X_INCR = new RectangleButton(BOX_MENU.x + 8, BOX_MENU.y, 8, 8, "+", Color.white, Color.black,Color.gray, 1);
+	private static final Box BOX_SIZE_Y_DECR = new Box(BOX_MENU.x, 8, 8, 8);
+	private static final Box BOX_SIZE_Y_INCR = new Box(BOX_MENU.x + 8, 8, 8, 8);
+	private static final RectangleButton BUTTON_Y_DECR = new RectangleButton(BOX_MENU.x, 8, 8, 8, "-", Color.white, Color.black,Color.gray, 1);
+	private static final RectangleButton BUTTON_Y_INCR = new RectangleButton(BOX_MENU.x + 8, 8, 8, 8, "+", Color.white, Color.black,Color.gray, 1);
+	private static final Box BOX_MODE = new Box(BOX_MENU.x + 8, 56, 32, 16);
+	private static final RectangleButton BUTTON_MODE = new RectangleButton(BOX_MENU.x + 8, 56, 32, 16, "Map", Color.white, Color.black,Color.gray, 1);
 	
 	private static final double TIME_BEFORE_INCR_BY_MOUSE_DOWN = 0.5;
 	
-	private enum Mode { Map, Entity};
-	
 	private Tileset tileset;
 	private Tile tab[][];
+	private ArrayList<EntityXML> entities = new ArrayList<EntityXML>();
 	private Map map;
 	private Point mapDisplayStart = new Point(0,0);
 	private Point tilesetDisplayStart = new Point(0,0);
 	private Box boxTileset;
 	private Box boxMap;
 	private Tile currentTile = Tile.GRASS;
-	private String fileName = "map1.tile";
+	private EnemyType currentEntity = EnemyType.Enemy;
+	private boolean inSelectionOfEntity = false;
+	private String fileName = "map1";
 	private double currentTimeBeforeIncrease = 0;
 	private boolean mapCurrentlyClicked = false;
 	private boolean tilesetCurrentlyClicked = false;
 	private Point mapClickPosition = new Point(0,0);
 	private Point tilesetClickPosition = new Point(0,0);
 	private Mode mode = Mode.Map;
+	private EntityXML currentSelectedEntityXML = null;
 	
 	public MapEditor() {
 		int nb = 0;
 		File f;
-		
+
 		do {
 			++nb;
 			f = new File("assets/maps/map" + nb + ".tile");
 		} while(f.exists() || f.isDirectory());
 		
-		fileName = "map" + nb + ".tile";
+		fileName = "map" + nb;
 		
 		tab = new Tile[DEFAULT_SIZE][DEFAULT_SIZE];
 		initTab(tab);
@@ -72,7 +83,8 @@ public class MapEditor extends Screen{
 	}
 	
 	public MapEditor(String fileName) {
-		map = new Map(fileName);
+		map = new Map(fileName + ".tile");
+		entities = ConverterEntitiesToXML.inverseConvert(fileName);
 		tab = map.getTab();
 		this.fileName = fileName;
 		tileset = new Tileset();
@@ -88,7 +100,7 @@ public class MapEditor extends Screen{
 			f = new File("assets/maps/map" + nb + ".tile");
 		} while(f.exists() || f.isDirectory());
 		
-		fileName = "map" + nb + ".tile";
+		fileName = "map" + nb;
 		
 		tab = new Tile[x][y];
 		initTab(tab);
@@ -113,19 +125,48 @@ public class MapEditor extends Screen{
 	public void update(double dt) {
 		if (input.leftButton.pressed) {
 			if (Collide.AABB_point(boxTileset, input.mouse)) {
-				selectTile();
+				if (mode == Mode.Map)
+					selectTile();
+				else 
+					selectEntity();
 			}
-			else if (Collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)) {
-				resize(tab.length - 1, tab[0].length);
+			else if (Collide.AABB_point(BOX_MODE, input.mouse)) {
+				mode = mode == Mode.Map ? Mode.Entity : Mode.Map;
+				BUTTON_MODE.setText(mode.toString());
 			}
-			else if (Collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)) {
-				resize(tab.length, tab[0].length - 1);
+			else if (mode == Mode.Entity) {
+				if (Collide.AABB_point(boxMap, input.mouse)) {
+					if (inSelectionOfEntity)
+						putEntity();
+					else
+						displayInfoEntity();
+				}
+				else if (Collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)) {
+					currentSelectedEntityXML.setIDWalkingText(currentSelectedEntityXML.getIDWalkingText() - 1);
+				}
+				else if (Collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)) {
+					currentSelectedEntityXML.setIDSpeakingText(currentSelectedEntityXML.getIDSpeakingText() - 1);
+				}
+				else if (Collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)) {
+					currentSelectedEntityXML.setIDWalkingText(currentSelectedEntityXML.getIDWalkingText() + 1);
+				}
+				else if (Collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)) {
+					currentSelectedEntityXML.setIDSpeakingText(currentSelectedEntityXML.getIDSpeakingText() + 1);
+				}
 			}
-			else if (Collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)) {
-				resize(tab.length + 1, tab[0].length);
-			}
-			else if (Collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)) {
-				resize(tab.length, tab[0].length + 1);
+			else if (mode == Mode.Map) {
+				if (Collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)) {
+					resize(tab.length - 1, tab[0].length);
+				}
+				else if (Collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)) {
+					resize(tab.length, tab[0].length - 1);
+				}
+				else if (Collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)) {
+					resize(tab.length + 1, tab[0].length);
+				}
+				else if (Collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)) {
+					resize(tab.length, tab[0].length + 1);
+				}
 			}
 		}
 		
@@ -133,32 +174,32 @@ public class MapEditor extends Screen{
 			if (Collide.AABB_point(boxMap, input.mouse)) {
 				if (mode == Mode.Map)
 					putTile();
-				else
-					putEntity();
 			}
-			else if (Collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)) {
-				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
-					resize(tab.length - 1, tab[0].length);
-				else
-					currentTimeBeforeIncrease += dt;
-			}
-			else if (Collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)) {
-				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
-					resize(tab.length, tab[0].length - 1);
-				else
-					currentTimeBeforeIncrease += dt;
-			}
-			else if (Collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)) {
-				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
-					resize(tab.length + 1, tab[0].length);
-				else
-					currentTimeBeforeIncrease += dt;
-			}
-			else if (Collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)) {
-				if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
-					resize(tab.length, tab[0].length + 1);
-				else
-					currentTimeBeforeIncrease += dt;
+			else if (mode == Mode.Map) {
+				if (Collide.AABB_point(BOX_SIZE_X_DECR, input.mouse)) {
+					if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
+						resize(tab.length - 1, tab[0].length);
+					else
+						currentTimeBeforeIncrease += dt;
+				}
+				else if (Collide.AABB_point(BOX_SIZE_Y_DECR, input.mouse)) {
+					if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
+						resize(tab.length, tab[0].length - 1);
+					else
+						currentTimeBeforeIncrease += dt;
+				}
+				else if (Collide.AABB_point(BOX_SIZE_X_INCR, input.mouse)) {
+					if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
+						resize(tab.length + 1, tab[0].length);
+					else
+						currentTimeBeforeIncrease += dt;
+				}
+				else if (Collide.AABB_point(BOX_SIZE_Y_INCR, input.mouse)) {
+					if (currentTimeBeforeIncrease >= TIME_BEFORE_INCR_BY_MOUSE_DOWN)
+						resize(tab.length, tab[0].length + 1);
+					else
+						currentTimeBeforeIncrease += dt;
+				}
 			}
 		}	
 		
@@ -166,13 +207,17 @@ public class MapEditor extends Screen{
 			if (Collide.AABB_point(boxMap, input.mouse)) {
 				mapCurrentlyClicked = true;
 				mapClickPosition = new Point(input.mouse);
+				
+				if (mode == Mode.Entity)
+					removeEntity();
 			}
-			else if(Collide.AABB_point(boxTileset, input.mouse)) {
+			else if(Collide.AABB_point(boxTileset, input.mouse) && mode == Mode.Map) {
 				tilesetCurrentlyClicked = true;
 				tilesetClickPosition = new Point(input.mouse);
 			}
 			else {
-				map.save(fileName);
+				map.save(fileName + ".tile");
+				ConverterEntitiesToXML.convert(fileName, entities);
 			}
 		}
 		
@@ -204,7 +249,7 @@ public class MapEditor extends Screen{
 					}
 				}
 			}
-			else if (tilesetCurrentlyClicked) {
+			else if (tilesetCurrentlyClicked && mode == Mode.Map) {
 				if (input.mouse.x - tilesetClickPosition.x >= Tile.SIZE) {
 					if (tilesetDisplayStart.x > 0) {
 						--tilesetDisplayStart.x;
@@ -259,38 +304,40 @@ public class MapEditor extends Screen{
 				++mapDisplayStart.y;
 		}
 		
-		if (input.left.pressed) {
-			
-			if (currentTile.ordinal() % tileset.getNbTileW() > 0) {
-				currentTile = Tile.values()[currentTile.ordinal() - 1];
+		if (mode == Mode.Map) {
+			if (input.left.pressed) {
 				
-				if (currentTile.ordinal() % tileset.getNbTileW() < tilesetDisplayStart.x)
-					--tilesetDisplayStart.x;
+				if (currentTile.ordinal() % tileset.getNbTileW() > 0) {
+					currentTile = Tile.values()[currentTile.ordinal() - 1];
+					
+					if (currentTile.ordinal() % tileset.getNbTileW() < tilesetDisplayStart.x)
+						--tilesetDisplayStart.x;
+				}
+	
 			}
-
-		}
-		else if (input.right.pressed) {
-			if (currentTile.ordinal() % tileset.getNbTileW() < tileset.getNbTileW() - 1) {
-				currentTile = Tile.values()[currentTile.ordinal() + 1];
-				
-				if (currentTile.ordinal() % tileset.getNbTileW() >= tilesetDisplayStart.x + Tileset.nbDisplayTileW)
-					++tilesetDisplayStart.x;
+			else if (input.right.pressed) {
+				if (currentTile.ordinal() % tileset.getNbTileW() < tileset.getNbTileW() - 1) {
+					currentTile = Tile.values()[currentTile.ordinal() + 1];
+					
+					if (currentTile.ordinal() % tileset.getNbTileW() >= tilesetDisplayStart.x + Tileset.nbDisplayTileW)
+						++tilesetDisplayStart.x;
+				}
 			}
-		}
-		else if (input.up.pressed) {
-			if (currentTile.ordinal() / tileset.getNbTileW() > 0) {
-				currentTile = Tile.values()[currentTile.ordinal() - tileset.getNbTileW()];
-				
-				if (currentTile.ordinal() / tileset.getNbTileW() < tilesetDisplayStart.y)
-					--tilesetDisplayStart.y;
+			else if (input.up.pressed) {
+				if (currentTile.ordinal() / tileset.getNbTileW() > 0) {
+					currentTile = Tile.values()[currentTile.ordinal() - tileset.getNbTileW()];
+					
+					if (currentTile.ordinal() / tileset.getNbTileW() < tilesetDisplayStart.y)
+						--tilesetDisplayStart.y;
+				}
 			}
-		}
-		else if (input.down.pressed) {
-			if (currentTile.ordinal() / tileset.getNbTileW() < tileset.getNbTiles() / tileset.getNbTileW() - 1) {
-				currentTile = Tile.values()[currentTile.ordinal() + tileset.getNbTileW()];
-				
-				if (currentTile.ordinal() / tileset.getNbTileW() >= tilesetDisplayStart.y + Tileset.nbDisplayTileH)
-					++tilesetDisplayStart.y;
+			else if (input.down.pressed) {
+				if (currentTile.ordinal() / tileset.getNbTileW() < tileset.getNbTiles() / tileset.getNbTileW() - 1) {
+					currentTile = Tile.values()[currentTile.ordinal() + tileset.getNbTileW()];
+					
+					if (currentTile.ordinal() / tileset.getNbTileW() >= tilesetDisplayStart.y + Tileset.nbDisplayTileH)
+						++tilesetDisplayStart.y;
+				}
 			}
 		}
 		
@@ -299,11 +346,65 @@ public class MapEditor extends Screen{
 		BUTTON_X_INCR.update(p);
 		BUTTON_Y_DECR.update(p);
 		BUTTON_Y_INCR.update(p);
+		BUTTON_MODE.update(p);
+	}
+
+	private void displayInfoEntity() {
+		int x = (input.mouse.x - POS_MAP_X) / Tile.SIZE + mapDisplayStart.x;
+		int y = (input.mouse.y - POS_MAP_Y) / Tile.SIZE + mapDisplayStart.y;
+		Point p = new Point(x, y);
+		
+		for (EntityXML e : entities) {
+			if (e.getPos().equals(p)) {
+				currentSelectedEntityXML = e;
+				break;
+			}
+		}
+	}
+
+	private void selectEntity() {
+		int x = (input.mouse.x - POS_TILESET_X) / Tile.SIZE + tilesetDisplayStart.x;
+		int y = (input.mouse.y - POS_TILESET_Y) / Tile.SIZE + tilesetDisplayStart.y;
+		
+		if ( y * NB_COL_ENTITY_AREA + x < EnemyType.values().length) {
+			if (currentEntity == EnemyType.values()[y * NB_COL_ENTITY_AREA + x]) {
+				inSelectionOfEntity = !inSelectionOfEntity;
+				if (inSelectionOfEntity)
+					currentSelectedEntityXML = null;
+			}
+			else {
+				currentEntity = EnemyType.values()[y * NB_COL_ENTITY_AREA + x];
+				inSelectionOfEntity = true;
+				currentSelectedEntityXML = null;
+			}
+		}
 	}
 
 	private void putEntity() {
-		// TODO Auto-generated method stub
+		int x = (input.mouse.x - POS_MAP_X) / Tile.SIZE + mapDisplayStart.x;
+		int y = (input.mouse.y - POS_MAP_Y) / Tile.SIZE + mapDisplayStart.y;
+		Point p = new Point(x,y);
 		
+		for(EntityXML e : entities) {
+			if (e.getPos().equals(p)) {
+				return;
+			}
+		}
+		
+		entities.add(new EntityXML(new Point(x,y), currentEntity));
+	}
+	
+	private void removeEntity() {
+		int x = (input.mouse.x - POS_MAP_X) / Tile.SIZE + mapDisplayStart.x;
+		int y = (input.mouse.y - POS_MAP_Y) / Tile.SIZE + mapDisplayStart.y;
+		Point p = new Point(x,y);
+		
+		for(EntityXML e : entities) {
+			if (e.getPos().equals(p)) {
+				entities.remove(e);
+				return;
+			}
+		}
 	}
 
 	private void putTile() {
@@ -359,10 +460,29 @@ public class MapEditor extends Screen{
 	@Override
 	public void draw(Renderer r) {
 		map.draw(r, POS_MAP_X , POS_MAP_Y, boxMap.width / 16, boxMap.height / 16, mapDisplayStart.x, mapDisplayStart.y);
-		tileset.drawTileset(r, tilesetDisplayStart.x, tilesetDisplayStart.y, POS_TILESET_X, POS_TILESET_Y);
-		drawSelectedTile(r);
+		
+		BUTTON_MODE.drawUpdate(r);
 		drawMapArea(r);
-		drawButtonIncrDecr(r);
+		
+		if (mode == Mode.Map) {
+			tileset.drawTileset(r, tilesetDisplayStart.x, tilesetDisplayStart.y, POS_TILESET_X, POS_TILESET_Y);
+			drawSelectedTile(r);
+			drawButtonIncrDecr(r);
+		}
+		else {
+			drawEntityXMLInfo(r);
+			drawEntitiesType(r);
+			drawSelectedEntity(r);
+			drawEntitiesOnMap(r);
+			if (currentSelectedEntityXML != null) {
+				BUTTON_X_DECR.drawUpdate(r);
+				BUTTON_X_INCR.drawUpdate(r);
+				BUTTON_Y_DECR.drawUpdate(r);
+				BUTTON_Y_INCR.drawUpdate(r);
+			}
+		}
+		
+		
 	}
 	
 	public void drawButtonIncrDecr(Renderer r) {
@@ -374,6 +494,7 @@ public class MapEditor extends Screen{
 		BUTTON_Y_INCR.drawUpdate(r);
 		
 		r.setColor(Color.black);
+		r.setFontSize(10);
 		r.drawText("Width : " + tab.length, BOX_MENU.x + 40, 12);
 		r.drawText("Height : " + tab[0].length, BOX_MENU.x + 40, 28);
 		r.drawText("Origin : " + mapDisplayStart.x + "," + mapDisplayStart.y, BOX_MENU.x + 100, 12);
@@ -400,5 +521,61 @@ public class MapEditor extends Screen{
 		r.getGraphics().drawRoundRect(boxMap.x, boxMap.y, MAP_DISPLAY_NB_TILE_X * Tile.SIZE - 1, MAP_DISPLAY_NB_TILE_Y * Tile.SIZE - 1, 0, 0);
 		r.getGraphics().setStroke(prevStroke);
 		r.getGraphics().setColor(prevColor);
+	}
+	
+	public void drawEntitiesType(Renderer r) {
+		Graphics g = r.getGraphics();
+		
+		for (int i = 0; i < EnemyType.values().length; ++i) {
+			g.setColor(new Color(0,0,0, 0.75f));
+			g.fillRect((i % NB_COL_ENTITY_AREA) * Tile.SIZE, i / NB_COL_ENTITY_AREA * Tile.SIZE, Tile.SIZE, Tile.SIZE);
+			g.setColor(new Color(255,255,255));
+			r.drawCenteredText(EnemyType.values()[i].toString().substring(0, 2), (i % NB_COL_ENTITY_AREA) * Tile.SIZE, i / NB_COL_ENTITY_AREA * Tile.SIZE + 6, Tile.SIZE);
+		}
+	}
+	
+	public void drawSelectedEntity(Renderer r) {
+		if (!inSelectionOfEntity)
+			return;
+		
+		int x = (currentEntity.ordinal() % NB_COL_ENTITY_AREA) * Tile.SIZE + POS_TILESET_X ;
+		int y = (currentEntity.ordinal() / NB_COL_ENTITY_AREA) * Tile.SIZE + POS_TILESET_Y;
+		Color prevColor = r.getGraphics().getColor();
+		Stroke prevStroke = r.getGraphics().getStroke();
+		r.getGraphics().setColor(Color.red);
+		r.getGraphics().setStroke(new BasicStroke(1));
+		r.getGraphics().drawRoundRect(x, y, Tile.SIZE, Tile.SIZE, 0, 0);
+		r.getGraphics().setStroke(prevStroke);
+		r.getGraphics().setColor(prevColor);
+	}
+	
+	public void drawEntitiesOnMap(Renderer r) {
+		Graphics g = r.getGraphics();
+		
+		for (EntityXML e : entities) {
+			if (e.getPos().x >= mapDisplayStart.x && e.getPos().x < mapDisplayStart.x + MAP_DISPLAY_NB_TILE_X
+				&& e.getPos().y >= mapDisplayStart.y && e.getPos().y < mapDisplayStart.y + MAP_DISPLAY_NB_TILE_Y) {
+				
+				int x = e.getPos().x - mapDisplayStart.x;
+				int y = e.getPos().y - mapDisplayStart.y;
+				
+				g.setColor(new Color(0,0,0, 0.75f));
+				g.fillRect(boxMap.x + x * Tile.SIZE,boxMap.y +  y * Tile.SIZE, Tile.SIZE, Tile.SIZE);
+				g.setColor(new Color(255,255,255));
+				r.drawCenteredText(e.getEnemyType().toString().substring(0, 2), boxMap.x + x * Tile.SIZE, boxMap.y + y * Tile.SIZE + 6, Tile.SIZE);
+			}
+		}
+	}
+	
+	public void drawEntityXMLInfo(Renderer r) {
+		if (currentSelectedEntityXML == null)
+			return;
+		
+		EntityXML e = currentSelectedEntityXML;
+		r.setColor(Color.black);
+		r.drawText("Position:\t" + e.getPos().x + "," + e.getPos().y, BOX_MENU.x+32, BOX_MENU.y+24);
+		r.drawText("Type:\t" + e.getEnemyType(), BOX_MENU.x+32, BOX_MENU.y+32);
+		r.drawText("ID:\t" + e.getIDWalkingText() + " [walking text (0 = No text)]", BOX_MENU.x+32, BOX_MENU.y+40);
+		r.drawText("ID:\t" + e.getIDSpeakingText() + " [text (When we speak to him)]", BOX_MENU.x+32, BOX_MENU.y+48);
 	}
 }

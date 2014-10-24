@@ -9,7 +9,13 @@ public class RoundedButton extends Button implements IButton {
 
 	public RoundedButton(int x, int y, int width, int height, String name,
 			Color txt, Color bg, Color cClick) {
-		super(x, y, width, height, name, txt, bg, cClick);
+		super(x, y, width, height, name, txt, bg, cClick, 5);
+	
+	}
+	
+	public RoundedButton(int x, int y, int width, int height, String name,
+			Color txt, Color bg, Color cClick, int stroke) {
+		super(x, y, width, height, name, txt, bg, cClick, stroke);
 	
 	}
 
@@ -29,7 +35,7 @@ public class RoundedButton extends Button implements IButton {
 		Graphics2D g = r.getGraphics();
 		draw(r);
 		g.setColor(cClick);
-		g.setStroke(new BasicStroke(5));
+		g.setStroke(new BasicStroke(stroke));
 		g.drawRoundRect(x, y, w, h, 20, 20);
 	}
 
@@ -42,7 +48,7 @@ public class RoundedButton extends Button implements IButton {
 		r.setColor(txt);
 		r.drawCenteredText(name, x, y+h/2 , w);
 		g.setColor(bg);
-		g.setStroke(new BasicStroke(5));
+		g.setStroke(new BasicStroke(stroke));
 		g.drawRoundRect(x, y, w, h, 20, 20);
 	}
 }

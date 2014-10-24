@@ -52,7 +52,7 @@ public class Menu extends Screen {
 
 		// Just to access to MapEditor faster
 		if (input.rightButton.pressed) {
-			engine.setScreen(new MapEditor("map.tile"));
+			engine.setScreen(new MapEditor("map"));
 		}
 		
 		int i=0;

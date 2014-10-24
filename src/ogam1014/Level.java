@@ -13,6 +13,8 @@ import ogam1014.entity.Entity;
 import ogam1014.entity.Player;
 import ogam1014.entity.Thief;
 import ogam1014.graphics.Renderer;
+import ogam1014.mapeditor.ConverterEntitiesToXML;
+import ogam1014.mapeditor.EntityXML;
 
 public class Level implements Serializable{
 	private static final long serialVersionUID = 1L;
@@ -32,8 +34,9 @@ public class Level implements Serializable{
 	private Player player;
 	private double currentTimeMobSpawn = -1.;
 	private double timeBeforeMobSpawn;
-	 private double percent_mobByAvailablePositions;
-
+	private double percent_mobByAvailablePositions;
+	private int nbMaxEnemies;
+	
 	public Level(String name) {
 		double checkRatioEnemyType = 0;
 		
@@ -46,16 +49,20 @@ public class Level implements Serializable{
 		}
 		
 		map = new Map(name + ".tile");
+		EntityXML.convertToEntities(this, ConverterEntitiesToXML.inverseConvert(name));
 		this.name = name;
 		
-		switch(name){
+		
+		switch(this.name){
 		case "map":
 			timeBeforeMobSpawn = 10.;
-			percent_mobByAvailablePositions = 0.005;
+			percent_mobByAvailablePositions = 0.000;
+			nbMaxEnemies = 50;
 			break;
 		default:
 			timeBeforeMobSpawn = 20.;
 			percent_mobByAvailablePositions = 0.000;
+			nbMaxEnemies = 10;
 		}
 	}
 
@@ -186,20 +193,34 @@ public class Level implements Serializable{
 			currentTimeMobSpawn += dt;
 			
 			if (currentTimeMobSpawn >= timeBeforeMobSpawn) {
-				List<Point> positions = map.getAvailablePositions(player);
-				if (positions.size() == 0) {
-					System.out.println("No positions found");
-					return;
+				if (getNbEnemyEntities() < nbMaxEnemies) {
+				
+					List<Point> positions = map.getAvailablePositions(player);
+					if (positions.size() == 0) {
+						System.out.println("No positions found");
+						return;
+					}
+					
+					Point p = positions.get( random.nextInt(positions.size()) );
+					Enemy e = new Enemy();
+					
+					e.setPosition(p);
+					addEntity(e);
 				}
-				
-				Point p = positions.get( random.nextInt(positions.size()) );
-				Enemy e = new Enemy();
-				
-				e.setPosition(p);
-				addEntity(e);
 				currentTimeMobSpawn -= timeBeforeMobSpawn;
 			}
 		}
+	}
+	
+	private int getNbEnemyEntities() {
+		int nb = 0;
+		
+		for (Entity e : entities) {
+			if (e instanceof Enemy)
+				nb++;
+		}
+		
+		return nb;
 	}
 	
 	public void setLoad(Level l,InputHandler input){

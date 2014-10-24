@@ -29,6 +29,7 @@ public class Player extends LivingEntity {
 	
 	private double lastShootDirX = 1;
 	private double lastShootDirY = 0;
+	private boolean speaking = false;
 	
 	public Player(InputHandler input) {
 		this.input = input;
@@ -262,5 +263,9 @@ public class Player extends LivingEntity {
 		
 		return entities;
 	}
-
+	
+	
+	public void stopSpeaking() {
+		speaking = false;
+	}
 }

@@ -12,7 +12,13 @@ public class RectangleButton extends Button implements IButton{
 	public RectangleButton(int x, int y, int width, int height, String name, Color txt,
 			Color bg,Color cClick) {
 		super(x, y, width, height, name, txt,
-				bg,cClick);
+				bg,cClick, 5);
+	}
+	
+	public RectangleButton(int x, int y, int width, int height, String name, Color txt,
+			Color bg,Color cClick, int stroke) {
+		super(x, y, width, height, name, txt,
+				bg,cClick, stroke);
 	}
 	
 	@Override
@@ -32,7 +38,7 @@ public class RectangleButton extends Button implements IButton{
 		Graphics2D g = r.getGraphics();
 		draw(r);
 		g.setColor(cClick);
-		g.setStroke(new BasicStroke(5));
+		g.setStroke(new BasicStroke(stroke));
 		g.drawRect(x, y, w, h);
 	}
 
@@ -46,7 +52,7 @@ public class RectangleButton extends Button implements IButton{
 		r.setColor(txt);
 		r.drawCenteredText(name, x, y + h/2, w);
 		g.setColor(cClick);
-		g.setStroke(new BasicStroke(5));
+		g.setStroke(new BasicStroke(stroke));
 		g.drawRect(x, y, w, h);
 	}
 }

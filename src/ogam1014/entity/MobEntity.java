@@ -22,9 +22,6 @@ public abstract class MobEntity extends Entity {
 	protected int dir_y = 0;
 	private int movementSemaphore;
 
-	protected Boolean speaking = false;
-	protected Boolean speakingToSomeone = false;
-	
 	protected int aggro = 300;
 
 
@@ -156,10 +153,5 @@ public abstract class MobEntity extends Entity {
 
 	protected boolean collidesWithWalls() {
 		return true;
-	}
-	
-	public void stopSpeaking() {
-		speaking = false;
-		speakingToSomeone = false;
 	}
 }
