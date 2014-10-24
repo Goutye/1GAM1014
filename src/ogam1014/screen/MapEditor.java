@@ -20,7 +20,7 @@ import ogam1014.graphics.Renderer;
 import ogam1014.graphics.Tileset;
 import ogam1014.ui.RectangleButton;
 
-public class MapEditor extends Screen{
+public class MapEditor extends Screen {
 	private static final int DEFAULT_SIZE = 100;
 	private static final int POS_MAP_X = 0;
 	private static final int POS_MAP_Y = Tile.SIZE * 4 + ogam1014.Engine.HEIGHT % Tile.SIZE;
@@ -39,8 +39,8 @@ public class MapEditor extends Screen{
 	private static final Box BOX_SIZE_Y_INCR = new Box(BOX_MENU.x + 8, 8, 8, 8);
 	private static final RectangleButton BUTTON_Y_DECR = new RectangleButton(BOX_MENU.x, 8, 8, 8, "-", Color.white, Color.black,Color.gray, 1);
 	private static final RectangleButton BUTTON_Y_INCR = new RectangleButton(BOX_MENU.x + 8, 8, 8, 8, "+", Color.white, Color.black,Color.gray, 1);
-	private static final Box BOX_MODE = new Box(BOX_MENU.x + 8, 24, 32, 16);
-	private static final RectangleButton BUTTON_MODE = new RectangleButton(BOX_MENU.x + 8, 24, 32, 16, "Map", Color.white, Color.black,Color.gray, 1);
+	private static final Box BOX_MODE = new Box(BOX_MENU.x + 8, 56, 32, 16);
+	private static final RectangleButton BUTTON_MODE = new RectangleButton(BOX_MENU.x + 8, 56, 32, 16, "Map", Color.white, Color.black,Color.gray, 1);
 	
 	private static final double TIME_BEFORE_INCR_BY_MOUSE_DOWN = 0.5;
 	
