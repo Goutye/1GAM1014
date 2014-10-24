@@ -1,15 +1,24 @@
 package ogam1014.mapeditor;
 
 import java.awt.Point;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import ogam1014.Level;
 import ogam1014.Tile;
 import ogam1014.entity.Enemy;
 import ogam1014.entity.EnemyType;
-import ogam1014.entity.Entity;
-import ogam1014.entity.MobEntity;
 import ogam1014.entity.Thief;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class EntityXML {
 	private EnemyType type;
@@ -59,7 +68,7 @@ public class EntityXML {
 	
 	public static void convertToEntities(Level level, ArrayList<EntityXML> entitiesXML) {		
 		for (EntityXML eXML : entitiesXML) {
-			MobEntity e;
+			Enemy e;
 			
 			switch(eXML.getEnemyType()) {
 			case Thief: 
@@ -72,9 +81,38 @@ public class EntityXML {
 			
 			e.setPosition(new Point(eXML.getPos().x * Tile.SIZE, eXML.getPos().y * Tile.SIZE));
 			
-			/* TODO eXML.getIDWalkingText
-			 * TODO eXML.getIDSpeakingText
-			 */
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			Document doc;
+
+			if (!(eXML.IDSpeakingText == 0 && eXML.IDWalkingText == 0)) {
+				try {
+					DocumentBuilder builder = factory.newDocumentBuilder();
+					doc = builder.parse(new File("assets/texts.xml"));
+				
+					NodeList list = doc.getElementsByTagName("text");
+					
+					for (int i = 0; i < list.getLength(); ++i) {
+						Node n = list.item(i);
+						int id = Integer.parseInt(n.getAttributes().getNamedItem("id").getNodeValue());
+						
+						if ( id == eXML.IDSpeakingText )
+							e.setSpeakingText(n.getTextContent());
+						else if (id == eXML.IDWalkingText)
+							e.setWalkingText(n.getTextContent());
+					}
+				
+				} catch (ParserConfigurationException e1) {
+					e1.printStackTrace();
+				} catch (SAXException e1) {
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				} catch (Exception e1) {
+					System.out.println("XML Problem! Please redownload the full-game.");
+					e1.printStackTrace();
+				}
+			}
+
 			e.setLevel(level);
 			level.addEntity(e);
 		}

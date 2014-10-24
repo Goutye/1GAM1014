@@ -13,7 +13,7 @@ public class DialogBox extends Entity {
 	private static double TIME_BEFORE_NEXT_STR = 2;
 	
 	private String[][] texts;
-	private MobEntity e;
+	private Enemy e;
 	private Player interlocutor;
 	private InputHandler input;
 	private Box box = new Box(0,0,0,0);
@@ -21,13 +21,13 @@ public class DialogBox extends Entity {
 	private int currentText = 0;
 	private double time = 0;
 	
-	public DialogBox(MobEntity e, String text) {
+	public DialogBox(Enemy e, String text) {
 		this.validBox = false;
 		this.e = e;
 		init(text);
 	}
 	
-	public DialogBox(InputHandler input, MobEntity speaker, Player interlocutor, String text) {
+	public DialogBox(InputHandler input, Enemy speaker, Player interlocutor, String text) {
 		this.validBox = true;
 		this.input = input;
 		this.e = speaker;

@@ -53,7 +53,7 @@ public class Level implements Serializable{
 		this.name = name;
 		
 		
-		switch(name){
+		switch(this.name){
 		case "map":
 			timeBeforeMobSpawn = 10.;
 			percent_mobByAvailablePositions = 0.000;

@@ -68,9 +68,7 @@ public class ConverterEntitiesToXML {
 			}
 		
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
-			Transformer transformer;
-			
-			transformer = transformerFactory.newTransformer();
+			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File("assets/maps/" + name + ".entities"));
 		
