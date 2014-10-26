@@ -72,7 +72,7 @@ public class Thief extends Enemy {
 		if (Math.abs(dx) > 0 || Math.abs(dy) > 0 ){
 			if (dir == Direction.UP){
 				int frameNumber = (int)(Math.ceil(time*8) % 6);
-				if (frameNumber == 37){
+				if (frameNumber == 0){
 					r.blit(IMAGE, x, y, w, h, 120, 37);
 				} else if (frameNumber == 1){
 					r.blit(IMAGE, x, y, w, h, 135, 37);
@@ -87,7 +87,7 @@ public class Thief extends Enemy {
 				}
 			} else if (dir == Direction.LEFT) {
 				int frameNumber = (int)(Math.ceil(time*8) % 6);
-				if (frameNumber == 37){
+				if (frameNumber == 0){
 					r.blit(IMAGE, x, y, w, h, 180, 37);
 				} else if (frameNumber == 1){
 					r.blit(IMAGE, x, y, w, h, 195, 37);
@@ -102,7 +102,7 @@ public class Thief extends Enemy {
 				}
 			} else if (dir == Direction.RIGHT) {	
 				int frameNumber = (int)(Math.ceil(time*8) % 6);
-				if (frameNumber == 37){
+				if (frameNumber == 0){
 					r.blit(IMAGE, x, y, w, h, 240, 37);
 				} else if (frameNumber == 1){
 					r.blit(IMAGE, x, y, w, h, 255, 37);
@@ -117,7 +117,7 @@ public class Thief extends Enemy {
 				}
 			} else {
 				int frameNumber = (int)(Math.ceil(time*8) % 6);
-				if (frameNumber == 37){
+				if (frameNumber == 0){
 					r.blit(IMAGE, x, y, w, h, 60, 37);
 				} else if (frameNumber == 1){
 					r.blit(IMAGE, x, y, w, h, 75, 37);
